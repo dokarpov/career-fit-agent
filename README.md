@@ -91,6 +91,8 @@ Automation handles discovery, retrieval, dedupe, requirement parsing, evidence m
 
 The central product hypothesis is measurable: **better eligibility filtering + better evidence provenance should improve useful applications per unit of effort without increasing unsupported claims.** The repository implements the instrumentation and funnel logic needed to test that hypothesis; it does not pretend the hypothesis is already proven.
 
+For the external product-evidence plan and measurement guardrails, see [`docs/VALIDATION.md`](docs/VALIDATION.md).
+
 ## Funnel policy
 
 The default baseline is **23 unique applications/week**:
