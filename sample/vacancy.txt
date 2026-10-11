@@ -1,0 +1,8 @@
+Senior Product Manager — AI Workflows
+
+Own agentic workflow design across product and engineering.
+Experience with tool calling, structured outputs and schemas is required.
+You should be comfortable with human-in-the-loop review, fallback and approval boundaries.
+Design evaluation batches and quality rubrics for agent behavior.
+Familiarity with retrieval and persistent context is preferred.
+Strong 0→1 product strategy and experimentation skills are important.

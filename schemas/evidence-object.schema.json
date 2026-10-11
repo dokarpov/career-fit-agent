@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvidenceObject",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "claim",
+    "evidence",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "claim": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "string"
+    },
+    "metric": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "boundary": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "status": {
+      "enum": [
+        "verified",
+        "needs-review",
+        "missing"
+      ]
+    },
+    "direct": {
+      "type": "boolean"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

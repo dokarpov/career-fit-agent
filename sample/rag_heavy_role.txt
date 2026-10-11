@@ -1,0 +1,5 @@
+AI Product Manager — Retrieval
+
+Deep production retrieval and RAG experience is required.
+Own semantic search quality, grounding, retrieval evaluation and knowledge-base architecture.
+Experience with agentic workflows and human review is a plus.

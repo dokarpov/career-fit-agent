@@ -1,0 +1,74 @@
+[
+  {
+    "id": "R1",
+    "name": "agentic workflow direct",
+    "vacancy": "Agentic workflow design and orchestration required.",
+    "expected": {
+      "requirement": "agentic workflows",
+      "route": "auto_use"
+    }
+  },
+  {
+    "id": "R2",
+    "name": "human review direct",
+    "vacancy": "Human-in-the-loop approval and fallback required.",
+    "expected": {
+      "requirement": "human-in-the-loop",
+      "route": "auto_use"
+    }
+  },
+  {
+    "id": "R3",
+    "name": "evaluation direct via Career Fit Agent",
+    "vacancy": "Evaluation and quality test cases required.",
+    "expected": {
+      "requirement": "evaluation",
+      "route": "auto_use"
+    }
+  },
+  {
+    "id": "R4",
+    "name": "tool calling reference evidence",
+    "vacancy": "Tool calling and MCP integrations are required.",
+    "expected": {
+      "requirement": "tool calling",
+      "route": "auto_use"
+    }
+  },
+  {
+    "id": "R5",
+    "name": "schemas direct",
+    "vacancy": "Structured output schemas are required.",
+    "expected": {
+      "requirement": "schemas",
+      "route": "auto_use"
+    }
+  },
+  {
+    "id": "R6",
+    "name": "retrieval remains review",
+    "vacancy": "Deep production retrieval and RAG experience is required.",
+    "expected": {
+      "requirement": "retrieval",
+      "route": "human_review"
+    }
+  },
+  {
+    "id": "R7",
+    "name": "0-1 product strategy",
+    "vacancy": "0\u21921 product strategy and experimentation required.",
+    "expected": {
+      "requirement": "product strategy",
+      "route": "auto_use"
+    }
+  },
+  {
+    "id": "R8",
+    "name": "experimentation direct",
+    "vacancy": "Experimentation and A/B testing experience required.",
+    "expected": {
+      "requirement": "experimentation",
+      "route": "auto_use"
+    }
+  }
+]

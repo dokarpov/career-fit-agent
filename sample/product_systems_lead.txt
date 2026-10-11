@@ -1,0 +1,6 @@
+Product Systems Lead
+
+Design reusable product architecture and decision systems across complex workflows.
+Own schemas, structured data models, workflow automation and cross-functional prioritization.
+Strong experience with experimentation, analytics and 0→1 product strategy.
+Ability to explain trade-offs and define human review for ambiguous automation.

@@ -1,0 +1,37 @@
+[
+  {
+    "id": "L1",
+    "roleId": "scoreplay-vault",
+    "expectedPreflight": "CLEAR"
+  },
+  {
+    "id": "L2",
+    "roleId": "restream-studio",
+    "expectedPreflight": "CLEAR"
+  },
+  {
+    "id": "L3",
+    "roleId": "flodesk-ai",
+    "expectedPreflight": "VERIFY"
+  },
+  {
+    "id": "L4",
+    "roleId": "alphalife-ai",
+    "expectedPreflight": "CLEAR"
+  },
+  {
+    "id": "L5",
+    "roleId": "attio-product-lead",
+    "expectedPreflight": "CLEAR"
+  },
+  {
+    "id": "L6",
+    "roleId": "remotepass-ai",
+    "expectedPreflight": "VERIFY"
+  },
+  {
+    "id": "L7",
+    "roleId": "plata-kyb",
+    "expectedPreflight": "BLOCKED"
+  }
+]

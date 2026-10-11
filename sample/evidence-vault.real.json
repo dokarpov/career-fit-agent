@@ -1,0 +1,368 @@
+[
+  {
+    "id": "own_claw_01",
+    "project": "Claw",
+    "title": "Agentic routing and delegated work",
+    "claim": "Designed and runs a personal agentic workflow system that routes work to specialist modes and delegates jobs.",
+    "evidence": "Working personal system in daily use; routing and delegated jobs are part of the live workflow.",
+    "metric": null,
+    "boundary": "Personal-scale system; do not claim enterprise infrastructure or model-training ownership.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "interview-safe",
+    "tags": [
+      "agentic workflows",
+      "agents",
+      "routing",
+      "orchestration",
+      "delegated jobs",
+      "multi-agent",
+      "product systems"
+    ]
+  },
+  {
+    "id": "own_claw_02",
+    "project": "Claw",
+    "title": "Persistent context across sessions",
+    "claim": "Designed workflow behavior that preserves context across sessions and delegated tasks.",
+    "evidence": "Persistent context is part of the operating system used in practice.",
+    "metric": null,
+    "boundary": "Persistent context is real, but this is only adjacent evidence for retrieval/RAG and must go through human review.",
+    "status": "verified",
+    "direct": false,
+    "visibility": "interview-safe",
+    "tags": [
+      "persistent context",
+      "memory",
+      "state",
+      "agent context",
+      "workflow state",
+      "retrieval"
+    ]
+  },
+  {
+    "id": "own_claw_03",
+    "project": "Claw",
+    "title": "Fallback and safe failure",
+    "claim": "Designed fallback paths for delegated steps when execution fails.",
+    "evidence": "Fallback behavior is part of the live personal workflow.",
+    "metric": null,
+    "boundary": "Shows product/orchestration judgment, not fault-tolerant infrastructure at enterprise scale.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "interview-safe",
+    "tags": [
+      "fallback",
+      "error recovery",
+      "safe failure",
+      "agent reliability",
+      "workflow recovery"
+    ]
+  },
+  {
+    "id": "own_claw_04",
+    "project": "Claw",
+    "title": "Human confirmation for higher-risk actions",
+    "claim": "Requires explicit human confirmation before higher-risk actions execute.",
+    "evidence": "Human-confirmation gate is part of the live workflow behavior.",
+    "metric": null,
+    "boundary": "Do not imply every action is risk-scored by a formal production policy engine.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public-safe",
+    "tags": [
+      "human-in-the-loop",
+      "human review",
+      "approval",
+      "safety",
+      "high risk",
+      "fallback"
+    ]
+  },
+  {
+    "id": "own_ds_01",
+    "project": "Decision Systems",
+    "title": "Three-field decision contract",
+    "claim": "Reduced workflow decision logic to a reusable three-field contract: what happened, what next, who decides.",
+    "evidence": "Public GitHub reference implementation with schema, demo, tests and integrations.",
+    "metric": "3-field core contract",
+    "boundary": "Reference pattern; not a workflow engine or policy runtime.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "decision systems",
+      "schemas",
+      "structured output",
+      "decision contract",
+      "workflow automation",
+      "product architecture"
+    ]
+  },
+  {
+    "id": "own_ds_02",
+    "project": "Decision Systems",
+    "title": "Executable system/person boundary",
+    "claim": "Implemented a small executable policy for deciding when software may act and when a person should decide.",
+    "evidence": "Reference JS implementation plus zero-dependency tests.",
+    "metric": "6 reference tests",
+    "boundary": "Tiny reference implementation, not validated policy science.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "human-in-the-loop",
+      "policy",
+      "javascript",
+      "tests",
+      "approval boundary",
+      "automation"
+    ]
+  },
+  {
+    "id": "own_ds_03",
+    "project": "Decision Systems",
+    "title": "LangGraph and n8n integration mapping",
+    "claim": "Mapped the same decision primitive to agent and workflow orchestration contexts without coupling the contract to one runtime.",
+    "evidence": "Public integration examples for LangGraph interrupt-style human review and n8n branching.",
+    "metric": null,
+    "boundary": "Integration examples, not production deployments.",
+    "status": "verified",
+    "direct": false,
+    "visibility": "public",
+    "tags": [
+      "langgraph",
+      "n8n",
+      "workflow orchestration",
+      "human review",
+      "integrations",
+      "agentic workflows"
+    ]
+  },
+  {
+    "id": "own_cfa_01",
+    "project": "Career Fit Agent",
+    "title": "Explainable fit-and-proof product architecture",
+    "claim": "Designed a product workflow that starts with role-fit diagnosis and proof quality rather than generic CV rewriting.",
+    "evidence": "Canonical product README and startup form packs define vacancy fit, missing-proof detection, proof-pack creation, interview defense and tracking.",
+    "metric": null,
+    "boundary": "Early validation; do not claim scaled product traction.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "0\u21921",
+      "product strategy",
+      "career tools",
+      "decision support",
+      "evidence",
+      "workflow design",
+      "product architecture"
+    ]
+  },
+  {
+    "id": "own_cfa_02",
+    "project": "Career Fit Agent",
+    "title": "Honest non-fit decision rule",
+    "claim": "Defined a product requirement that the system must be able to say do not apply instead of maximizing application volume.",
+    "evidence": "Canonical product rules explicitly require honest non-fit warnings and explainable fit.",
+    "metric": null,
+    "boundary": "Product principle; business value still needs pilot validation.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "decision quality",
+      "explainable AI",
+      "honest fit",
+      "human judgment",
+      "guardrails",
+      "product principles"
+    ]
+  },
+  {
+    "id": "own_cfa_03",
+    "project": "Career Fit Agent",
+    "title": "Evidence graph / proof object model",
+    "claim": "Modeled reusable evidence objects including role, proof, metric, story, objection, gap, asset and package.",
+    "evidence": "Canonical product architecture lists these as reusable internal objects and shared infrastructure.",
+    "metric": null,
+    "boundary": "Product data model; not a production knowledge graph.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "schemas",
+      "data model",
+      "evidence graph",
+      "proof objects",
+      "knowledge structure",
+      "product systems"
+    ]
+  },
+  {
+    "id": "own_cfa_04",
+    "project": "Career Fit Agent",
+    "title": "Concierge-first validation strategy",
+    "claim": "Chose paid manual audits and proof packs before a heavy software build to validate willingness to pay and workflow value.",
+    "evidence": "Launch mode explicitly prioritizes concierge-first, service revenue before software, and paid audits.",
+    "metric": null,
+    "boundary": "Validation strategy, not confirmed paid traction.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "validation",
+      "0\u21921",
+      "concierge MVP",
+      "go to market",
+      "pricing",
+      "product strategy",
+      "experimentation"
+    ]
+  },
+  {
+    "id": "own_cfa_05",
+    "project": "Career Fit Agent",
+    "title": "Before/after pilot measurement design",
+    "claim": "Defined a pilot protocol around reply rate, interview rate, time-to-apply, willingness to pay and proof gaps.",
+    "evidence": "Pilot tracker and candidate-case protocol specify baseline and after measures plus paid-pilot signals.",
+    "metric": "reply rate \u00b7 interview rate \u00b7 time-to-apply",
+    "boundary": "Metrics framework exists; uplift is not yet measured.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "analytics",
+      "metrics",
+      "experimentation",
+      "pilot",
+      "reply rate",
+      "interview rate",
+      "time to apply",
+      "evaluation"
+    ]
+  },
+  {
+    "id": "own_cfa_06",
+    "project": "Career Fit Agent",
+    "title": "Human review for ambiguous proof",
+    "claim": "Routes weak or ambiguous evidence to explicit human review instead of silently upgrading it into stronger proof.",
+    "evidence": "Public v0.2 workflow has verified / needs_review / missing states and blocks unverified evidence from proof packs.",
+    "metric": "5/5 routing evals in reference batch",
+    "boundary": "Reference eval batch tests policy consistency, not business impact.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "human-in-the-loop",
+      "evaluation",
+      "fallback",
+      "proof provenance",
+      "guardrails",
+      "quality decisions"
+    ]
+  },
+  {
+    "id": "own_cfa_07",
+    "project": "Career Fit Agent",
+    "title": "Tool registry and structured workflow contracts",
+    "claim": "Defined inspectable tools for requirement extraction, evidence lookup, proof matching, review routing, package assembly and evaluation.",
+    "evidence": "Public tool registry documents inputs, outputs, side effects and approval rules.",
+    "metric": "6 public reference tools",
+    "boundary": "Reference tool contracts; the evidence lookup is lexical/reference retrieval, not production RAG.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "tools",
+      "tool calling",
+      "tool registry",
+      "schemas",
+      "structured outputs",
+      "agentic workflows",
+      "workflow automation"
+    ]
+  },
+  {
+    "id": "own_cfa_08",
+    "project": "Career Fit Agent",
+    "title": "Prompt contracts with anti-fabrication guardrails",
+    "claim": "Defined prompt contracts for requirement extraction, evidence matching, package generation and human review with explicit no-fabrication rules.",
+    "evidence": "Public prompt files specify structured output, provenance checks and human-review conditions.",
+    "metric": "4 prompt contracts",
+    "boundary": "Prompt contracts are reference artifacts, not production prompt-performance evidence.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "prompts",
+      "prompt design",
+      "structured output",
+      "guardrails",
+      "human review",
+      "evaluation"
+    ]
+  },
+  {
+    "id": "own_cfa_09",
+    "project": "Career Fit Agent",
+    "title": "Evaluation batch for routing quality",
+    "claim": "Built a reference eval batch covering direct match, adjacent evidence, overclaim prevention, human review and missing proof.",
+    "evidence": "Reference eval runner compares expected vs actual routing decisions.",
+    "metric": "5/5 reference routing evals",
+    "boundary": "Small synthetic/reference batch; not statistical validation.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public",
+    "tags": [
+      "evals",
+      "evaluation",
+      "quality",
+      "test cases",
+      "routing",
+      "agent quality",
+      "benchmark"
+    ]
+  },
+  {
+    "id": "own_evidence_01",
+    "project": "Evidence OS",
+    "title": "Evidence-first portfolio operating system",
+    "claim": "Built a reusable method for separating verified evidence, modeled impact, ownership boundaries and missing proof across portfolio artifacts.",
+    "evidence": "Current case/evidence system explicitly tracks source, confidence, responsibility boundary and gaps instead of flattening everything into marketing claims.",
+    "metric": null,
+    "boundary": "Method/system evidence; not a standalone commercial product yet.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public-safe",
+    "tags": [
+      "evidence",
+      "provenance",
+      "portfolio systems",
+      "quality control",
+      "claim boundaries",
+      "product systems"
+    ]
+  },
+  {
+    "id": "own_evidence_02",
+    "project": "Evidence OS",
+    "title": "Public/private evidence boundary",
+    "claim": "Separates public-safe artifacts from interview-only and private source material.",
+    "evidence": "Current evidence-pack workflow includes explicit publication boundaries and sanitization rules.",
+    "metric": null,
+    "boundary": "Operational method, not legal advice.",
+    "status": "verified",
+    "direct": true,
+    "visibility": "public-safe",
+    "tags": [
+      "privacy",
+      "security",
+      "publication policy",
+      "evidence",
+      "sanitization",
+      "trust"
+    ]
+  }
+]

@@ -1,0 +1,16 @@
+.git
+.github
+.devcontainer/logs
+.env
+.env.*
+!.env.example
+data
+node_modules
+__pycache__
+*.pyc
+*.db
+*.zip
+local_secrets.json
+local_token.key
+token.json
+credentials.json

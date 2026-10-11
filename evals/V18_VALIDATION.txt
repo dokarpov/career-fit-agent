@@ -1,0 +1,27 @@
+Career Fit Agent v1.8 validation
+
+Build scope:
+- Onboarding v2: sources -> hard constraints -> pace -> Autopilot
+- Persisted onboarding state
+- Same funnel policy used by onboarding and Settings
+- GitHub Codespaces devcontainer
+- GitHub Actions CI
+
+Validation:
+- Python compileall: PASS
+- Node test suite: 22/22 PASS
+- Python backend/integration suite: 81/81 PASS
+- Mini App inline JavaScript syntax: PASS
+- Clean self-host first boot: PASS (0 jobs, 0 applications, onboarding incomplete)
+- Onboarding completion smoke: PASS
+- Urgent onboarding maps to 45/week + Standard reach: PASS
+- /miniapp/: HTTP 200
+- /setup/: HTTP 200
+- devcontainer JSON parse: PASS
+- devcontainer shell scripts bash -n: PASS
+
+External credentials intentionally not live-tested:
+- Google OAuth
+- GitHub OAuth
+- Telegram bot
+- Gmail Pub/Sub

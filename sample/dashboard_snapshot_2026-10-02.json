@@ -1,0 +1,25 @@
+{
+  "as_of": "2026-10-02",
+  "search_start_observed": "2026-08-01",
+  "search_days": 63,
+  "tracked_role_threads": 73,
+  "ambiguous_application_records": 9,
+  "detected_rejections": 24,
+  "strong_interview_or_recruiter_signals": 3,
+  "unique_companies_observed": 53,
+  "weekly_role_thread_pace": 8.1,
+  "market_weekly_application_median_2025": 16,
+  "market_interview_rate_volume_band_pct": 4.83,
+  "observed_strong_signal_rate_pct": 4.11,
+  "efficiency_coefficient_vs_market": 0.85,
+  "today_queue": {
+    "total": 7,
+    "apply": 1,
+    "verify_first": 5,
+    "blocked": 1
+  },
+  "data_quality": {
+    "email_classifier": "conservative",
+    "warning": "Email-only outcome detection undercounts interviews and can merge/split role threads imperfectly. Dashboard exposes reviewable records."
+  }
+}

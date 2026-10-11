@@ -1,0 +1,220 @@
+[
+  {
+    "id": "scoreplay-vault",
+    "company": "ScorePlay",
+    "role": "Senior Product Manager \u2014 Vault",
+    "source": "https://jobs.ashbyhq.com/scoreplay/e920f0fb-f852-49f0-b042-499432522ed7",
+    "geo": {
+      "state": "pass",
+      "reason": "Western Europe / EU remote; compatible with Spain-based application."
+    },
+    "comp": "Not published",
+    "summary": "Own Vault end to end: ingest, storage, integrations, metadata/search, rights, AI enrichment and archive monetisation. Senior technical PM; own discovery and roadmap; AI-first working style.",
+    "requirements": [
+      "product strategy",
+      "agentic workflows",
+      "analytics",
+      "stakeholder management"
+    ],
+    "manualNotes": [
+      "Strong systems/content-ops adjacency.",
+      "Sports/media domain is new but explicitly not required."
+    ],
+    "constraints": {
+      "remote": true,
+      "relocationRequired": false,
+      "salaryMin": null,
+      "roleInterest": 82,
+      "domainAppetite": 76,
+      "applicationMinutes": 45
+    }
+  },
+  {
+    "id": "restream-studio",
+    "company": "Restream",
+    "role": "Senior Product Manager \u2014 Studio",
+    "source": "https://jobs.ashbyhq.com/restream/529b47ed-7e86-4476-92e8-2de06f99ff55",
+    "geo": {
+      "state": "pass",
+      "reason": "Remote Europe."
+    },
+    "comp": "Not published; equity",
+    "summary": "Own core Studio product. Strong UX intuition and visual taste, rapid prototyping with Figma/v0/Cursor/Claude Code, metrics, research, shipping and iteration. PM or product-design background accepted.",
+    "requirements": [
+      "product strategy",
+      "experimentation",
+      "analytics",
+      "stakeholder management"
+    ],
+    "manualNotes": [
+      "Very strong Product\u00d7Design fit.",
+      "Production-code contribution is expected, so depth of coding is a review point."
+    ],
+    "constraints": {
+      "remote": true,
+      "relocationRequired": false,
+      "salaryMin": null,
+      "roleInterest": 92,
+      "domainAppetite": 90,
+      "applicationMinutes": 45
+    }
+  },
+  {
+    "id": "flodesk-ai",
+    "company": "Flodesk",
+    "role": "Sr. Product Manager \u2014 AI",
+    "source": "https://job-boards.greenhouse.io/flodesk/jobs/5432433008",
+    "geo": {
+      "state": "review",
+      "reason": "Company has a Barcelona hub, but this specific application asks whether the candidate lives in listed US states and asks US sponsorship. Spain eligibility is not established."
+    },
+    "comp": "$150k\u2013$200k base",
+    "summary": "Own prompts, agent instructions, context/tools/product state, JSON/schemas, evaluation datasets, scoring rubrics, regression coverage, trace review and human review for member-facing AI behavior.",
+    "requirements": [
+      "agentic workflows",
+      "human-in-the-loop",
+      "evaluation",
+      "tool calling",
+      "schemas",
+      "retrieval",
+      "product strategy",
+      "experimentation"
+    ],
+    "manualNotes": [
+      "Closest role to the public proof-stack.",
+      "Hardest evidence gap: production LLM product with measurable quality/user outcome; current public artifacts are reference/personal systems rather than customer-scale production."
+    ],
+    "constraints": {
+      "remote": true,
+      "relocationRequired": false,
+      "salaryMin": 150000,
+      "roleInterest": 94,
+      "domainAppetite": 93,
+      "applicationMinutes": 55
+    }
+  },
+  {
+    "id": "alphalife-ai",
+    "company": "AlphaLife Sciences",
+    "role": "AI Product Manager (EU)",
+    "source": "https://jobs.ashbyhq.com/alphalifesci/8135f25e-d2cb-401f-a90f-7dcc5acd0bf8",
+    "geo": {
+      "state": "pass",
+      "reason": "Remote Europe; requires authorization to work in Europe."
+    },
+    "comp": "$130k\u2013$170k + equity",
+    "summary": "Build and scale AI-powered clinical applications using GenAI/LLMs. Deep workflow research, product specs, roadmap, quality validation, engineering/QA collaboration and end-to-end feature delivery.",
+    "requirements": [
+      "product strategy",
+      "experimentation",
+      "stakeholder management",
+      "analytics"
+    ],
+    "manualNotes": [
+      "Strong complex-workflow and 0\u21921 fit.",
+      "Life-sciences/regulatory domain is the clearest domain gap."
+    ],
+    "constraints": {
+      "remote": true,
+      "relocationRequired": false,
+      "salaryMin": 130000,
+      "roleInterest": 78,
+      "domainAppetite": 66,
+      "applicationMinutes": 50
+    }
+  },
+  {
+    "id": "attio-product-lead",
+    "company": "Attio",
+    "role": "Product Lead",
+    "source": "https://attio.com/careers/product-lead-europe-and-united-kingdom-remote",
+    "geo": {
+      "state": "pass",
+      "reason": "Product role lists Europe [Remote]."
+    },
+    "comp": "Competitive salary + equity; range not published",
+    "summary": "Own core product/platform areas, systems, models, pipelines and performance; extend AI where meaningful; reason about schemas/API/architecture; strong craft, technical storytelling and founder mentality.",
+    "requirements": [
+      "schemas",
+      "product strategy",
+      "stakeholder management",
+      "analytics",
+      "agentic workflows"
+    ],
+    "manualNotes": [
+      "Excellent systems/craft fit.",
+      "Needs stronger proof of foundational platform shipping and technical depth than the current public-only vault shows."
+    ],
+    "constraints": {
+      "remote": true,
+      "relocationRequired": false,
+      "salaryMin": null,
+      "roleInterest": 74,
+      "domainAppetite": 63,
+      "applicationMinutes": 55
+    }
+  },
+  {
+    "id": "remotepass-ai",
+    "company": "RemotePass",
+    "role": "Product Manager \u2014 AI",
+    "source": "https://remotive.com/remote/jobs/product/product-manager-ai-6071267",
+    "geo": {
+      "state": "review",
+      "reason": "Fresh listing metadata currently restricts remote location to Portugal, despite role copy saying remote/work from anywhere. Spain eligibility needs employer confirmation."
+    },
+    "comp": "Not published",
+    "summary": "Own how AI appears across payroll, compliance and payments; decide what to automate vs keep human-controlled; manage trust/accuracy trade-offs; ship/test/scale with CEO, engineering and operations.",
+    "requirements": [
+      "agentic workflows",
+      "human-in-the-loop",
+      "product strategy",
+      "experimentation",
+      "analytics"
+    ],
+    "manualNotes": [
+      "Very strong decision-boundary fit.",
+      "Fintech/operations adjacency is strong; current fresh geo metadata is the main blocker."
+    ],
+    "constraints": {
+      "remote": true,
+      "relocationRequired": false,
+      "salaryMin": null,
+      "roleInterest": 76,
+      "domainAppetite": 70,
+      "applicationMinutes": 50
+    }
+  },
+  {
+    "id": "plata-kyb",
+    "company": "Plata",
+    "role": "Senior Product Manager \u2014 KYB",
+    "source": "https://mx.jobtome.com/empleo/product-manager-senior-kyb/cecd99ac018bd5561de6236ad0afab3d",
+    "geo": {
+      "state": "block",
+      "reason": "Current posting is Mexico City and offers relocation to Mexico / office-based flexible work, conflicting with remote-from-Spain constraint."
+    },
+    "comp": "Not published",
+    "summary": "Own KYB end to end: regulatory requirements, OCR/data extraction, risk rules, analyst workspace, LLM-assisted pre-checks, SLAs, conversion, review time, false positives and operating model.",
+    "requirements": [
+      "human-in-the-loop",
+      "schemas",
+      "analytics",
+      "product strategy",
+      "experimentation",
+      "stakeholder management"
+    ],
+    "manualNotes": [
+      "Functionally one of the strongest workflow/system matches.",
+      "Current geography conflicts with the user's search constraint unless Plata explicitly offers Spain-hub attachment."
+    ],
+    "constraints": {
+      "remote": false,
+      "relocationRequired": true,
+      "salaryMin": null,
+      "roleInterest": 88,
+      "domainAppetite": 86,
+      "applicationMinutes": 45
+    }
+  }
+]

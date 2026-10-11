@@ -1,0 +1,47 @@
+<!doctype html><html><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Career Fit — Self-host setup</title>
+<style>
+:root{--bg:#f6f5f7;--paper:#fff;--ink:#18151d;--muted:#746f79;--line:#e7e3ea;--accent:#6d598a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,sans-serif}
+main{max-width:760px;margin:auto;padding:48px 20px 80px}h1{font-size:42px;letter-spacing:-.04em;margin:6px 0 10px}.muted{color:var(--muted)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:18px;margin:12px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice{border:1px solid var(--line);border-radius:13px;padding:13px;cursor:pointer}.choice.active{border-color:var(--accent);background:#f1edf5}
+label{display:block;font-weight:700;margin:12px 0 5px}input{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px}
+button{border:0;border-radius:11px;padding:11px 14px;background:var(--ink);color:#fff;font-weight:750;cursor:pointer}.secondary{background:white;color:var(--ink);border:1px solid var(--line)}
+.badge{display:inline-block;font-size:11px;padding:4px 7px;border-radius:999px;background:#eeeaf2;margin-left:5px}.ok{background:#eaf5ef;color:#21684c}
+@media(max-width:640px){.grid{grid-template-columns:1fr}h1{font-size:34px}}
+</style></head><body><main>
+<div class="muted">FREE · SELF-HOSTED</div><h1>Use your own compute.</h1>
+<p class="muted">One setup screen. Career Fit keeps your database, evidence and provider keys on this server.</p>
+<div class="card"><b>1 · Choose AI runtime</b><div class="grid" id="providers" style="margin-top:12px">
+<div class="choice active" data-p="ollama"><b>Ollama</b><div class="muted">Local models · no API bill</div></div>
+<div class="choice" data-p="openai"><b>OpenAI</b><div class="muted">Bring your own API key</div></div>
+<div class="choice" data-p="anthropic"><b>Anthropic</b><div class="muted">Bring your own API key</div></div>
+<div class="choice" data-p="openrouter"><b>OpenRouter</b><div class="muted">Bring your own API key</div></div>
+</div>
+<label>Ollama URL</label><input id="OLLAMA_BASE_URL" placeholder="http://host.docker.internal:11434">
+<label>Provider API key</label><input id="providerKey" type="password" placeholder="Only stored locally on this server">
+</div>
+<div class="card"><b>2 · Optional connectors</b>
+<label>GitHub token</label><input id="GITHUB_TOKEN" type="password" placeholder="Optional">
+<label>Google OAuth Client ID</label><input id="GOOGLE_CLIENT_ID" placeholder="Optional">
+<label>Google OAuth Client Secret</label><input id="GOOGLE_CLIENT_SECRET" type="password" placeholder="Optional">
+<p class="muted">Google can also be skipped; files/email exports remain available as fallbacks.</p>
+</div>
+<div class="card"><b>3 · Start</b><p class="muted" id="status">Checking local setup…</p>
+<button id="save">Save local configuration</button> <button class="secondary" id="open">Open Career Fit</button></div>
+<script>
+let provider='ollama';
+document.querySelectorAll('[data-p]').forEach(x=>x.onclick=()=>{provider=x.dataset.p;document.querySelectorAll('[data-p]').forEach(y=>y.classList.toggle('active',y===x))});
+async function status(){try{const r=await fetch('/setup/status');const j=await r.json();document.getElementById('status').textContent=`Runtime: ${j.runtime} · current provider: ${j.provider}`;}catch(e){document.getElementById('status').textContent='Backend is not reachable.'}}
+status();
+document.getElementById('save').onclick=async()=>{
+ const body={provider,OLLAMA_BASE_URL:document.getElementById('OLLAMA_BASE_URL').value,GITHUB_TOKEN:document.getElementById('GITHUB_TOKEN').value,GOOGLE_CLIENT_ID:document.getElementById('GOOGLE_CLIENT_ID').value,GOOGLE_CLIENT_SECRET:document.getElementById('GOOGLE_CLIENT_SECRET').value};
+ const key=document.getElementById('providerKey').value;
+ if(provider==='openai')body.OPENAI_API_KEY=key;if(provider==='anthropic')body.ANTHROPIC_API_KEY=key;if(provider==='openrouter')body.OPENROUTER_API_KEY=key;
+ const r=await fetch('/setup/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ const j=await r.json();document.getElementById('status').textContent=j.ok?'Saved locally. You can start.':(j.detail||'Could not save.');
+};
+document.getElementById('open').onclick=()=>location.href='/miniapp/';
+</script></main></body></html>

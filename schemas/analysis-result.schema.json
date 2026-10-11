@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AnalysisResult",
+  "type": "object",
+  "required": [
+    "requirements",
+    "matches",
+    "reviewQueue",
+    "gaps",
+    "proofCards",
+    "decision"
+  ],
+  "properties": {
+    "requirements": {
+      "type": "array"
+    },
+    "matches": {
+      "type": "array"
+    },
+    "reviewQueue": {
+      "type": "array"
+    },
+    "gaps": {
+      "type": "array"
+    },
+    "proofCards": {
+      "type": "array"
+    },
+    "decision": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "remoteOnly": true,
+  "allowRelocation": false,
+  "salaryFloorAnnual": 120000,
+  "currency": "USD_EQUIVALENT",
+  "minRoleInterest": 60,
+  "minDomainAppetite": 55,
+  "maxApplicationMinutes": 60
+}

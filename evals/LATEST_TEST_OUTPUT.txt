@@ -1,0 +1,144 @@
+JS
+TAP version 13
+# Subtest: non-remote role blocks remote-only search
+ok 1 - non-remote role blocks remote-only search
+  ---
+  duration_ms: 0.969196
+  type: 'test'
+  ...
+# Subtest: unknown salary verifies rather than blocks
+ok 2 - unknown salary verifies rather than blocks
+  ---
+  duration_ms: 0.239882
+  type: 'test'
+  ...
+# Subtest: low interest deprioritizes rather than rejects qualification
+ok 3 - low interest deprioritizes rather than rejects qualification
+  ---
+  duration_ms: 0.110687
+  type: 'test'
+  ...
+# Subtest: clear constraints can reach apply action
+ok 4 - clear constraints can reach apply action
+  ---
+  duration_ms: 1.092322
+  type: 'test'
+  ...
+# Subtest: extracts named requirement
+ok 5 - extracts named requirement
+  ---
+  duration_ms: 1.196219
+  type: 'test'
+  ...
+# Subtest: unverified evidence never becomes verified
+ok 6 - unverified evidence never becomes verified
+  ---
+  duration_ms: 0.382979
+  type: 'test'
+  ...
+# Subtest: missing evidence becomes a gap
+ok 7 - missing evidence becomes a gap
+  ---
+  duration_ms: 0.913962
+  type: 'test'
+  ...
+# Subtest: verified evidence can enter proof cards
+ok 8 - verified evidence can enter proof cards
+  ---
+  duration_ms: 0.342588
+  type: 'test'
+  ...
+# Subtest: review evidence does not enter proof cards
+ok 9 - review evidence does not enter proof cards
+  ---
+  duration_ms: 0.82669
+  type: 'test'
+  ...
+# Subtest: primary UI does not ask user to find or paste a vacancy link
+ok 10 - primary UI does not ask user to find or paste a vacancy link
+  ---
+  duration_ms: 1.451125
+  type: 'test'
+  ...
+# Subtest: bot owns discovery and has no check-url command
+ok 11 - bot owns discovery and has no check-url command
+  ---
+  duration_ms: 0.132811
+  type: 'test'
+  ...
+# Subtest: pack does not ask for evidence IDs or manual verification toggles
+ok 12 - pack does not ask for evidence IDs or manual verification toggles
+  ---
+  duration_ms: 0.099601
+  type: 'test'
+  ...
+# Subtest: UI exposes weekly funnel and original vacancy links
+ok 13 - UI exposes weekly funnel and original vacancy links
+  ---
+  duration_ms: 0.091619
+  type: 'test'
+  ...
+# Subtest: strategy controls include urgent 45 and custom range
+ok 14 - strategy controls include urgent 45 and custom range
+  ---
+  duration_ms: 0.642462
+  type: 'test'
+  ...
+# Subtest: estimated conversion is always visible
+ok 15 - estimated conversion is always visible
+  ---
+  duration_ms: 0.875434
+  type: 'test'
+  ...
+# Subtest: breadth controls explain hard constraints
+ok 16 - breadth controls explain hard constraints
+  ---
+  duration_ms: 0.143487
+  type: 'test'
+  ...
+# Subtest: reusable proof reduces estimated application effort
+ok 17 - reusable proof reduces estimated application effort
+  ---
+  duration_ms: 0.695592
+  type: 'test'
+  ...
+# Subtest: value output is not hiring probability
+ok 18 - value output is not hiring probability
+  ---
+  duration_ms: 0.242336
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 135.89058
+
+PYTHON
+.............................................................................
+----------------------------------------------------------------------
+Ran 77 tests in 0.154s
+
+OK
+
+SMOKE
+{
+  "weekly_target": 45,
+  "quota_mix": {
+    "P01": 12,
+    "P2": 20,
+    "LOW_COST": 13
+  },
+  "conversion_range_pct": [
+    3.0,
+    6.0
+  ],
+  "expected_screenings_week": [
+    1.35,
+    2.7
+  ]
+}

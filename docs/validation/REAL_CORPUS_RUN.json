@@ -1,0 +1,142 @@
+{
+  "corpus_files": 84,
+  "evidence_candidates": 473,
+  "files_with_candidates": 49,
+  "queries": {
+    "agentic workflows routing human approval fallback": [
+      {
+        "title": "[",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/evals/cases.json",
+        "score": 0.6509
+      },
+      {
+        "title": "- product architecture;",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/docs/PRODUCT_BOUNDARIES.md",
+        "score": 0.5725
+      },
+      {
+        "title": "Topics:",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/UPLOAD_TO_GITHUB.md",
+        "score": 0.5593
+      },
+      {
+        "title": "Universal fallback:",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/docs/architecture/TECH_STACK.md",
+        "score": 0.5389
+      },
+      {
+        "title": "Failure / fallback",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/prompts/01_extract_requirements.md",
+        "score": 0.5337
+      }
+    ],
+    "evaluation quality test cases regression": [
+      {
+        "title": "[",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/evals/cases.json",
+        "score": 0.5439
+      },
+      {
+        "title": "The evals test the decisions that matter:",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/README.md",
+        "score": 0.5339
+      },
+      {
+        "title": "{",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/package.json",
+        "score": 0.4998
+      },
+      {
+        "title": "The test surfaced four production requirements now included in v0.3: **evidence freshness, expected pre/post state, reco",
+        "source": "/mnt/data/decision-systems_SOCIAL_VALIDATED/README.md",
+        "score": 0.4958
+      },
+      {
+        "title": "Output",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/prompts/01_extract_requirements.md",
+        "score": 0.4826
+      }
+    ],
+    "tool schemas structured output": [
+      {
+        "title": "Each prompt requires structured output and forbids invented evidence.",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/README.md",
+        "score": 0.7906
+      },
+      {
+        "title": "- extraction prompt",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/README.md",
+        "score": 0.5906
+      },
+      {
+        "title": "[",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/evals/cases.json",
+        "score": 0.5734
+      },
+      {
+        "title": "- vacancy requirement extraction — deterministic reference parser",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/README.md",
+        "score": 0.5707
+      },
+      {
+        "title": "- parser → LLM structured extraction;",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/docs/ARCHITECTURE.md",
+        "score": 0.5487
+      }
+    ],
+    "retrieval evidence provenance": [
+      {
+        "title": "`hard constraints → requirements → retrieval → evidence match → review/gaps → package`",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/docs/LIVE_BATCH_2026-10-02.md",
+        "score": 0.7251
+      },
+      {
+        "title": "Production architecture upgrades this to PostgreSQL + pgvector hybrid retrieval.",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/README.md",
+        "score": 0.6288
+      },
+      {
+        "title": "Stage 2:",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/docs/architecture/TECH_STACK.md",
+        "score": 0.6022
+      },
+      {
+        "title": "- extraction prompt",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/README.md",
+        "score": 0.5354
+      },
+      {
+        "title": "- parser → LLM structured extraction;",
+        "source": "/mnt/data/career-fit-agent_v0.7_market_architecture/docs/ARCHITECTURE.md",
+        "score": 0.532
+      }
+    ],
+    "0 to 1 product validation pilot": [
+      {
+        "title": "- leave flexible during first pilot batch",
+        "source": "/mnt/data/pilot launch 2026.md",
+        "score": 0.5406
+      },
+      {
+        "title": "Concierge-first validation with a defined pilot system and measurable before/after metrics. The current focus is paid au",
+        "source": "/mnt/data/career_fit_agent_conference_brief_2026.md",
+        "score": 0.5321
+      },
+      {
+        "title": "- strong internal workflow base",
+        "source": "/mnt/data/career_fit_agent_conference_brief_2026.md",
+        "score": 0.5289
+      },
+      {
+        "title": "Early validation with a concierge-first model and defined before/after metrics.",
+        "source": "/mnt/data/career_fit_agent_4yfn_form_pack_2026.md",
+        "score": 0.49
+      },
+      {
+        "title": "What the product is trying to prove next",
+        "source": "/mnt/data/career_fit_agent_conference_brief_2026.md",
+        "score": 0.4763
+      }
+    ]
+  }
+}

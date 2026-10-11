@@ -1,0 +1,27 @@
+{
+  "name": "career-fit-agent",
+  "version": "1.9.0",
+  "description": "Explainable vacancy-fit and proof-of-work orchestration with retrieval, human review and evals.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "eval": "node evals/run-evals.js",
+    "eval:live": "node evals/run-live-batch.js"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "author": "Daria Karpova <dokarpov>",
+  "keywords": [
+    "career",
+    "job-search",
+    "evidence",
+    "fit",
+    "agentic",
+    "human-in-the-loop",
+    "product",
+    "funnel"
+  ],
+  "private": false
+}

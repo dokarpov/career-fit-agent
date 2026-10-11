@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvidenceMatch",
+  "type": "object",
+  "required": [
+    "requirementId",
+    "status",
+    "confidence",
+    "reason",
+    "route"
+  ],
+  "properties": {
+    "requirementId": {
+      "type": "string"
+    },
+    "evidenceId": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "verified",
+        "needs_review",
+        "missing"
+      ]
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "reason": {
+      "type": "string"
+    },
+    "route": {
+      "enum": [
+        "auto_use",
+        "human_review",
+        "gap"
+      ]
+    }
+  }
+}

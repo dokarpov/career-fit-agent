@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "Career Fit Agent \u2014 Capture & Autofill",
+  "version": "0.3.0",
+  "description": "Save the current job page to Career Fit Agent for analysis.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "http://localhost:8000/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*/*"
+      ],
+      "js": [
+        "content/autofill.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "options_page": "options/profile.html"
+}

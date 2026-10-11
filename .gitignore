@@ -1,0 +1,14 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+data/
+.devcontainer/logs/
+__pycache__/
+*.pyc
+*.db
+local_secrets.json
+local_token.key
+token.json
+credentials.json

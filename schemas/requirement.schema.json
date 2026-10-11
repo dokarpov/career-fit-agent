@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Requirement",
+  "type": "object",
+  "required": [
+    "id",
+    "label",
+    "mustHave"
+  ],
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "mustHave": {
+      "type": "boolean"
+    },
+    "extractor": {
+      "type": "string"
+    }
+  }
+}
