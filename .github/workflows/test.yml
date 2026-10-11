@@ -1,0 +1,29 @@
+name: test
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: pip install -r backend/requirements.txt
+      - run: node --test
+      - name: Python tests
+        env:
+          PYTHONPATH: ${{ github.workspace }}/backend
+          CFA_RUNTIME_MODE: managed
+          CFA_SEED_DEMO: '1'
+          CFA_TOKEN_ENCRYPTION_KEY: UGE8w_aeBthb3b8cdtsjBPzlkp6pUFmXdavs_DT7mYI=
+          TELEGRAM_BOT_TOKEN: 123:TEST
+          TELEGRAM_MINI_APP_URL: https://example.test/miniapp/
+          CFA_INTERNAL_BOT_SECRET: test
+        run: python -m unittest discover -s backend/tests
