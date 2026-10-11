@@ -81,6 +81,7 @@ Automation handles discovery, retrieval, dedupe, requirement parsing, evidence m
 | Discovery / eligibility / evidence pipeline | implemented |
 | JavaScript tests | **22/22 passing** |
 | Python backend tests | **83/83 passing in the managed-runtime CI configuration** |
+| Mini App Chromium smoke (320 / 390 / 768 / 1440 px) | **passing against a deterministic API fixture** |
 | Sanitized real proof objects | included without former-employer/private source material |
 | Public vacancy validation snapshot | included and dated; treated as a snapshot, not live market truth |
 | Human approval before outward claims / final send | implemented as a product boundary |
