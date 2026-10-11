@@ -1,5 +1,7 @@
 # Career Fit Agent v1.9.0
 
+[![test](https://github.com/dokarpov/career-fit-agent/actions/workflows/test.yml/badge.svg)](https://github.com/dokarpov/career-fit-agent/actions/workflows/test.yml)
+
 **Evidence-first job-search orchestration for experienced professionals.**
 
 Most AI job tools optimize text generation. Career Fit starts one layer earlier: **is the role actually eligible, what evidence supports the match, what is missing, and what can the system safely say without inventing ownership or impact?**
@@ -72,6 +74,22 @@ Automation handles discovery, retrieval, dedupe, requirement parsing, evidence m
 - Gmail job-alert ingestion, Telegram/Mini App surfaces and self-host setup;
 - local pipeline cockpit for a private workbook (localhost-only; not intended for publication/proxying).
 
+## Evidence today
+
+| Evidence | Status |
+|---|---|
+| Discovery / eligibility / evidence pipeline | implemented |
+| JavaScript tests | **22/22 passing** |
+| Python backend tests | **83/83 passing in the managed-runtime CI configuration** |
+| Sanitized real proof objects | included without former-employer/private source material |
+| Public vacancy validation snapshot | included and dated; treated as a snapshot, not live market truth |
+| Human approval before outward claims / final send | implemented as a product boundary |
+| Statistically calibrated hiring probability | **not claimed** |
+| Proven interview/conversion lift | **not claimed yet** |
+| Paid traction | **not claimed** |
+
+The central product hypothesis is measurable: **better eligibility filtering + better evidence provenance should improve useful applications per unit of effort without increasing unsupported claims.** The repository implements the instrumentation and funnel logic needed to test that hypothesis; it does not pretend the hypothesis is already proven.
+
 ## Funnel policy
 
 The default baseline is **23 unique applications/week**:
@@ -114,7 +132,7 @@ npm test
 # 22/22 in v1.9.0
 ```
 
-The backend also contains Python unit tests under `backend/tests/` for the service modules.
+The backend contains Python unit tests under `backend/tests/`; the current GitHub CI runs the managed-runtime configuration explicitly, so that is the tested public boundary.
 
 ## Public / evidence boundary
 
