@@ -1,0 +1,44 @@
+/* RoleHint / Task 1 — typography only.
+ * Shared across the public landing and the interactive decision workbench.
+ * No palette, logo, component layout or product behavior changes.
+ */
+:root {
+  --rh-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  --rh-type-xs: 0.6875rem;
+  --rh-type-sm: 0.8125rem;
+  --rh-type-body: 1rem;
+  --rh-type-lead: clamp(1rem, 1.45vw, 1.1875rem);
+  --rh-type-display: clamp(2.5rem, 7vw, 4.875rem);
+  --rh-type-section: clamp(1.875rem, 4vw, 2.875rem);
+  --rh-type-subhead: 1.0625rem;
+  --rh-leading-head: 1.11;
+  --rh-leading-copy: 1.6;
+  --rh-tracking-head: -0.045em;
+}
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { font-family: var(--rh-font-sans); }
+h1,h2,h3,h4 { font-family: var(--rh-font-sans); text-wrap: balance; }
+p { overflow-wrap: break-word; }
+.hero h1 { font-size: var(--rh-type-display); line-height: var(--rh-leading-head); letter-spacing: var(--rh-tracking-head); font-weight: 700; }
+.hero-lead { font-size: var(--rh-type-lead); line-height: var(--rh-leading-copy); letter-spacing: -0.01em; }
+.section-heading h2,.difference h2 { font-size: var(--rh-type-section); line-height: 1.16; letter-spacing: var(--rh-tracking-head); font-weight: 700; }
+.steps h3 { font-size: var(--rh-type-subhead); font-weight: 650; letter-spacing: -0.02em; }
+.steps p,.difference p,.closing p { font-size: 0.9375rem; line-height: var(--rh-leading-copy); }
+.sample-job h2 { letter-spacing: -0.035em; }
+.brand,.wordmark,.app-wordmark { letter-spacing: -0.045em; font-weight: 700; }
+.eyebrow,.section-eyebrow,.visual-muted,.sample-category,.caption,.overline,.detail-eyebrow,.inspector-context,.search-label { font-size: var(--rh-type-xs); letter-spacing: 0.055em; }
+.primary-cta,.header-cta,.secondary-cta { font-weight: 650; }
+.inbox-head h1 { font-size: clamp(1.625rem, 3vw, 1.875rem); line-height: 1.2; letter-spacing: -0.045em; font-weight: 700; }
+.inbox-head p,.detail-head p,.eligibility-copy p { font-size: var(--rh-type-sm); line-height: 1.6; }
+.role-card h3 { font-size: 1rem; font-weight: 650; letter-spacing: -0.02em; }
+.role-card p,.role-card-foot,.detail-meta,.verdict p { font-size: 0.75rem; line-height: 1.5; }
+.section-heading h3 { font-size: var(--rh-type-subhead); font-weight: 650; }
+.evidence-item summary strong { font-size: var(--rh-type-sm); }
+.evidence-item summary small { font-size: 0.75rem; }
+.search-field input { font-size: 0.875rem; }
+@media(max-width:580px) {
+  .hero h1 { font-size: clamp(2.375rem, 10.4vw, 3.25rem); line-height: 1.12; letter-spacing: -0.047em; }
+  .hero-lead { font-size: 1rem; }
+  .section-heading h2,.difference h2 { font-size: clamp(1.75rem, 8.25vw, 2.125rem); }
+  .steps p,.difference p { font-size: 0.875rem; }
+}
