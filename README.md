@@ -52,3 +52,11 @@ docker compose up --build
 - Kept live demo unpromoted while product onboarding remains experimental.
 
 **Release acceptance still pending:** receiving mailbox verification, a real end-to-end test lead, legal controller identification and direct privacy contact, real Safari/Android device QA, and verification of deployment/build status. Do not claim complete GDPR compliance or validated mobile QA without those checks. The FormSubmit recipient is still the existing personal address pending creation of an approved dedicated mailbox.
+
+## UX prototype — first-session implementation (12 October 2026)
+
+The **separate experimental workspace** at [`site/workspace.html`](https://dokarpov.github.io/rolehint/site/workspace.html) now supports CV upload or paste, editable extracted text, optional no-CV sandbox exploration, target-role and hiring-country confirmation, and a guided first sample-job decision. The old decorative upload sculpture is hidden and a straightforward mobile-first upload control replaces it. The browser-local profile can be deleted from Preferences.
+
+The implementation contract and limitations are in [`docs/PROTOTYPE_UX_V1.md`](docs/PROTOTYPE_UX_V1.md). Automated browser scenarios are specified in `site/qa-workspace.mjs` and `.github/workflows/prototype-ux.yml`. **A test file does not prove those tests passed.** Real device/browser testing remains pending.
+
+CV extraction presently reads local text and identifies keywords. Sample vacancies, candidate evidence and recommendations are **not personalized using the uploaded CV**. No live matching, real application sending, account creation or paid trial is active. The public website remains separate and does not promote this unfinished demo as a production service.
