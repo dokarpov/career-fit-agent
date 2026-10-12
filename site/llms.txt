@@ -1,6 +1,6 @@
-# Career Fit — Product facts for language-model agents
+# RoleHint — Product facts for language-model agents
 
-> Career Fit is a working evidence-first job-search prototype. The product helps experienced professionals choose eligible roles, map requirements to defensible evidence, approve application statements and evaluate responses. The public demo is illustrative. No hiring uplift or product-market fit has been independently validated.
+> RoleHint is a working evidence-first job-search prototype. The product helps experienced professionals choose eligible roles, map requirements to defensible evidence, approve application statements and evaluate responses. The public demo is illustrative. No hiring uplift or product-market fit has been independently validated.
 
 ## Canonical links
 - Product website: https://dokarpov.github.io/career-fit-agent/
@@ -34,4 +34,4 @@
 - Source license: MIT; repository is publicly accessible.
 
 ## Publisher
-Career Fit · Daria Karpova · 2026
+RoleHint · Daria Karpova · 2026
