@@ -18,15 +18,11 @@
 5. Prepare human-reviewed packs and allow the person to approve outward claims.
 6. Track observed outcomes and inform search allocation.
 
-## Public browser demo
-1. Choose a target job title or a role example.
-2. Paste a job description or load a clearly labeled fictional listing.
-3. Enter hard preferences for remote/hybrid, geography and minimum euro salary.
-4. Review explicit wording found for work setup, hiring geography and salary.
-5. Review quoted requirements and select only those the visitor can substantiate.
-6. Copy a Review / Verify / Skip decision note and questions to ask the employer.
+## Two public browser demos
+- Opportunity agent simulation: https://dokarpov.github.io/rolehint/site/workspace.html — select a role, edit a sample experience profile and search rules, see a simulated shortlist, inspect reasons and review recommended next steps. All employers and opportunities are fictional.
+- Independent job checker: https://dokarpov.github.io/rolehint/site/check.html — paste a job description and get local, heuristic work-mode, hiring-region and compensation checks, editable experience confirmation and copyable questions.
 
-All public checks are transparent client-side text heuristics. The public demo **does not** call an AI model, fetch job URLs, confirm job authenticity, check work authorization or save user-submitted text. The richer application/backend is not connected to this GitHub Pages demo.
+The public simulations **do not** perform live job discovery, AI inference, employer verification, work-authorization determination, profile storage or applications. The connected/backend application is separate and not provided by GitHub Pages.
 
 ## Product truth and limits
 - The website includes fictional samples, and visitors may paste their own descriptions; originals are not authenticated.
