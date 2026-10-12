@@ -1,8 +1,8 @@
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Career Fit",
-  "alternateName": "Career Fit Agent",
+  "name": "RoleHint",
+  "alternateName": "RoleHint Agent",
   "url": "https://dokarpov.github.io/career-fit-agent/",
   "codeRepository": "https://github.com/dokarpov/career-fit-agent",
   "version": "1.9.0",
