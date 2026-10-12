@@ -157,3 +157,8 @@
 .story-monitor:hover{transform:translate3d(var(--hover-x),var(--hover-y),0) rotate(var(--hover-rz))}
 @media(max-width:900px){.story-monitor,.story-monitor:hover{transform:none}}
 @media(prefers-reduced-motion:reduce){.story-monitor,.story-monitor:hover{transform:none!important}}
+
+/* Progress remains synchronized with the 6.2-second semantic slides. */
+.story-progress{position:relative}
+.story-progress:focus-visible{outline:2px solid #201b1a;outline-offset:4px;border-radius:2px}
+.story-progress-name{font-size:13px}
