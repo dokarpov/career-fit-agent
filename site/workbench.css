@@ -13,3 +13,10 @@
 @media(max-width:760px){.demo-strip{padding:6px 15px;font-size:10px}.demo-strip strong{white-space:nowrap}.demo-strip>a{display:none}.global{height:60px;padding-inline:17px;gap:8px}.global-center{display:none}.global-actions{gap:6px}.quiet-action{padding:8px 10px;font-size:11px}.wordmark{font-size:21px}.desk{display:block;min-height:calc(100dvh - 91px);border:0}.inbox{border-right:0}.inbox-head{padding:29px 20px 18px}.inbox-head h1{font-size:31px}.inbox-head p{max-width:420px}.queue-tools{padding:4px 20px 22px}.role-card{padding:20px}.role-list{border-top:1px solid var(--line)}.inspector{display:none}.detail-open .inbox{display:none}.detail-open .inspector{display:block}.inspector-top{height:55px;padding-inline:18px}.back-button{display:inline-flex;align-items:center;gap:8px;background:none;border:none;font-size:12px;font-weight:600;color:#2f6641;padding:8px 0}.inspector-context{display:none}.detail{padding:26px 18px 80px}.detail-head h2{font-size:27px}.detail-id{font-size:30px}.eligibility-band{flex-direction:column;gap:12px}.evidence-note{padding-left:17px}.section-heading>span{font-size:9px}.side-dialog{width:100%;padding:20px}.decision-bar .actions .secondary-button{flex:1}}
 @media(max-width:370px){.demo-strip{gap:7px;font-size:9px}.header{gap:5px}.quiet-action{padding:7px}.filters button{font-size:10px;padding:7px 9px}.role-card-head{gap:4px}.status-pill{font-size:9px}.detail-head h2{font-size:25px}.section-heading{flex-direction:column;gap:5px}.section-heading>span{text-align:left}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Independent desktop scrolling keeps the shortlist visible while reviewing evidence. */
+@media(min-width:761px){
+  .desk{height:calc(100dvh - 99px);min-height:560px}
+  .inbox,.inspector{max-height:calc(100dvh - 99px);overflow-y:auto;overscroll-behavior:contain}
+  .inspector-top{position:sticky;top:0;background:#fff;z-index:5}
+}
