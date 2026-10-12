@@ -3,7 +3,7 @@
   "@type": "SoftwareApplication",
   "name": "Career Fit",
   "alternateName": "Career Fit Agent",
-  "url": "https://dokarpov.github.io/career-fit-agent/site/",
+  "url": "https://dokarpov.github.io/career-fit-agent/",
   "codeRepository": "https://github.com/dokarpov/career-fit-agent",
   "version": "1.9.0",
   "productStatus": "working prototype; hiring-outcome uplift and product-market fit not independently validated",
@@ -24,25 +24,25 @@
       "name": "Today",
       "frequency": "daily",
       "purpose": "review the most important role and any hard eligibility checks",
-      "entry": "https://dokarpov.github.io/career-fit-agent/site/workspace.html?view=today"
+      "entry": "https://dokarpov.github.io/career-fit-agent/workspace.html?view=today"
     },
     {
       "name": "Explore",
       "frequency": "as needed",
       "purpose": "filter broader shortlist and inspect requirement-to-evidence reasons",
-      "entry": "https://dokarpov.github.io/career-fit-agent/site/workspace.html?view=explore"
+      "entry": "https://dokarpov.github.io/career-fit-agent/workspace.html?view=explore"
     },
     {
       "name": "Progress",
       "frequency": "weekly",
       "purpose": "review observed applications, responses and estimates separately",
-      "entry": "https://dokarpov.github.io/career-fit-agent/site/workspace.html?view=progress"
+      "entry": "https://dokarpov.github.io/career-fit-agent/workspace.html?view=progress"
     },
     {
       "name": "Setup",
       "frequency": "occasional",
       "purpose": "review sources, hard constraints and search pace",
-      "entry": "https://dokarpov.github.io/career-fit-agent/site/workspace.html?view=setup"
+      "entry": "https://dokarpov.github.io/career-fit-agent/workspace.html?view=setup"
     }
   ],
   "capabilities": [
@@ -65,7 +65,7 @@
   "productBoundaries": "https://github.com/dokarpov/career-fit-agent/blob/main/docs/PRODUCT_BOUNDARIES.md",
   "decisionPolicy": "https://github.com/dokarpov/career-fit-agent/blob/main/docs/DECISION_POLICY.md",
   "repository": "https://github.com/dokarpov/career-fit-agent",
-  "website": "https://dokarpov.github.io/career-fit-agent/site/",
-  "demo": "https://dokarpov.github.io/career-fit-agent/site/workspace.html",
+  "website": "https://dokarpov.github.io/career-fit-agent/",
+  "demo": "https://dokarpov.github.io/career-fit-agent/workspace.html",
   "contact": "https://github.com/dokarpov"
 }
