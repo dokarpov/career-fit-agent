@@ -52,11 +52,11 @@ function paintScene(index,{instant=false}={}){
    if(fill&&i===sceneIndex){fill.style.animation='none';void fill.offsetWidth;fill.style.animation=''}
  });
 }
-function clearStageTimer(){if(stageTimer!==null){clearInterval(stageTimer);stageTimer=null}}
+function clearStageTimer(){if(stageTimer!==null){clearTimeout(stageTimer);stageTimer=null}}
 function startStageTimer(){
  clearStageTimer();
  if(reduce||!storyVisible||document.hidden)return;
- stageTimer=setInterval(()=>{if(Date.now()<manualHold)return;paintScene(sceneIndex+1)},stageDuration);
+ stageTimer=setTimeout(()=>{paintScene(sceneIndex+1);startStageTimer()},stageDuration);
 }
 controls.forEach(button=>button.addEventListener('click',()=>{
  const next=scenes.findIndex(x=>x.id===button.dataset.storyStage);
@@ -67,9 +67,9 @@ controls.forEach(button=>button.addEventListener('click',()=>{
 }));
 if(story&&'IntersectionObserver'in window){
  new IntersectionObserver(entries=>{
-  const visible=entries[0].intersectionRatio>.12;
+  const visible=entries[0].isIntersecting&&entries[0].intersectionRatio>.055;
   if(visible!==storyVisible){storyVisible=visible;if(visible)startStageTimer();else clearStageTimer()}
- },{threshold:[0,.12,.3,.6]}).observe(story);
+ },{threshold:[0,.06,.12,.3,.6]}).observe(story);
 }else{storyVisible=true;startStageTimer()}
 document.addEventListener('visibilitychange',()=>{if(document.hidden)clearStageTimer();else startStageTimer()});
 paintScene(0,{instant:true});
