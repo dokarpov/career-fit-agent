@@ -26,7 +26,9 @@ const roles=[
  {type:'gap',name:'Required on-site attendance',caption:'Hard eligibility blocker',detail:'The role requires working from Berlin on-site. With Remote only enabled, RoleHint must exclude it regardless of semantic fit.',source:'Illustrative vacancy requirement'}]}
 ];
 const $=id=>document.getElementById(id);
-const state={selected:'atlas',filter:'action',q:'',remoteOnly:true,regionConfirmed:new Set(),approved:new Set(),saved:new Set(),passed:new Set(),draft:null};
+let initialRemoteOnly=true;
+try{const profile=JSON.parse(localStorage.getItem('rolehint_onboarding_v1')||'null');if(profile)initialRemoteOnly=profile.remote==='remote'}catch(e){}
+const state={selected:'atlas',filter:'action',q:'',remoteOnly:initialRemoteOnly,regionConfirmed:new Set(),approved:new Set(),saved:new Set(),passed:new Set(),draft:null};
 const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const idx=id=>roles.findIndex(r=>r.id===id);
 const current=()=>roles.find(r=>r.id===state.selected)||roles[0];
@@ -125,5 +127,7 @@ $('approveClaim')?.addEventListener('change',e=>{});
 document.addEventListener('change',e=>{if(e.target.id==='approveClaim'){if(e.target.checked)state.approved.add(state.selected);else{state.approved.delete(state.selected);state.draft=null}renderDetail()}});
 document.querySelectorAll('.side-dialog').forEach(dialog=>dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()}));
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.altKey&&!e.ctrlKey&&!e.metaKey&&!['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)){e.preventDefault();$('roleSearch').focus()}if(e.key==='Escape'&&document.body.classList.contains('detail-open')&&!document.querySelector('dialog[open]'))document.body.classList.remove('detail-open')});
+window.addEventListener('rolehint:profile-ready',()=>{try{const p=JSON.parse(localStorage.getItem('rolehint_onboarding_v1')||'null');if(p){state.remoteOnly=p.remote==='remote';$('remoteOnly').checked=state.remoteOnly;state.filter='action';render();notify('Search setup saved locally · sample roles only')}}catch(e){notify('Could not load saved preferences')}});
+$('remoteOnly').checked=state.remoteOnly;
 render();
 })();
