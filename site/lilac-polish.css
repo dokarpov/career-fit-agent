@@ -21,7 +21,7 @@
  --rh-h3:clamp(27px,2.65vw,38px);--rh-h2:clamp(39px,5vw,76px);
  --rh-display:clamp(45px,8.2vw,120px);
  --rh-ease:cubic-bezier(.18,.8,.23,1);
- --rh-grain:url('./texture-grain.svg');
+ --rh-grain:url('./texture-grain.svg?v=film-2');
 }
 html{max-width:100%;overflow-x:clip;scroll-padding-top:85px}
 body{background:var(--rh-bg);color:var(--rh-ink);font:400 var(--rh-body)/1.62 'Manrope',system-ui,sans-serif;max-width:100%;overflow-x:clip}
@@ -368,3 +368,8 @@ a,button,summary{ -webkit-tap-highlight-color:transparent}
  #heroDecisionContent.rh-switched{animation:none}
  .button,.hero-art,.art-pagination button{transition:none!important}
 }
+/* Finish: no faux clickable panel lift, and the step indicator is actual state. */
+.hero-art:hover{transform:none!important;box-shadow:0 24px 85px rgba(39,28,63,.21),0 5px 20px rgba(39,28,63,.11)!important}
+.stage-caption{font-size:12px;letter-spacing:.07em;font-weight:750;color:#514368;font-variant-numeric:tabular-nums}
+.feature-nav button[aria-pressed=true]{font-weight:800}
+@media(max-width:470px){.stage-caption{font-size:11px}}
