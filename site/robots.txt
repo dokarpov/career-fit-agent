@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dokarpov.github.io/career-fit-agent/site/sitemap.xml
