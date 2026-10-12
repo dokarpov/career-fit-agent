@@ -2,9 +2,9 @@
 
 **Less searching. Better deciding.** A CV-first career decision prototype.
 
-[Website](https://dokarpov.github.io/rolehint/site/) · [Try the immersive inline onboarding + workspace](https://dokarpov.github.io/rolehint/site/workspace.html) · [Separate vacancy checker experiment](https://dokarpov.github.io/rolehint/site/assess.html)
+[Full marketing website and main CV CTA](https://dokarpov.github.io/rolehint/site/) · [Standalone demo / inline CV onboarding](https://dokarpov.github.io/rolehint/site/workspace.html) · [Separate vacancy checker experiment](https://dokarpov.github.io/rolehint/site/assess.html)
 
-## Experience
+## Public website and conversion flow\n\nThe **full marketing site** at `site/index.html` now includes a dedicated main CTA chapter with a dimensional CV sculpture, subtle pointer parallax and **Start with your CV** navigation. The artwork is visual only: actual CV files are accepted within the inline onboarding in the workspace. There is also a separate **Explore demo** route that bypasses onboarding with fictional example data.\n\n## Experience
 
 The primary demo is **one continuous screen flow** at `site/workspace.html` — no redirect to a separate onboarding page.
 
