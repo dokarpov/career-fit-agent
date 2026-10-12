@@ -98,11 +98,11 @@ for(const vp of viewports){
   if(!await page.locator('.eligibility-band.is-blocked').count())throw new Error(vp.name+': hard constraint not enforced');
   await page.locator('[data-modal="settings"]').click();
   await page.locator('#remoteOnly').uncheck();
-  await page.locator('#preferencesDialog [data-close-dialog]').click();
+  await page.locator('#preferencesDialog [data-close-dialog]').first().click();
   if(await page.locator('.eligibility-band.is-blocked').count())throw new Error(vp.name+': remote preference did not update the blocker');
   await page.locator('[data-modal="results"]').click();
   if(!await page.locator('#resultsDialog').evaluate(d=>d.open))throw new Error(vp.name+': results drawer does not open');
-  await page.locator('#resultsDialog [data-close-dialog]').click();
+  await page.locator('#resultsDialog [data-close-dialog]').first().click();
   if(errors.length)throw new Error(vp.name+': public experience '+errors.join(' | '));
   // The actual Telegram mini-app entry point must retain onboarding-aware navigation.
   await page.goto(base+'/telegram_miniapp/',{waitUntil:'domcontentloaded'});
