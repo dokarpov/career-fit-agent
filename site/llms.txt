@@ -1,0 +1,33 @@
+# Career Fit
+
+> An evidence-first job-search agent for experienced professionals. Career Fit is a working prototype, not a validated claim about increased placement rates.
+
+## Canonical source
+- Repository: https://github.com/dokarpov/career-fit-agent
+- README: https://github.com/dokarpov/career-fit-agent/blob/main/README.md
+- Source license: MIT
+- Product demo: the /site/ directory in the repository; public hosting requires GitHub Pages configuration
+
+## What Career Fit does
+- Discovers candidate roles through source adapters and alerts.
+- Checks hard eligibility before semantic matching.
+- Maps role requirements to experience with provenance, ownership, confidence and explicit gaps.
+- Suggests application packs backed by verifiable evidence.
+- Requires human approval for external claims and final submission.
+- Uses observed application outcomes to adjust controlled search pace.
+
+## What Career Fit does not claim
+- It is not a generic AI résumé generator or indiscriminate auto-apply bot.
+- It does not fabricate achievements, salary data or vacancies.
+- Demo content is illustrative and does not represent live user results or employer opportunities.
+- It has not proven PMF, statistically calibrated matching accuracy or independent hiring-outcome uplift.
+
+## Main workflows
+1. Define hard constraints, optionally connect relevant sources.
+2. Search for and deduplicate eligible jobs.
+3. Review fit, evidence and remaining gaps.
+4. Explicitly approve outbound statements.
+5. Submit applications personally and record outcomes.
+
+## Maintainer
+Daria Karpova · https://github.com/dokarpov
