@@ -44,7 +44,7 @@ function progress(){return head('03 / YOUR WEEKLY CHECK-IN','More signal.<br><em
  '<div class="grid-two" style="margin-top:20px"><div class="panel"><h3>Where effort went</h3><p>Sample breakdown by fit tier. Keep real observations separate from forecasts.</p>'+
  '<div class="bar-line"><span>Priority roles</span><div class="bar-track"><div class="bar-fill" style="width:66.67%"></div></div><strong>4</strong></div>'+
  '<div class="bar-line"><span>Other roles</span><div class="bar-track"><div class="bar-fill" style="width:33.33%"></div></div><strong>2</strong></div>'+
- '<p class="disclaimer">All numbers in this view are invented solely to show the analytical layout, not to suggest Career Fit has generated these outcomes.</p></div>'+
+ '<p class="disclaimer">All numbers in this view are invented solely to show the analytical layout, not to suggest RoleHint has generated these outcomes.</p></div>'+
  '<div class="panel"><h3>What would change next week?</h3><p>With very little observed data, the product should show uncertainty rather than extrapolate an impressive success rate.</p><div class="mini-tip"><strong>Recommendation</strong>Keep your hard constraints. Gather more real response signals before changing the allocation between priority and speculative applications.</div></div></div>';
 }
 function setup(){return head('04 / OCCASIONAL SETUP','Your rules.<br><em>Not another chore.</em>','Specify non-negotiables once. Revisit them when your goals change—not every time you open the app.')+
@@ -57,7 +57,7 @@ function setup(){return head('04 / OCCASIONAL SETUP','Your rules.<br><em>Not ano
  '<div class="panel"><h3>Evidence sources</h3><p>Optional, consent-based connections power inference and source-backed claims in the real product.</p>'+
  '<div class="source-row"><span class="source-icon">G</span><span><strong>Google</strong><br>Example: inbox outcomes and Drive materials</span><span class="pill warn" style="margin-left:auto">Demo only</span></div>'+
  '<div class="source-row"><span class="source-icon">⌘</span><span><strong>GitHub</strong><br>Example: traceable project work</span><span class="pill warn" style="margin-left:auto">Demo only</span></div>'+
- '<div class="mini-tip" style="margin-top:12px"><strong>Your evidence remains yours.</strong>Career Fit should distinguish connected facts, inferred suggestions and manually approved claims. This demo does not request permissions.</div></div></div>';
+ '<div class="mini-tip" style="margin-top:12px"><strong>Your evidence remains yours.</strong>RoleHint should distinguish connected facts, inferred suggestions and manually approved claims. This demo does not request permissions.</div></div></div>';
 }
 const views={today,explore,progress,setup};
 function render(){const content=$('content');content.innerHTML=views[state.view]();$('crumb').textContent=state.view.toUpperCase();document.querySelectorAll('[data-view]').forEach(b=>{const active=b.dataset.view===state.view;b.classList.toggle('active',active);if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});if(state.view==='explore')showExploreList();$('attentionCount').textContent=state.remoteOnly?'2':'2'}
