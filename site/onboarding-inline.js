@@ -16,6 +16,10 @@ let hasProfile=false;try{hasProfile=!!localStorage.getItem('rolehint_onboarding_
 if(!hasProfile&&!new URLSearchParams(location.search).has('legacy'))open();
 $('obSkip').onclick=()=>{close();sessionStorage.setItem('rolehint_sample_exploration','1');window.dispatchEvent(new Event('rolehint:first-decision'));};$('obBackReview').onclick=()=>show(1);$('obBrowse').onclick=()=>$('obFile').click();$('obObjectPick').onclick=()=>$('obFile').click();$('obFile').onchange=e=>parse(e.target.files[0]);
 const scene=$('obScene');['dragenter','dragover'].forEach(name=>scene.addEventListener(name,e=>{e.preventDefault();scene.classList.add('drag')}));['dragleave','drop'].forEach(name=>scene.addEventListener(name,e=>{e.preventDefault();scene.classList.remove('drag')}));scene.addEventListener('drop',e=>parse(e.dataTransfer.files[0]));
+const dropzone=root.querySelector('.ob-upload');
+['dragenter','dragover'].forEach(name=>dropzone.addEventListener(name,e=>{e.preventDefault();dropzone.classList.add('drag')}));
+['dragleave','drop'].forEach(name=>dropzone.addEventListener(name,e=>{e.preventDefault();dropzone.classList.remove('drag')}));
+dropzone.addEventListener('drop',e=>parse(e.dataTransfer?.files?.[0]));
 $('obPasteToggle').onclick=()=>{$('obPasteArea').hidden=!$('obPasteArea').hidden};$('obPasteNext').onclick=()=>review($('obPaste').value);
 function review(raw){text=(raw||'').trim();if(text.length<70){$('obStatus').textContent='Not enough readable text. Paste the CV or use a text-based file.';return}const terms=[...new Set((text.match(/\b(product|research|design|strategy|engineering|marketing|sales|leadership|operations|analytics|management|customer|finance|development|delivery)\b/gi)||[]).map(v=>v.toLowerCase()))].slice(0,7);$('obInsights').textContent='Detected themes: '+(terms.join(' · ')||'No common themes detected')+'. Verify against your actual work history.';$('obCv').value=text;show(1)}
 async function script(url){await new Promise((ok,fail)=>{const s=document.createElement('script');s.src=url;s.onload=ok;s.onerror=()=>fail(Error('Document parser unavailable'));document.head.append(s)})}
