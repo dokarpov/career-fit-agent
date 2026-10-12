@@ -1,27 +1,56 @@
-<!doctype html><html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f6f5f2"><meta name="robots" content="index,follow">
-<title>RoleHint — Interactive product workspace</title>
-<meta name="description" content="Review a prioritized career decision queue, explore eligible roles, examine evidence and inspect sample results. This is an interactive prototype with fictional data.">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f3ef">
+<meta name="description" content="Try RoleHint's actual decision workflow: select an opportunity, check eligibility, inspect evidence, approve a supported claim, and prepare a draft. Fictional data only.">
+<title>RoleHint — The decision workspace</title>
 <link rel="canonical" href="https://dokarpov.github.io/rolehint/site/workspace.html">
-<link rel="icon" href="./favicon.svg?v=20261012" type="image/svg+xml"><link rel="stylesheet" href="./workspace.css"><script src="./workspace.js" defer></script>
-</head><body>
-<a class="skip" href="#workspace">Skip to workspace</a>
-<div class="preview"><span class="preview-dot" aria-hidden="true"></span><span><strong>INTERACTIVE PROTOTYPE</strong> <span class="preview-info">Sample roles and results only. No live accounts or submissions.</span></span><a href="./">View website ↗</a></div>
-<div class="app"><aside class="sidebar" aria-label="Workspace navigation">
- <a class="wordmark-group logo" href="./" aria-label="RoleHint website"><span class="brand-mark" aria-hidden="true">↗</span><span class="wordmark">rolehint<span class="brand-dot">.</span></span></a>
- <div class="sidebar-intro"><span class="nav-caption">YOUR SEARCH</span><p>Decisions first.<br>Everything else later.</p></div>
- <nav id="nav" aria-label="Primary workspace navigation">
-  <button type="button" class="nav-item active" data-view="today" aria-current="page"><span class="nav-icon" aria-hidden="true">◈</span><span>Review queue<small>What needs a decision</small></span><span class="nav-count" id="attentionCount">2</span></button>
-  <button type="button" class="nav-item" data-view="explore"><span class="nav-icon" aria-hidden="true">⌕</span><span>All roles<small>Search and compare</small></span></button>
-  <button type="button" class="nav-item" data-view="progress"><span class="nav-icon" aria-hidden="true">↗</span><span>Results<small>Responses and learning</small></span></button>
- </nav>
- <div class="sidebar-bottom"><div class="side-rule"></div><button type="button" class="nav-item preference-nav" data-view="setup"><span class="nav-icon" aria-hidden="true">⚙</span><span>Preferences<small>Sources &amp; boundaries</small></span></button><div class="side-foot"><span class="status-led" aria-hidden="true"></span><span>Sample workspace<small>No connected data</small></span></div></div>
-</aside>
-<main id="workspace" class="main">
- <header class="topbar"><div class="crumb"><strong>WORKSPACE</strong> <span>/</span> <span id="crumb">TODAY</span></div><div class="top-actions"><span class="agent-tag">EVIDENCE FIRST</span><button type="button" class="top-preferences" data-view="setup" aria-label="Preferences">⚙ <span>Preferences</span></button><span class="avatar" aria-label="Demo user">RH</span></div></header>
- <div id="content" aria-live="polite"></div>
- <footer class="main-foot">Fictional examples · No hiring outcome claims · <a href="https://github.com/dokarpov/rolehint">Inspect implementation ↗</a></footer>
-</main></div>
-<dialog id="roleDialog" class="role-dialog" aria-labelledby="roleDialogTitle"><div id="roleContent"></div></dialog>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./workbench.css">
+<script src="./workbench.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#inboxTitle">Skip to decisions</a>
+<div class="demo-strip"><span class="strip-pulse" aria-hidden="true"></span><strong>INTERACTIVE SANDBOX</strong><span>Fictional opportunities. No connected accounts, stored data, or submissions.</span><a href="./">Visit website <span aria-hidden="true">↗</span></a></div>
+<header class="global">
+  <a class="wordmark" href="./" aria-label="RoleHint website">rolehint<span>.</span></a>
+  <div class="global-center"><span class="status-orb" aria-hidden="true"></span><span>YOUR SEARCH</span><span class="head-divider">/</span><strong>DECISION DESK</strong></div>
+  <div class="global-actions"><button type="button" class="quiet-action" data-modal="results">Results <span aria-hidden="true">↗</span></button><button type="button" class="quiet-action settings" data-modal="settings">Preferences <span aria-hidden="true">⌘</span></button></div>
+</header>
+<main class="desk">
+<section class="inbox" aria-labelledby="inboxTitle">
+  <div class="inbox-head"><div class="overline">01 / YOUR ATTENTION</div><h1 id="inboxTitle">Decide what<br>comes <em>next.</em></h1><p>Only roles worth a decision. Select one to see why it belongs here.</p>
+    <div class="live-counts"><span><strong id="needsCount">0</strong> to review</span><span><strong id="savedCount">0</strong> saved</span></div>
+  </div>
+  <div class="queue-tools"><label class="search-label" for="roleSearch">FIND AN OPPORTUNITY</label><div class="search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 5 5"/></svg><input id="roleSearch" type="search" placeholder="Search role or location" autocomplete="off"><kbd>/</kbd></div>
+    <div class="filters" role="group" aria-label="Opportunity filters">
+      <button type="button" data-filter="action" aria-pressed="true">Needs action</button>
+      <button type="button" data-filter="all" aria-pressed="false">All roles</button>
+      <button type="button" data-filter="saved" aria-pressed="false">Saved</button>
+    </div>
+  </div>
+  <div id="roleList" class="role-list" aria-label="Opportunities"></div>
+  <div class="inbox-end"><div class="mini-mark" aria-hidden="true">↗</div><span>Fewer applications.<br><strong>More defensible decisions.</strong></span></div>
+</section>
+<section class="inspector" id="inspector" aria-labelledby="roleTitle">
+  <div class="inspector-top"><button type="button" class="back-button" id="backToList">← <span>All opportunities</span></button><div class="inspector-context"><span>ROLE REVIEW</span><span class="context-index" id="roleIndex">01 / 04</span></div><button type="button" class="next-button" id="nextRole">Next role ↗</button></div>
+  <div id="roleDetail" aria-live="polite"></div>
+</section>
+</main>
+<dialog id="preferencesDialog" class="side-dialog" aria-labelledby="preferencesTitle">
+ <div class="dialog-head"><div class="overline">SEARCH BOUNDARIES</div><button type="button" data-close-dialog aria-label="Close preferences">×</button></div>
+ <h2 id="preferencesTitle">Your search.<br>Your rules.</h2><p>These are sandbox preferences. They affect this sample queue only.</p>
+ <label class="setting-row" for="remoteOnly"><span><strong>Remote roles only</strong><small>Exclude roles requiring attendance at an office</small></span><input type="checkbox" id="remoteOnly" checked></label>
+ <div class="setting-row static"><span><strong>Employment region</strong><small>Europe (illustrative)</small></span><strong class="setting-status">EXAMPLE</strong></div>
+ <div class="dialog-foot"><button type="button" data-close-dialog class="primary-button">Back to decisions ↗</button></div>
+</dialog>
+<dialog id="resultsDialog" class="side-dialog" aria-labelledby="resultsTitle">
+ <div class="dialog-head"><div class="overline">PERIODIC REVIEW</div><button type="button" data-close-dialog aria-label="Close results">×</button></div>
+ <h2 id="resultsTitle">Signal, not<br>vanity metrics.</h2><p>Separate sample observations from predictions. These numbers are illustrative, not RoleHint customer results.</p>
+ <div class="results-numbers"><div><strong>6</strong><span>Sample applications</span></div><div><strong>1</strong><span>Sample employer responses</span></div><div><strong id="resultsSaved">0</strong><span>Roles saved in this demo</span></div></div>
+ <div class="results-note"><strong>What changes next?</strong><p>One response is not enough to establish an effective strategy. Keep eligibility constraints while collecting more observed outcomes.</p></div>
+ <div class="dialog-foot"><button type="button" data-close-dialog class="primary-button">Back to decisions ↗</button></div>
+</dialog>
+<div role="status" id="toast" class="toast" aria-live="polite"></div>
 </body></html>
