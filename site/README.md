@@ -2,7 +2,7 @@
 
 Live: https://dokarpov.github.io/rolehint/site/
 
-The static GitHub Pages site contains the marketing presentation, embedded fictional demo preview, and early-access application form. The actual experimental product lives in `workspace.html` and is not a production service.
+The static GitHub Pages site contains the marketing presentation, native, responsive, clickable guided product preview derived from existing workspace, and early-access application form. The actual experimental product lives in `workspace.html` and is not a production service.
 
 ## Before sharing
 
@@ -28,3 +28,11 @@ The public site is independent from the unfinished CV onboarding/demo; no user a
 ## Privacy and legal readiness
 
 The expanded `privacy.html` now contains 12 sections including data flows, legal bases, processor and transfer caveats, retention, rights, local storage, security incidents and future AI processing. The public form includes a first-layer privacy summary. **Not launch-complete:** the operator's verified legal identification and direct dedicated mailbox, controller-side retention schedule and processor/transfer review are still outstanding. These must be supplied before claiming GDPR compliance. Updated service-worker cache version `rolehint-public-v3` helps prevent stale privacy content.
+
+## Shareable Release 1
+
+The landing page no longer embeds the workspace in an iframe. `release-v1.css` and `release-v1.js` provide a native, accessible preview with three selectable fictional roles. No live hiring checks are implied. The public workspace remains experimental.
+
+QA source: `qa-release.mjs` with GitHub Actions workflow `../.github/workflows/release-qa.yml` (GitHub Actions tab). It checks 320/375/390/768/1024/1440 widths, preview controls, CTA, form wiring and privacy overflow using headless Chromium. Check the workflow result; a test file is not a successful test.
+
+Before public promotion, verify the FormSubmit receiving inbox and a test submission, supply the dedicated project mailbox and full controller identity, review the privacy notice, and validate on actual mobile Safari/Android. These steps are pending external confirmation.
