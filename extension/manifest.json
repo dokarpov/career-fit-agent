@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Career Fit Agent \u2014 Capture & Autofill",
+  "name": "RoleHint Agent \u2014 Capture & Autofill",
   "version": "0.3.0",
-  "description": "Save the current job page to Career Fit Agent for analysis.",
+  "description": "Save the current job page to RoleHint Agent for analysis.",
   "permissions": [
     "activeTab",
     "storage",
