@@ -1,28 +1,26 @@
 # RoleHint.
 
-**Only the jobs worth your time.**
+**Know before you apply.** An evidence-first job decision tool.
 
-RoleHint helps professionals decide which jobs are worth pursuing by checking eligibility rules, the match to their experience, and the next useful action.
+[Live website](https://dokarpov.github.io/rolehint/site/) · [Try the real-job assessment](https://dokarpov.github.io/rolehint/site/assess.html)
 
-[Website](https://dokarpov.github.io/rolehint/site/) · [Explore the opportunity agent](https://dokarpov.github.io/rolehint/site/workspace.html) · [Check a job description](https://dokarpov.github.io/rolehint/site/check.html)
+## Public prototype
 
-## Two public demo paths
+Paste the text of a real vacancy and optionally store its original URL as a reference. Set your country, work arrangement, annual EUR salary floor, and seniority once (saved locally). The assessment separates explicit potential mismatches from unknown hiring conditions, extracts likely role requirements for your review, and generates targeted recruiter questions plus an application note using only experience you supplied.
 
-**1. Opportunity agent simulation.** Choose Product, Design, Engineering, or Marketing; edit an example experience profile; and set remote, hiring-region, salary, and time constraints. The simulated agent discovers a fictional opportunity set, filters it, ranks a shortlist, and explains each *Pursue / Verify / Skip* decision. You can save or pass sample jobs and review the next action.
+**Limits:** Static GitHub Pages cannot reliably fetch arbitrary job URLs. URL input is reference-only; paste the listing text to analyze it. Checks use deterministic browser heuristics, not an AI model or verified employer data; they can miss restrictions and produce false positives. User-marked requirements and self-described experience are not independently verified. Nothing is uploaded or sent; the app does not connect accounts, apply for jobs, or predict hiring outcomes.
 
-**2. Your job-description checker.** Paste text from an actual vacancy, enter preferences, select requirements you can substantiate, and copy a list of blockers, unknowns, and questions for the employer. Text is analyzed locally using transparent heuristics; no network scraping or AI inference is performed in this checker.
+An [older job-description wizard](https://dokarpov.github.io/rolehint/site/check.html) and [fictional discovery workbench](https://dokarpov.github.io/rolehint/site/workspace.html) remain available as legacy experiments, not as the primary demo.
 
-Neither public demo connects accounts, authenticates job listings, submits applications, or predicts hiring outcomes. The simulation's employers, salaries and jobs are fictional. The job-description checker does not validate employer claims.
+## Technical work
 
-## Backend
-
-The repository also includes separate backend work for source-driven job discovery, eligibility checks, experience mapping and human-approved application preparation. **Those services are not connected to the GitHub Pages demos.**
+The repository contains separate backend experiments for source-driven opportunity discovery, eligibility checking, evidence mapping and human review. **These services are not connected to the GitHub Pages demo.**
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-[Technical overview](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md) · [Design system](docs/DESIGN_SYSTEM.md)
+[Technical overview](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md)
 
-*Prototype v1.9.0 · No independently demonstrated hiring uplift or product–market fit.*
+*Exploratory prototype · No demonstrated hiring uplift or product–market fit.*
