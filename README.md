@@ -15,6 +15,6 @@ cp .env.example .env
 docker compose up --build
 ```
 
-[Setup](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md)
+[Setup](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md) · [Typography and visual-system rules](docs/DESIGN_SYSTEM.md)
 
 *Prototype · v1.9.0. All public example roles and results are fictional. No hiring uplift or product-market fit is claimed.*
