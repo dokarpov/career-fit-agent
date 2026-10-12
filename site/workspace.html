@@ -1,61 +1,78 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#ffffff">
-<meta name="description" content="RoleHint job review: sample opportunities, eligibility, evidence and a clear next action. Interactive fictional demo.">
-<title>RoleHint — Review a job</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#fff9f5">
+<meta name="description" content="Try RoleHint. Choose your target role, set your preferences, and review a fictional job one step at a time.">
+<title>RoleHint — Interactive demo</title>
 <link rel="canonical" href="https://dokarpov.github.io/rolehint/site/workspace.html">
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./workbench.css?v=20261012c">
-<link rel="stylesheet" href="./typography.css">
-<script src="./workbench.js?v=20261012c" defer></script>
+<link rel="stylesheet" href="./workbench.css?v=guided-1">
+<script src="./workbench.js?v=guided-1" defer></script>
 </head>
 <body>
-<a class="skip" href="#inboxTitle">Skip to job list</a>
-<header class="global">
-  <a class="wordmark" href="./" aria-label="RoleHint website"><img src="./favicon.svg" width="29" height="29" alt=""><span>rolehint</span></a>
-  <span class="sample-label">Interactive demo <span aria-hidden="true">·</span> Fictional data</span>
-  <div class="global-actions"><button type="button" class="quiet-action" data-modal="settings">Preferences <span aria-hidden="true">⚙</span></button></div>
+<a class="skip" href="#demoTitle">Skip to demo</a>
+<header class="demo-header">
+ <div class="demo-width header-inner">
+ <a class="brand" href="./" aria-label="RoleHint home"><img src="./favicon.svg" width="34" height="34" alt=""><span>rolehint<span class="brand-period">.</span></span></a>
+ <span class="demo-label">Interactive demo <span aria-hidden="true">·</span> fictional jobs</span>
+ <button class="reset-link" type="button" id="resetDemo">Start over ↺</button>
+ </div>
 </header>
-<main class="desk" id="main">
-<section class="inbox" aria-labelledby="inboxTitle">
-  <div class="inbox-head">
-    <div class="inbox-title-line"><h1 id="inboxTitle">Jobs to review</h1><span class="live-counts"><strong id="needsCount">0</strong> to review <span class="count-divider">·</span> <strong id="savedCount">0</strong> saved</span></div>
-    <p>Choose a job to check its requirements and next step.</p>
+<main class="demo-width" id="main">
+<div class="demo-intro">
+ <span class="eyebrow"><span class="eyebrow-line"></span> YOUR JOB, YOUR RULES</span>
+ <h1 id="demoTitle">Find out if a job<br><em>is worth your time.</em></h1>
+ <p>Start with the role you're looking for. We'll show one decision at a time.</p>
+</div>
+<nav class="stepper" aria-label="Demo progress">
+ <span class="step is-current" data-progress="0" aria-current="step"><span>01</span> Your role</span>
+ <span class="step" data-progress="1"><span>02</span> Eligibility</span>
+ <span class="step" data-progress="2"><span>03</span> Your fit</span>
+ <span class="step" data-progress="3"><span>04</span> Next step</span>
+</nav>
+<div class="demo-card">
+ <section class="stage" id="stepRole" aria-labelledby="roleHeading">
+  <div class="stage-head"><div class="section-count">01 / GET STARTED</div><h2 id="roleHeading">What role are you after?</h2><p>Select a common role or enter your own.</p></div>
+  <div class="choice-grid" role="group" aria-label="Suggested target roles">
+   <button type="button" class="role-choice" data-example="product" aria-pressed="false"><strong>Product Manager</strong><span>Discovery · strategy</span></button>
+   <button type="button" class="role-choice" data-example="design" aria-pressed="false"><strong>Product Designer</strong><span>Research · UX</span></button>
+   <button type="button" class="role-choice" data-example="engineering" aria-pressed="false"><strong>Software Engineer</strong><span>Systems · delivery</span></button>
+   <button type="button" class="role-choice" data-example="marketing" aria-pressed="false"><strong>Marketing Lead</strong><span>Campaigns · growth</span></button>
   </div>
-  <div class="queue-tools">
-    <label class="search-label" for="roleSearch">Find a job</label>
-    <div class="search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.5"/><path d="m16 16 5 5"/></svg><input id="roleSearch" type="search" placeholder="Title, company or location" autocomplete="off"></div>
-    <div class="filters" role="group" aria-label="Filter jobs">
-      <button type="button" data-filter="action" aria-pressed="true">To review</button>
-      <button type="button" data-filter="all" aria-pressed="false">All jobs</button>
-      <button type="button" data-filter="saved" aria-pressed="false">Saved</button>
-    </div>
+  <label class="field-label" for="targetRole">Or type your role</label>
+  <input class="text-input" id="targetRole" type="text" maxlength="68" placeholder="e.g. Head of Customer Success" autocomplete="off">
+  <div class="preferences-inline">
+   <fieldset class="work-options"><legend>Work preference</legend><label><input name="workMode" type="radio" value="remote" checked> Remote only</label><label><input name="workMode" type="radio" value="any"> Remote or hybrid</label></fieldset>
+   <label class="mini-field" for="targetRegion">Where can you work?<select id="targetRegion"><option value="eu">Europe</option><option value="global">Worldwide</option></select></label>
+   <label class="mini-field" for="minSalary">Minimum annual salary, EUR <span>(optional)</span><input id="minSalary" type="number" min="0" max="500000" step="5000" placeholder="e.g. 75000"></label>
   </div>
-  <div id="roleList" class="role-list" aria-label="Sample opportunities"></div>
-</section>
-<section class="inspector" id="inspector" aria-labelledby="roleTitle">
-  <div class="inspector-top">
-    <button type="button" class="back-button" id="backToList">← <span>All jobs</span></button>
-    <div class="inspector-context">Job details <span class="context-index" id="roleIndex">01 / 04</span></div>
-    <button type="button" class="next-button" id="nextRole">Next job <span aria-hidden="true">→</span></button>
-  </div>
-  <div id="roleDetail" aria-live="polite"></div>
-</section>
+  <div class="stage-footer"><p>All opportunities and employers shown here are fictional examples.</p><button class="primary" type="button" id="goEligibility" disabled>Continue <span aria-hidden="true">→</span></button></div>
+ </section>
+ <section class="stage" id="stepEligibility" aria-labelledby="eligibilityHeading" hidden>
+  <div class="section-count">02 / CHECK THE BASICS</div><h2 id="eligibilityHeading">Does this job meet your rules?</h2>
+  <div class="sample-role"><span>FICTIONAL JOB LISTING</span><strong id="sampleTitle"></strong><small id="sampleCompany"></small></div>
+  <div class="checks" id="eligibilityChecks"></div>
+  <div class="verdict" id="eligibilityVerdict" role="status"></div>
+  <div class="stage-footer"><button type="button" class="secondary" data-back="0">← Back</button><button class="primary" type="button" id="goFit">Continue <span aria-hidden="true">→</span></button></div>
+ </section>
+ <section class="stage" id="stepFit" aria-labelledby="fitHeading" hidden>
+  <div class="section-count">03 / YOUR EXPERIENCE</div><h2 id="fitHeading">What have you actually done?</h2><p class="stage-description">Select what's true for you. Nothing is assumed or added on your behalf.</p>
+  <div class="skill-options" id="skillOptions"></div>
+  <div class="live-feedback" id="fitFeedback" aria-live="polite">Select relevant experience to see how it affects the review.</div>
+  <div class="stage-footer"><button type="button" class="secondary" data-back="1">← Back</button><button class="primary" type="button" id="goDecision">Continue <span aria-hidden="true">→</span></button></div>
+ </section>
+ <section class="stage" id="stepDecision" aria-labelledby="decisionHeading" hidden>
+  <div class="section-count">04 / YOUR NEXT STEP</div><h2 id="decisionHeading">Here's your next move.</h2>
+  <div class="decision-result" id="decisionResult" role="status"></div>
+  <div class="decision-points" id="decisionPoints"></div>
+  <p class="safety-note">Demo only. This isn't a real job recommendation, eligibility determination, or submitted application.</p>
+  <div class="stage-footer"><button type="button" class="secondary" data-back="2">← Back</button><div class="decision-actions"><button class="secondary" type="button" id="copySummary">Copy summary</button><button class="primary" type="button" id="restartFlow">Try another role <span aria-hidden="true">→</span></button></div></div>
+ </section>
+</div>
+<div class="demo-bottom"><span>Try it. Change the inputs. See what changes.</span><a href="./">← Back to RoleHint</a></div>
 </main>
-<dialog id="preferencesDialog" class="side-dialog" aria-labelledby="preferencesTitle">
-  <div class="dialog-head"><h2 id="preferencesTitle">Search preferences</h2><button type="button" data-close-dialog aria-label="Close preferences">×</button></div>
-  <p>Settings affect these example jobs only.</p>
-  <label class="setting-row" for="remoteOnly"><span><strong>Remote only</strong><small>Exclude jobs that require office attendance</small></span><input type="checkbox" id="remoteOnly" checked></label>
-  <div class="setting-row"><span><strong>Region</strong><small>Europe (sample setting)</small></span><span class="setting-status">Example</span></div>
-  <div class="dialog-foot"><button type="button" data-close-dialog class="primary-button">Done</button></div>
-</dialog>
-<dialog id="resultsDialog" class="side-dialog" aria-labelledby="resultsTitle">
-  <div class="dialog-head"><h2 id="resultsTitle">Example activity</h2><button type="button" data-close-dialog aria-label="Close results">×</button></div>
-  <p>This is demonstration data, not customer outcomes.</p>
-  <div class="results-numbers"><div><strong>6</strong><span>Sample applications</span></div><div><strong>1</strong><span>Sample response</span></div><div><strong id="resultsSaved">0</strong><span>Saved this session</span></div></div>
-  <div class="dialog-foot"><button type="button" data-close-dialog class="primary-button">Done</button></div>
-</dialog>
-<div role="status" id="toast" class="toast" aria-live="polite"></div>
-</body></html>
+<noscript><p class="noscript">JavaScript is required to run the interactive sample.</p></noscript>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
