@@ -1,0 +1,47 @@
+/* RoleHint / Task 2 — shared design tokens.
+ * Source of truth for the active public site (landing.css) and workbench (workbench.css).
+ * Preserves the existing neutral/forest visual direction; no new visual theme.
+ */
+:root {
+  /* Neutrals */
+  --rh-color-page: #ffffff;
+  --rh-color-surface: #ffffff;
+  --rh-color-canvas: #f7f8f6;
+  --rh-color-ink: #171a18;
+  --rh-color-muted: #696f6b;
+  --rh-color-line: #e4e7e3;
+
+  /* Actions and semantic feedback */
+  --rh-color-primary: #194c32;
+  --rh-color-primary-hover: #284c35;
+  --rh-color-focus: #e45e3f;
+  --rh-color-positive: #23623a;
+  --rh-color-positive-bg: #edf6ee;
+  --rh-color-pending: #aa741d;
+  --rh-color-pending-bg: #fff7e6;
+  --rh-color-blocked: #a85651;
+  --rh-color-blocked-bg: #fdf0ef;
+
+  /* Surface and interaction geometry */
+  --rh-radius-xs: 7px;
+  --rh-radius-sm: 10px;
+  --rh-radius-md: 12px;
+  --rh-radius-lg: 18px;
+  --rh-shadow-panel: 0 18px 65px rgba(27,46,33,.09), 0 2px 8px rgba(22,50,25,.04);
+  --rh-ease: cubic-bezier(.2,.8,.2,1);
+
+  /* Spacing scale */
+  --rh-space-1: 4px;
+  --rh-space-2: 8px;
+  --rh-space-3: 12px;
+  --rh-space-4: 16px;
+  --rh-space-5: 20px;
+  --rh-space-6: 24px;
+  --rh-space-8: 32px;
+  --rh-space-12: 48px;
+  --rh-space-16: 64px;
+
+  /* Usability */
+  --rh-focus-outline: 3px solid var(--rh-color-focus);
+  --rh-touch-target: 44px;
+}
