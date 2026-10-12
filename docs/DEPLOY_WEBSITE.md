@@ -1,16 +1,15 @@
-# Publish the Career Fit website
+# RoleHint site — current publishing arrangement
 
-The website code is already merged into `main` under `site/`. The application and browser tests passed. GitHub Pages is currently **disabled** for this repository; the latest deployment fails at `Configure Pages` with **Get Pages site failed: Not Found**.
+GitHub Pages is enabled for the public repository [dokarpov/rolehint](https://github.com/dokarpov/rolehint).
 
-## Activate once (repository owner)
+**Publishing source:** `Deploy from a branch` on `main` (repository root). This makes two distinct paths available:
 
-1. Open **[Settings → Pages](https://github.com/dokarpov/rolehint/settings/pages)**.
-2. Under **Build and deployment**, set **Source** to **GitHub Actions**, then save.
-3. Open **[Publish Career Fit website](https://github.com/dokarpov/rolehint/actions/workflows/pages.yml)** → **Run workflow** → select **main** → **Run workflow**.
-4. Check the workflow result. Both URLs must return HTTP 200 before announcing publication:
-   - https://dokarpov.github.io/rolehint/site/
-   - https://dokarpov.github.io/rolehint/site/workspace.html
+- [Interactive production web app](https://dokarpov.github.io/rolehint/) — the root `index.html`, wired to existing runtime.
+- [Public RoleHint website](https://dokarpov.github.io/rolehint/site/) — editorial marketing site from `site/index.html`.
+- [Interactive prototype](https://dokarpov.github.io/rolehint/site/workspace.html) — fictional role data, no actual submissions.
 
-The workflow uploads the contents of `site/` as the site's root, not the entire repository. The GitHub connection available to ChatGPT can edit and merge repository files, but cannot enable Pages in repository Settings. The Actions token cannot create the Pages site either.
+With branch publishing enabled, **do not run** the manual `Publish RoleHint website (manual Pages source)` workflow: it is for an optional future switch to `GitHub Actions` as the publishing source. It deliberately does not auto-run so an Actions deployment cannot overwrite the branch-published site.
 
-**Troubleshooting:** If the deployment still fails after enabling GitHub Actions as the Pages source, inspect the latest [deployment job](https://github.com/dokarpov/rolehint/actions/workflows/pages.yml). A missing Pages site produces a `Configure Pages` 404; this is a repository setting issue rather than a missing `index.html`.
+If the publishing source is changed to GitHub Actions later, update canonical paths and `site/product.json`, `site/llms.txt`, `site/robots.txt`, `site/sitemap.xml` before switching, because that workflow publishes the `site/` content directly at `https://dokarpov.github.io/rolehint/`.
+
+QA: check both the public site and prototype return HTTP 200, and confirm that GitHub Actions **test** / browser smoke jobs succeed.

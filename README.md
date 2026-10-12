@@ -1,35 +1,23 @@
-# RoleHint
+# RoleHint.
 
-**Find the role worth your time.**
+**Less searching. Better deciding.**
 
-An evidence-first job-search agent. It helps experienced professionals find eligible jobs, understand their fit, and prepare applications without inventing achievements.
+RoleHint is an evidence-first job-search workspace: it filters hard eligibility constraints, explains which experience supports each role, and helps you decide where to spend effort.
 
-[**Website ↗**](https://dokarpov.github.io/rolehint/site/) · [Interactive demo ↗](https://dokarpov.github.io/rolehint/site/workspace.html) · [Source code](https://github.com/dokarpov/rolehint)
+[**Explore the website ↗**](https://dokarpov.github.io/rolehint/site/) · [Interactive demo ↗](https://dokarpov.github.io/rolehint/site/workspace.html)
 
-## What it does
+**Review queue** — the next decision.  
+**All roles** — explore the wider shortlist.  
+**Results** — learn from actual responses.  
+**Preferences** — change rules when needed.
 
-- **Finds opportunities** and filters out roles that break your hard constraints.
-- **Explains the match** with verified experience, questions to review, and real gaps.
-- **Prepares application packs** with evidence you approve.
-- **Learns from outcomes** instead of blindly increasing application volume.
-
-## Built for your routine
-
-**Today** — decide what deserves attention.
-
-**Explore** — review the wider shortlist.
-
-**Progress** — understand responses and results.
-
-**Setup** — update preferences and connected sources only when needed.
-
-## Run it
+### Run locally
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-[Setup & architecture](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md) · [Tests](.github/workflows/test.yml)
+[Technical setup](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md) · [Source](https://github.com/dokarpov/rolehint)
 
-> **Status:** Working prototype, v1.9.0. The website uses fictional examples. No verified hiring uplift, guaranteed placement, or product-market fit is claimed. Real applications and outward claims remain human-controlled.
+*Working prototype (v1.9.0). Demo roles and results are fictional. Outward claims and submissions remain human-controlled; no hiring uplift or product-market fit is claimed.*

@@ -3,12 +3,12 @@
 > RoleHint is a working evidence-first job-search prototype. The product helps experienced professionals choose eligible roles, map requirements to defensible evidence, approve application statements and evaluate responses. The public demo is illustrative. No hiring uplift or product-market fit has been independently validated.
 
 ## Canonical links
-- Product website: https://dokarpov.github.io/career-fit-agent/
-- Interactive demo: https://dokarpov.github.io/career-fit-agent/workspace.html
-- Machine-readable facts: https://dokarpov.github.io/career-fit-agent/product.json
-- Source repository: https://github.com/dokarpov/career-fit-agent
-- Decision policy: https://github.com/dokarpov/career-fit-agent/blob/main/docs/DECISION_POLICY.md
-- Product boundaries: https://github.com/dokarpov/career-fit-agent/blob/main/docs/PRODUCT_BOUNDARIES.md
+- Product website: https://dokarpov.github.io/rolehint/site/
+- Interactive demo: https://dokarpov.github.io/rolehint/site/workspace.html
+- Machine-readable facts: https://dokarpov.github.io/rolehint/site/product.json
+- Source repository: https://github.com/dokarpov/rolehint
+- Decision policy: https://github.com/dokarpov/rolehint/blob/main/docs/DECISION_POLICY.md
+- Product boundaries: https://github.com/dokarpov/rolehint/blob/main/docs/PRODUCT_BOUNDARIES.md
 
 ## What the product does
 1. Discover and deduplicate available opportunities from configured sources.
