@@ -28,7 +28,11 @@ const roles=[
 const $=id=>document.getElementById(id);
 let initialRemoteOnly=true;
 try{const profile=JSON.parse(localStorage.getItem('rolehint_onboarding_v1')||'null');if(profile)initialRemoteOnly=profile.remote==='remote'}catch(e){}
-const state={selected:'atlas',filter:'action',q:'',remoteOnly:initialRemoteOnly,regionConfirmed:new Set(),approved:new Set(),saved:new Set(),passed:new Set(),draft:null};
+let lastSession={};try{lastSession=JSON.parse(localStorage.getItem('rolehint_sample_decisions_v1')||'{}')||{}}catch(e){}
+const roleIds=new Set(roles.map(r=>r.id));
+const safeSet=values=>new Set((Array.isArray(values)?values:[]).filter(id=>roleIds.has(id)));
+const state={selected:roleIds.has(lastSession.selected)?lastSession.selected:'atlas',filter:'action',q:'',remoteOnly:initialRemoteOnly,regionConfirmed:new Set(),approved:new Set(),saved:safeSet(lastSession.saved),passed:safeSet(lastSession.passed),draft:null};
+function saveSampleSession(){try{localStorage.setItem('rolehint_sample_decisions_v1',JSON.stringify({selected:state.selected,saved:[...state.saved],passed:[...state.passed]}))}catch(e){}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const idx=id=>roles.findIndex(r=>r.id===id);
 const current=()=>roles.find(r=>r.id===state.selected)||roles[0];
@@ -93,7 +97,7 @@ function renderDetail(){
  (isBlocked?'': '<button type="button" class="secondary-button '+(state.saved.has(r.id)?'is-saved':'')+'" data-action="save">'+(state.saved.has(r.id)?'Saved ✓':'Save job')+'</button>')+
  '<button type="button" class="quiet-link" data-action="pass">Pass</button></div></div></article>';
 }
-function render(){renderList();renderDetail();}
+function render(){renderList();renderDetail();saveSampleSession();}
 function notify(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>e.classList.remove('show'),2800)}
 function selectRole(id){if(!roles.some(r=>r.id===id))return;const apply=()=>{state.selected=id;state.draft=null;render();document.body.classList.add('detail-open');if(matchMedia('(max-width:760px)').matches)scrollTo({top:0,behavior:'instant'});else $('inspector').scrollTop=0};
  // Selection state must change synchronously: CSS animates the inspector afterwards.
@@ -127,6 +131,7 @@ $('approveClaim')?.addEventListener('change',e=>{});
 document.addEventListener('change',e=>{if(e.target.id==='approveClaim'){if(e.target.checked)state.approved.add(state.selected);else{state.approved.delete(state.selected);state.draft=null}renderDetail()}});
 document.querySelectorAll('.side-dialog').forEach(dialog=>dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close()}));
 document.addEventListener('keydown',e=>{if(e.key==='/'&&!e.altKey&&!e.ctrlKey&&!e.metaKey&&!['INPUT','TEXTAREA'].includes(document.activeElement?.tagName)){e.preventDefault();$('roleSearch').focus()}if(e.key==='Escape'&&document.body.classList.contains('detail-open')&&!document.querySelector('dialog[open]'))document.body.classList.remove('detail-open')});
+window.addEventListener('rolehint:reset-sample',()=>{state.selected='atlas';state.saved.clear();state.passed.clear();render()});
 window.addEventListener('rolehint:profile-ready',()=>{try{const p=JSON.parse(localStorage.getItem('rolehint_onboarding_v1')||'null');if(p){state.remoteOnly=p.remote==='remote';$('remoteOnly').checked=state.remoteOnly;state.filter='action';render();notify('Search setup saved locally · sample roles only')}}catch(e){notify('Could not load saved preferences')}});
 $('remoteOnly').checked=state.remoteOnly;
 render();
