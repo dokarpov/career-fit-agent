@@ -1,0 +1,18 @@
+{
+  "name": "RoleHint — Better job decisions",
+  "short_name": "RoleHint",
+  "description": "Know which jobs are worth your time.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f5f2",
+  "theme_color": "#332747",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
