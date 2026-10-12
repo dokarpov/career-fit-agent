@@ -50,9 +50,35 @@ for(const vp of viewports){
 
   if(state.scrollWidth>state.viewport+2) throw new Error(vp.name+': horizontal overflow');
   if(!state.loadingHidden || state.homeHidden) throw new Error(vp.name+': app did not render from API fixture');
-  if(!state.headline?.includes('searching')) throw new Error(vp.name+': empty-state headline incorrect');
+  if(!state.headline?.includes('Your search')) throw new Error(vp.name+': empty-state headline incorrect');
   if(state.metrics<3) throw new Error(vp.name+': metrics surface missing');
   if(errors.length) throw new Error(vp.name+': '+errors.join(' | '));
+  // Frequency-first navigation keeps daily work uncluttered.
+  await page.locator('[data-space-tab="explore"]').click();
+  if(await page.locator('#home').getAttribute('data-space')!=='explore')throw new Error(vp.name+': Explore does not open');
+  await page.locator('[data-space-tab="progress"]').click();
+  if(await page.locator('#home').getAttribute('data-space')!=='progress')throw new Error(vp.name+': Progress does not open');
+  await page.locator('[data-space-tab="today"]').click();
+
+  // Public website and deep-linked interactive workspace must work without an account.
+  await page.goto(base+'/site/',{waitUntil:'domcontentloaded'});
+  await page.locator('.hero h1').waitFor();
+  if(!await page.locator('a[href="./workspace.html"]').count())throw new Error(vp.name+': site missing demo link');
+  await page.goto(base+'/site/workspace.html?view=explore',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(()=>document.querySelector('#crumb')?.textContent==='EXPLORE');
+  await page.locator('[data-role="product"]').first().click();
+  if(!await page.locator('#roleDialog').evaluate(el=>el.open))throw new Error(vp.name+': role detail did not open');
+  await page.locator('[data-pack]').click();
+  await page.locator('#approveClaim').check();
+  if(!await page.locator('#recruiterNote').textContent().then(t=>t.includes('documented case study')))throw new Error(vp.name+': approved proof not in preview');
+  await page.locator('[data-close]').first().click();
+  await page.locator('[data-view="setup"]').click();
+  await page.locator('#remoteOnly').uncheck();
+  await page.locator('[data-view="explore"]').click();
+  await page.locator('[data-role="hybrid"]').first().click();
+  if(await page.locator('#roleDialog .callout').count())throw new Error(vp.name+': remote preference toggle did not update eligibility');
+  await page.locator('[data-close]').first().click();
+  if(errors.length)throw new Error(vp.name+': site/demo '+errors.join(' | '));
   console.log('PASS',vp.name);
   await context.close();
 }
