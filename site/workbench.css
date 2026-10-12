@@ -53,3 +53,15 @@
  .text-input.job-description{min-height:190px}
  .text-input.experience-notes{min-height:120px}
 }
+
+/* The decision's structure becomes clear before the next page of content appears. */
+@view-transition{navigation:auto}
+.stage:not([hidden]){view-transition-name:rolehint-step}
+::view-transition-old(rolehint-step){animation:rh-stage-out .22s cubic-bezier(.35,0,.6,1) both}
+::view-transition-new(rolehint-step){animation:rh-stage-in .4s cubic-bezier(.14,.75,.24,1) both}
+@keyframes rh-stage-out{to{opacity:0;transform:translateY(-12px);filter:blur(2px)}}
+@keyframes rh-stage-in{from{opacity:0;transform:translateY(14px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@media(prefers-reduced-motion:reduce){
+ .stage:not([hidden]){view-transition-name:none}
+ ::view-transition-old(rolehint-step),::view-transition-new(rolehint-step){animation:none!important}
+}
