@@ -25,7 +25,7 @@ RoleHint helps candidates screen vacancies against work constraints and review w
 - "Supported" = *sample* proof attached; never a verified user claim.
 - "To confirm" = unresolved question with a source/context.
 - "Missing" = no proof in the sample, not a judgment of the user.
-- Save/pass/draft actions are local **demo state**. Preparing a draft does not submit an application.
+- Save/pass decisions and the last selected sample role persist in browser localStorage under `rolehint_sample_decisions_v1`. Drafting an application does not send it. The Preferences action deletes locally saved CV/search settings under `rolehint_onboarding_v1`; sample decision state is separate.
 - Browser-local CV text is **sensitive**. Explain localStorage and provide a clearing action before production user trials.
 - Every enabled control must perform an action or be removed.
 
