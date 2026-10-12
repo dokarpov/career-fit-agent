@@ -1,0 +1,25 @@
+/* RoleHint UX Release: predictable onboarding and readable mobile inspection.
+   Removes decorative pseudo-document art; leaves real controls and status. */
+.rh-onboarding{background:#f8f7fa!important;overflow:auto!important;overscroll-behavior:contain}
+.rh-onboarding .ob-shell{max-width:1040px;padding-bottom:36px}
+.rh-onboarding .ob-step{grid-template-columns:minmax(0,1fr)!important;max-width:680px;margin:0 auto;padding:clamp(20px,4vw,44px) 0!important;gap:15px}
+.rh-onboarding .ob-scene{display:none!important}
+.rh-onboarding h1{font-size:clamp(39px,6.5vw,66px)!important;line-height:1.06!important;letter-spacing:-.07em!important}
+.rh-onboarding .ob-overline{font-size:12px!important}
+.rh-onboarding .ob-step p{font-size:clamp(15px,2vw,18px);line-height:1.7}
+.rh-onboarding .ob-upload{padding:22px!important;margin-top:18px!important;gap:17px!important;background:#fff!important;border:1px solid #ded9e7!important;border-radius:12px!important;box-shadow:0 12px 38px #34233a0b}
+.rh-onboarding .ob-upload strong{font-size:18px}
+.rh-onboarding .ob-button{min-height:48px!important;font-size:15px!important}
+.rh-onboarding .ob-button.secondary{border:1px solid #ddd4e6}
+.rh-onboarding .ob-fields{max-width:100%!important;box-shadow:0 13px 42px #392d4b10!important}
+.rh-onboarding label{font-size:15px!important;margin-top:16px!important}
+.rh-onboarding input:not([type=file]),.rh-onboarding textarea,.rh-onboarding select{font-size:16px!important;min-height:48px!important}
+.rh-onboarding .ob-found{font-size:15px!important}
+.rh-onboarding .ob-status{font-size:14px!important}
+.rh-onboarding .ob-skip{display:block;min-height:44px;padding:11px 0;border:0;background:transparent;color:#5945a8;font-size:15px;font-weight:800;text-decoration:underline;text-underline-offset:4px;cursor:pointer;text-align:left}
+.rh-onboarding .ob-foot{font-size:12px;flex-wrap:wrap}
+.rh-first-guide{position:fixed;z-index:80;bottom:max(16px,env(safe-area-inset-bottom));right:18px;width:min(390px,calc(100vw - 36px));padding:22px;border-radius:15px;background:#292431;color:#f9f6ff;box-shadow:0 21px 70px #18131b55}
+.rh-first-guide[hidden]{display:none!important}.rh-first-guide>small{display:block;color:#d0bfef;font-size:11px;letter-spacing:.09em;font-weight:850}.rh-first-guide h2{font-size:24px;line-height:1.13;letter-spacing:-.05em;margin:10px 0}.rh-first-guide p{font-size:14px;line-height:1.55;color:#e3daed}.rh-first-guide button{min-height:44px;padding:10px 15px;border:0;border-radius:8px;background:#c5b3f0;color:#251b30;font-weight:800;cursor:pointer}
+.rh-first-guide button+button{margin-left:8px;background:transparent;color:#e0d2fb}
+@media(max-width:760px){.rh-onboarding .ob-shell{padding:18px 20px 45px!important}.rh-onboarding .ob-step{padding:19px 0!important}.rh-onboarding h1{font-size:clamp(36px,10vw,48px)!important}.rh-first-guide{left:12px;right:12px;bottom:max(10px,env(safe-area-inset-bottom));width:auto}.rh-first-guide h2{font-size:21px}.rh-onboarding .ob-upload{display:block}.rh-onboarding .ob-upload .ob-button{margin-top:13px;width:100%}}
+@media(prefers-reduced-motion:reduce){.rh-first-guide{scroll-behavior:auto}}
