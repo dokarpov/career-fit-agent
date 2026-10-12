@@ -12,21 +12,21 @@ html:`<div class="screen-context"><span>01 / ELIGIBILITY</span><span>CHECK FIRST
 <div class="screen-check"><span class="check-orb">✓</span><span>Remote in Europe</span><strong>ELIGIBLE</strong></div>
 <div class="screen-check excluded"><span class="check-orb">×</span><span>Hybrid in Berlin</span><strong>EXCLUDED</strong></div>
 <div class="screen-foot">Hard constraints before a match score. <span>↗</span></div>`},
-{id:'prove',index:'02',label:'02 — Evidence',title:'Then, check<br>the proof.',body:'See what your experience supports—and what still needs confirming.',
-html:`<div class="screen-context"><span>02 / EVIDENCE</span><span>REVIEW</span></div>
-<h4 class="screen-role">What can<br>you prove?</h4>
-<p class="proof-preview-intro">Sample evidence mapped to the role’s requirements.</p>
-<div class="proof-preview-row"><span class="proof-preview-tag use">USE</span><strong>Product discovery leadership</strong><small>Documented work</small></div>
-<div class="proof-preview-row"><span class="proof-preview-tag check">CHECK</span><strong>Revenue ownership</strong><small>Confirm scope</small></div>
-<div class="proof-preview-row"><span class="proof-preview-tag gap">GAP</span><strong>Specialist domain experience</strong><small>No proof yet</small></div>
-<div class="proof-preview-end">No invented achievements. No magic match score.</div>`},
-{id:'move',index:'03',label:'03 — Your decision',title:'Finally, move<br>with confidence.',body:'You control what gets claimed. AI prepares the draft—not the decision.',
-html:`<div class="screen-context"><span>03 / HUMAN REVIEW</span><span>DRAFT ONLY</span></div>
-<h4 class="screen-role">Your move.<br>Your call.</h4>
-<div class="draft-preview"><div class="draft-preview-top"><span>APPLICATION / SAMPLE</span><span>NOT SENT</span></div>
+{id:'prove',index:'02',label:'02 — Your fit',title:'Then, check<br>the fit.',body:'Spot the strengths you can show and the details worth asking about.',
+html:`<div class="screen-context"><span>02 / YOUR FIT</span><span>REVIEW</span></div>
+<h4 class="screen-role">Does it<br>fit you?</h4>
+<p class="proof-preview-intro">Three things to check against your real experience.</p>
+<div class="proof-preview-row"><span class="proof-preview-tag use">FIT</span><strong>Product discovery</strong><small>Potential match</small></div>
+<div class="proof-preview-row"><span class="proof-preview-tag check">ASK</span><strong>Revenue ownership</strong><small>Clarify scope</small></div>
+<div class="proof-preview-row"><span class="proof-preview-tag gap">GAP</span><strong>Sector experience</strong><small>Needs review</small></div>
+<div class="proof-preview-end">See what's clear, and what's still unknown.</div>`},
+{id:'move',index:'03',label:'03 — Your decision',title:'Finally, move<br>with confidence.',body:'You choose whether to review, verify first or skip. No automatic applications.',
+html:`<div class="screen-context"><span>03 / NEXT STEP</span><span>YOU DECIDE</span></div>
+<h4 class="screen-role">Your move.<br>Your choice.</h4>
+<div class="draft-preview"><div class="draft-preview-top"><span>APPLICATION / EXAMPLE</span><span>NOT SENT</span></div>
 <p>“My documented work includes end-to-end product discovery and cross-functional delivery…”</p>
 <div class="draft-preview-approve"><span>✓</span><span>Claim reviewed by you</span></div></div>
-<div class="screen-foot">A decision, not another auto-apply. <span>↗</span></div>`}
+<div class="screen-foot">Choose your role in the live demo. <span>↗</span></div>`}
 ];
 const sceneRoot=document.getElementById('storyScene'),story=document.getElementById('how');
 const controls=[...document.querySelectorAll('[data-story-stage]')],copyRoot=document.getElementById('storyCopy');
@@ -197,4 +197,20 @@ if(!reduce&&!coarse){
  }
 }
 
+
+/* The stage monitor looks interactive, so clicking it actually advances the story. */
+const monitor=document.querySelector('.story-monitor');
+if(monitor){
+ monitor.tabIndex=0;
+ monitor.setAttribute('role','button');
+ monitor.setAttribute('aria-label','Show the next step in the RoleHint walkthrough');
+ const next=()=>{
+   if(sceneIndex===scenes.length-1){location.href='./workspace.html';return;}
+   paintScene(sceneIndex+1);startStageTimer();
+ };
+ monitor.addEventListener('click',e=>{if(e.target.closest('a,button'))return;next()});
+ monitor.addEventListener('keydown',e=>{
+   if(e.key==='Enter'||e.key===' '){e.preventDefault();next()}
+ });
+}
 })();
