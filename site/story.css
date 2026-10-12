@@ -151,3 +151,9 @@
 @media(prefers-reduced-motion:reduce){
  .story-orbit-a,.story-orbit-b,.story-monitor-body.is-entering{animation:none!important}
 }
+
+/* Last-layer component motion overrides (after motion.css). */
+.story-monitor{--hover-x:0px;--hover-y:0px;--hover-rz:0deg;transform:translate3d(var(--hover-x),var(--hover-y),0) rotate(calc(-1.4deg + var(--hover-rz)))}
+.story-monitor:hover{transform:translate3d(var(--hover-x),var(--hover-y),0) rotate(var(--hover-rz))}
+@media(max-width:900px){.story-monitor,.story-monitor:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.story-monitor,.story-monitor:hover{transform:none!important}}
