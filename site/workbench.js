@@ -109,7 +109,15 @@ function readSettings(){
 function makeJobs(){
  // 8 illustrative raw postings; one deliberate duplicate removed.
  let base=mockTemplates.filter(t=>!t.duplicateOf);
- return base.map((job,i)=>({...job,title:state.role==='custom'?state.customTitle:getRole().titles[i],key:state.role+'-'+job.id}));
+ return base.map((job,i)=>({
+  ...job,
+  title:state.role==='custom'?state.customTitle:getRole().titles[i],
+  key:state.role+'-'+job.id,
+  context:(
+    (job.id==='02'?'Sample hiring countries require verification. ':job.id==='03'?'Office attendance is required. ':job.id==='07'?'Original employer source has not been supplied. ':'')+
+    'Example requirements: '+job.keys.map(k=>getRole().skills[k][0].toLowerCase()).join(', ')+'.'
+  )
+}));
 }
 function decide(job){
  let blockers=[],unknowns=[],notes=[],fits=[],unshown=[];
