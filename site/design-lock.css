@@ -1,0 +1,49 @@
+/* ROLEHINT / LOCKED EDITORIAL DESIGN SYSTEM 2026-10-12
+   Applied last to public site. Gray / lilac / silver, not green or pastel pink.
+   Larger editorial typography is a product requirement, not an experiment. */
+:root{
+ --rh-bg:#f6f5f2;--rh-paper:#fffefa;--rh-ink:#202026;--rh-muted:#595663;
+ --rh-accent:#5945a8;--rh-metal-light:#f3f4f6;--rh-metal-mid:#bfc0c9;--rh-metal-deep:#777481;
+ --rh-display:clamp(70px,8.9vw,150px);--rh-h2:clamp(49px,5.8vw,90px);
+ --rh-h3:clamp(29px,3vw,43px);--rh-body:17px;--rh-lead:clamp(19px,1.8vw,24px);
+ --rh-small:15px;--rh-label:13px;
+ --rh-silver:linear-gradient(115deg,#f5f5f7 0%,#b2b3be 17%,#fdfdfe 33%,#bec0ca 54%,#e9e8ee 70%,#92919f 87%,#f6f5fa 100%);
+ --rh-silver-light:radial-gradient(ellipse at 20% 3%,#ffffffd9,transparent 54%),linear-gradient(135deg,#f4f4f7,#c9c8d1 48%,#f0edf4 82%,#babac5);
+}
+body{font-size:var(--rh-body);line-height:1.62}
+.wordmark-group{gap:0}.wordmark{font-size:clamp(25px,2.15vw,32px);font-weight:800;letter-spacing:-.077em}
+.site-nav{font-size:15px}.header-action{font-size:15px}
+.hero{padding-top:72px;padding-bottom:105px}.hero h1{font-size:var(--rh-display);letter-spacing:-.083em;line-height:1.015}.hero-bottom p{font-size:var(--rh-lead)}
+.hero-actions .button,.button{font-size:16px;min-height:54px;padding:14px 23px}
+.kicker-line,.issue,.rh-label{font-size:13px;letter-spacing:.1em}
+.rh-statement{background-image:var(--rh-silver-light);background-color:#e6e5eb}
+.rh-statement h2{font-size:var(--rh-h2)}.rh-statement p{font-size:var(--rh-lead)}
+.rh-showcase-intro h2,.rh-payoff h2,.rh-realism h2,.access-heading h2{font-size:var(--rh-h2)}
+.rh-showcase-intro>p,.rh-realism p,.access-heading>p{font-size:18px}
+.rh-scenario{border:0;box-shadow:0 28px 85px #29232e24}
+.rh-job{background:radial-gradient(ellipse at 0% 0%,#5c576c,#292632 52%,#1b1a23)}
+.rh-job h3{font-size:clamp(44px,4.3vw,67px)}.rh-job p,.rh-snippet{font-size:17px}
+.rh-inspection{background:var(--rh-silver-light)}
+.rh-inspection-top,.rh-action-strip{background-image:var(--rh-silver)}
+.rh-inspection-top{color:#32313a}.rh-inspection-top strong{background:#322c40;color:#fff}
+.rh-finding{background:#fffffff0}.rh-finding b{font-size:18px}.rh-finding p{font-size:15px}.rh-finding small{font-size:12px}
+.rh-action-strip strong{font-size:18px}.rh-action-strip span{color:#3d344b}
+.rh-payoff{background-image:var(--rh-silver-light)}
+.rh-payoff article{border:0;box-shadow:0 12px 40px #34303b0d}
+.rh-payoff h3{font-size:clamp(29px,2.8vw,40px)}.rh-payoff article>p{font-size:16px}
+.rh-mini-output small{font-size:12px}.rh-mini-output b{font-size:16px}.rh-mini-output>span{font-size:13px}.rh-mini-output blockquote{font-size:17px}
+.rh-realism a{font-size:16px}
+.early-access{padding-top:100px;padding-bottom:100px}
+.access-form{background:var(--rh-silver-light);border:0;box-shadow:0 20px 60px #2a253424}
+.access-form label{font-size:15px}.access-form input,.access-form textarea{font-size:16px;min-height:49px;background:#fffefa}
+.access-foot,.access-status,.rh-scenario-note{font-size:13px}
+.last-cta{background-color:#d9d9e0;background-image:var(--rh-silver-light)}.last-cta h2{font-size:clamp(76px,9.5vw,140px)}.last-cta p{font-size:18px}
+@media(max-width:900px){:root{--rh-display:clamp(50px,9.3vw,90px);--rh-h2:clamp(44px,7vw,70px)}.hero{padding-bottom:75px}.rh-showcase-intro h2,.rh-payoff h2,.rh-realism h2,.access-heading h2{font-size:var(--rh-h2)}}
+@media(max-width:600px){:root{--rh-display:clamp(42px,10.4vw,57px);--rh-h2:clamp(38px,9.6vw,54px);--rh-body:16px;--rh-lead:18px;--rh-label:12px}
+ .header-action{font-size:13px}.wordmark{font-size:25px}.hero{padding-top:44px;padding-bottom:62px}
+ .hero h1{font-size:var(--rh-display);letter-spacing:-.065em;line-height:1.07}
+ .hero-bottom p{font-size:18px}.rh-statement h2{font-size:var(--rh-h2)}
+ .rh-job h3{font-size:42px}.rh-finding b{font-size:17px}.rh-finding p{font-size:15px}
+ .rh-payoff h3{font-size:29px}.rh-payoff article>p{font-size:16px}
+ .access-heading h2,.rh-realism h2{font-size:var(--rh-h2)}.last-cta h2{font-size:clamp(48px,11vw,68px)}
+}
