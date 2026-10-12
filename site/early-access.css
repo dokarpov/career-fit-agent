@@ -1,0 +1,10 @@
+/* Simple, responsive, non-demo early access form */
+.early-access{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(30px,7vw,100px);align-items:start;padding-top:110px;padding-bottom:120px}
+.access-heading h2{font-size:clamp(43px,5.4vw,80px);line-height:1.07;letter-spacing:-.075em;margin:25px 0}.access-heading h2 em{font-style:normal;color:#655080}.access-heading>p{font-size:16px;line-height:1.7;color:#6e6874;max-width:460px}
+.access-form{background:#fff;border:1px solid #e3dfe6;padding:clamp(20px,3vw,34px);border-radius:12px;box-shadow:0 18px 60px #372c3e0a}
+.access-form label{font-size:12px;font-weight:750;display:block;margin:0 0 7px}.access-form label:not(:first-child){margin-top:20px}.access-form label span{font-weight:400;color:#79717f}
+.access-form input,.access-form textarea{width:100%;border:1px solid #d8d4dd;border-radius:7px;background:#fdfcfd;padding:12px 13px;color:#25222b;font:inherit;font-size:14px;min-height:45px}.access-form textarea{resize:vertical;min-height:92px}
+.access-form input:focus-visible,.access-form textarea:focus-visible{outline:2px solid #7f66a3;outline-offset:3px}
+.access-form button{margin-top:22px;min-height:48px}.access-foot,.access-status{font-size:11px;line-height:1.6;color:#77717d;margin:14px 0 0}.access-status{color:#635080}
+@media(max-width:780px){.early-access{grid-template-columns:1fr;padding-top:75px;padding-bottom:90px}.access-heading h2{font-size:clamp(42px,8vw,65px)}}
+@media(max-width:470px){.early-access{padding-top:55px;padding-bottom:70px}.access-heading h2{font-size:41px}.access-form button{width:100%}}
