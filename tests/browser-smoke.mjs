@@ -64,8 +64,14 @@ for(const vp of viewports){
   // Public website and deep-linked interactive workspace must work without an account.
   await page.goto(base+'/site/',{waitUntil:'domcontentloaded'});
   await page.locator('.hero h1').waitFor();
+  const siteWidth=await page.evaluate(()=>[document.documentElement.scrollWidth,innerWidth]);
+  if(siteWidth[0]>siteWidth[1]+2)throw new Error(vp.name+': marketing site horizontal overflow '+siteWidth.join('/'));
+  await page.locator('[data-stage="prove"]').click();
+  if(!await page.locator('#stageContent').textContent().then(t=>t.includes('Relevant')||t.includes('relevant')||t.includes('evidence')))throw new Error(vp.name+': proof stage interaction broken');
   if(!await page.locator('a[href="./workspace.html"]').count())throw new Error(vp.name+': site missing demo link');
   await page.goto(base+'/site/workspace.html?view=explore',{waitUntil:'domcontentloaded'});
+  const demoWidth=await page.evaluate(()=>[document.documentElement.scrollWidth,innerWidth]);
+  if(demoWidth[0]>demoWidth[1]+2)throw new Error(vp.name+': workspace horizontal overflow '+demoWidth.join('/'));
   await page.waitForFunction(()=>document.querySelector('#crumb')?.textContent==='EXPLORE');
   await page.locator('[data-role="product"]').first().click();
   if(!await page.locator('#roleDialog').evaluate(el=>el.open))throw new Error(vp.name+': role detail did not open');
@@ -73,7 +79,7 @@ for(const vp of viewports){
   await page.locator('#approveClaim').check();
   if(!await page.locator('#recruiterNote').textContent().then(t=>t.includes('documented case study')))throw new Error(vp.name+': approved proof not in preview');
   await page.locator('[data-close]').first().click();
-  await page.locator('[data-view="setup"]').click();
+  await page.locator('[data-view="setup"]:visible').first().click();
   await page.locator('#remoteOnly').uncheck();
   await page.locator('[data-view="explore"]').click();
   await page.locator('[data-role="hybrid"]').first().click();
