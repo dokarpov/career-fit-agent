@@ -6,9 +6,9 @@
 
 ## Public site
 
-The public RoleHint website is a minimal, editorial landing page explaining the product's proposed value: understanding eligibility, reviewing experience evidence, and deciding where to invest time in a job search.
+The public RoleHint website uses an evidence-led sales narrative: the hidden catch in a seemingly ideal remote job, an illustrative vacancy-versus-decision brief, and three concrete outputs: grounded experience, precise recruiter questions, and an apply/verify/skip next step. Preview data is fictional, not a live analysis or a customer result.
 
-The previous animated abyss, 3D CV sculpture, and CV-upload conversion block were removed from the homepage. The site's main CTA now opens a simple, responsive **early-access form** on the same page. Submitting the form opens an email draft addressed to the project owner; the visitor must send that email. The website itself does **not** collect or store form submissions.
+The new showcase is responsive HTML/CSS with neutral/lilac editorial styling. The previous animated abyss, 3D CV sculpture, and CV-upload conversion block were removed from the homepage. The site's main CTA now opens a simple, responsive **early-access form** on the same page. Submitting the form opens an email draft addressed to the project owner; the visitor must send that email. The website itself does **not** collect or store form submissions.
 
 The experimental interactive workspace and CV-first onboarding remain in source control but are intentionally **not linked from the public marketing website** until the demo is ready. Other experimental checkers and backend components remain separate from the public-site user journey.
 
