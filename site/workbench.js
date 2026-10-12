@@ -205,7 +205,7 @@ $('skillOptions').addEventListener('change',e=>{
  const i=Number(e.target.dataset.skill);if(!Number.isInteger(i))return;
  e.target.checked?state.selected.add(i):state.selected.delete(i);updateFit()
 });
-$('experienceNotes').addEventListener('input',()=>{state.notes=$('experienceNotes').value});
+$('experienceNotes').addEventListener('input',()=>{state.notes=$('experienceNotes').value;updateFit()});
 $('goDecision').addEventListener('click',()=>{makeDecision();showStep(3)});
 document.querySelectorAll('[data-back]').forEach(button=>button.addEventListener('click',()=>showStep(Number(button.dataset.back))));
 function reset(){
