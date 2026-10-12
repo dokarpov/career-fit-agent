@@ -55,3 +55,99 @@
 @media(max-width:480px){.product-story{padding:66px 0 45px}.story-overline{font-size:10px;gap:7px}.story-overline-line{width:20px}.story-intro{margin-bottom:30px}.story-intro h2{font-size:clamp(37px,10vw,49px);letter-spacing:-.071em;line-height:1.06;margin:17px 0 14px}.story-intro>p{font-size:14px;line-height:1.55}.story-experience{gap:15px}.story-narrative{gap:6px}.story-step-label{font-size:10px}.story-copy h3{font-size:clamp(31px,8.6vw,39px);margin:8px 0}.story-copy p{font-size:13px;line-height:1.52}.story-controls{gap:8px;margin-top:13px}.story-progress{gap:8px;padding:8px 0}.story-progress-name{font-size:10px}.story-visual{padding:12px 3px 8px}.story-monitor{border-radius:9px;transform:none;box-shadow:0 20px 48px #742b164c}.story-monitor:hover{transform:none;box-shadow:0 20px 48px #742b164c}.story-monitor-top{height:43px;padding:0 16px}.story-monitor-brand{font-size:15px}.story-monitor-mark{width:19px;height:19px;font-size:14px}.story-monitor-status{font-size:8px}.story-monitor-body{min-height:298px;padding:19px 16px 15px}.story-monitor-bottom{height:35px;padding:0 15px;font-size:8px}.screen-context{font-size:9px}.screen-role{font-size:clamp(29px,8vw,37px);margin:20px 0 8px}.screen-location{font-size:11px;margin-bottom:15px}.screen-check{min-height:47px;margin:6px 0;padding:10px 9px;gap:7px;font-size:11px}.screen-check strong{font-size:9px}.screen-foot{margin-top:11px;font-size:9px}.proof-preview-intro{font-size:11px;margin:10px 0 13px}.proof-preview-row{grid-template-columns:49px 1fr;gap:6px;padding:12px 0}.proof-preview-row small{display:none}.proof-preview-row strong{font-size:11px}.proof-preview-tag{font-size:9px;padding:4px}.proof-preview-end{font-size:10px;margin-top:11px}.draft-preview{padding:14px;margin-top:14px}.draft-preview p{font-size:13px;margin:15px 0}.draft-preview-approve{font-size:10px}.story-endline{flex-direction:column;align-items:flex-start;gap:16px;padding-top:23px}.story-endline>span{font-size:11px}.story-endline>a{font-size:12px}}
 @media(max-width:340px){.story-intro h2{font-size:35px}.story-copy h3{font-size:30px}.story-monitor-body{padding-inline:12px}.screen-check{font-size:10px}.story-overline{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.story-progress.is-active .story-progress-fill{animation:none;transform:scaleX(1)}.story-monitor,.story-monitor:hover{transform:none;transition:none}.story-monitor-body.is-entering{animation:none}}
+
+
+/* Polished orange product narrative: responsive scale, warm evidence palette, coherent scene motion. */
+.product-story{background:#f36b49}
+.story-intro{max-width:930px;margin-bottom:clamp(44px,5vw,76px)}
+.story-overline,.story-step-label{font-size:12px;line-height:1.5;letter-spacing:.035em}
+.story-intro h2{font-size:clamp(50px,7.2vw,102px);letter-spacing:-.075em;line-height:1.08}
+.story-intro>p{font-size:clamp(16px,1.4vw,19px);line-height:1.62;max-width:550px}
+.story-experience{gap:clamp(30px,6vw,105px)}
+.story-copy{min-height:205px}
+.story-copy h3{font-size:clamp(40px,4.45vw,62px);letter-spacing:-.066em;line-height:1.1}
+.story-copy p{font-size:clamp(16px,1.3vw,18px);line-height:1.62;max-width:385px}
+.story-progress{padding:12px 0;gap:11px;touch-action:manipulation}
+.story-progress-name{font-size:13px;font-weight:750;letter-spacing:0;transition:transform .25s cubic-bezier(.16,1,.3,1),color .25s}
+.story-progress:hover .story-progress-name{transform:translateX(4px)}
+.story-progress-track{height:4px;border-radius:3px}
+.story-progress-fill{border-radius:3px}
+.story-monitor{border-radius:14px}
+.story-monitor-top{min-height:61px}
+.story-monitor-brand{font-size:20px;letter-spacing:-.068em}
+.story-monitor-mark{width:25px;height:25px;display:block;transform:none;border:0;border-radius:6px}
+.story-monitor-status{font-size:11px;letter-spacing:.03em;font-weight:750}
+.screen-context{font-size:11px;letter-spacing:.045em}
+.screen-role{font-size:clamp(33px,3.7vw,52px);line-height:1.13}
+.screen-location{font-size:13px}
+.screen-check{font-size:14px;line-height:1.3;border-radius:7px;min-height:56px}
+.screen-check strong{font-size:11px;color:#f8d2c0}
+.screen-check .check-orb{background:#ffd8c4;color:#7b2e19}
+.screen-check.excluded .check-orb{background:#5c5b61;color:#f4d1c6}
+.screen-foot{font-size:12px;line-height:1.45}
+.story-monitor-bottom{font-size:11px;letter-spacing:.045em}
+.proof-preview-intro,.proof-preview-row strong{font-size:13px}
+.proof-preview-row{grid-template-columns:65px minmax(0,1fr) auto;min-height:57px}
+.proof-preview-tag{font-size:11px;border-radius:5px}
+.proof-preview-row small,.proof-preview-end{font-size:11px}
+.proof-preview-tag.use{border-color:#e2c0ae;color:#ffe0d1}
+.proof-preview-tag.check{border-color:#e3ae7a;color:#f5cba8}
+.proof-preview-tag.gap{border-color:#96939b;color:#d9d4d7}
+.draft-preview-top{font-size:11px}
+.draft-preview p{font-size:clamp(14px,1.3vw,17px)}
+.draft-preview-approve{font-size:12px}
+.story-orbit-a{animation:rh-orbit-a 14s ease-in-out infinite alternate}
+.story-orbit-b{animation:rh-orbit-b 17s ease-in-out infinite alternate}
+.story-visual{touch-action:pan-y}
+.story-monitor-body.is-entering{animation:rh-scene-wipe .76s cubic-bezier(.2,.85,.22,1) both}
+@keyframes rh-scene-wipe{
+ from{opacity:.24;transform:translate3d(0,22px,0);clip-path:inset(0 0 52% 0)}
+ to{opacity:1;transform:translate3d(0,0,0);clip-path:inset(0 0 0 0)}
+}
+@keyframes rh-orbit-a{from{transform:rotate(-19deg) scale(.97);opacity:.65}to{transform:rotate(-8deg) scale(1.06);opacity:1}}
+@keyframes rh-orbit-b{from{transform:rotate(7deg) scale(1.03)}to{transform:rotate(-6deg) scale(.98)}}
+@media(max-width:780px){
+ .story-intro h2{font-size:clamp(46px,7.8vw,69px)}
+ .story-copy{min-height:0}
+ .story-copy p{font-size:16px}
+ .story-progress-name{font-size:13px}
+ .story-visual{padding-block:18px}
+}
+@media(max-width:480px){
+ .product-story{padding:71px 0 54px}
+ .story-overline,.story-step-label{font-size:11px;line-height:1.4}
+ .story-intro h2{font-size:clamp(39px,9.8vw,50px);line-height:1.08;letter-spacing:-.064em}
+ .story-intro>p,.story-copy p{font-size:15px;line-height:1.57}
+ .story-copy h3{font-size:clamp(33px,8.3vw,41px);line-height:1.11}
+ .story-progress-name{font-size:12px}
+ .story-monitor-top{height:51px;padding-inline:15px}
+ .story-monitor-status{font-size:10px}
+ .story-monitor-brand{font-size:16px}
+ .story-monitor-mark{width:22px;height:22px}
+ .story-monitor-body{min-height:345px;padding:23px 18px 20px}
+ .story-monitor-bottom{height:40px;font-size:10px}
+ .screen-context{font-size:10px}
+ .screen-role{font-size:clamp(32px,8.8vw,40px);margin:24px 0 8px}
+ .screen-location{font-size:12px}
+ .screen-check{font-size:12px;min-height:52px;gap:9px}
+ .screen-check strong{font-size:10px}
+ .screen-foot{font-size:11px;line-height:1.4}
+ .proof-preview-intro{font-size:12px}
+ .proof-preview-row{grid-template-columns:58px 1fr;gap:10px;padding-block:13px}
+ .proof-preview-row strong{font-size:12px}
+ .proof-preview-tag{font-size:10px}
+ .proof-preview-end{font-size:11px}
+ .draft-preview-top{font-size:10px}
+ .draft-preview p{font-size:14px;line-height:1.6}
+ .draft-preview-approve{font-size:11px}
+ .story-endline>span,.story-endline>a{font-size:12px}
+}
+@media(max-width:340px){
+ .story-monitor-body{padding-inline:13px;min-height:342px}
+ .story-intro h2{font-size:38px}
+ .story-copy h3{font-size:33px}
+ .screen-role{font-size:31px}
+}
+@media(prefers-reduced-motion:reduce){
+ .story-orbit-a,.story-orbit-b,.story-monitor-body.is-entering{animation:none!important}
+}
