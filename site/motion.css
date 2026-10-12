@@ -90,3 +90,8 @@
  .art-proof>p{font-size:13px}
  .art-right>.art-label{font-size:12px}
 }
+
+/* Bright orange action contrast, no unreadable dark-on-dark rows. */
+.art-bottom-link{color:#1f2024!important;font-weight:800}
+.art-bottom-link:hover{color:#fff!important}
+.art-proof summary>span:nth-child(2){color:#fff8f4!important}
