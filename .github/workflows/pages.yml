@@ -26,6 +26,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       # Publish at /career-fit-agent/site/ while keeping the existing root app URL.
       - uses: actions/upload-pages-artifact@v3
         with:
