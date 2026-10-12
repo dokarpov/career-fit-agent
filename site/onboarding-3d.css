@@ -1,0 +1,44 @@
+/* In-place RoleHint onboarding — layered physical object with stable geometry. */
+.rh-onboarding[hidden]{display:none!important}
+.rh-onboarding{position:fixed;inset:0;z-index:110;background:radial-gradient(ellipse at 68% 10%,#ddd6ef,#f6f4f5 55%,#eae8eb);overflow:auto;overscroll-behavior:contain;color:#26232b;font-family:Inter,system-ui,sans-serif}
+.rh-onboarding *{box-sizing:border-box}
+.rh-onboarding .ob-shell{max-width:1130px;margin:auto;min-height:100%;padding:22px 30px 40px;display:flex;flex-direction:column}
+.rh-onboarding .ob-nav{display:flex;justify-content:space-between;align-items:center;gap:14px;font-size:12px;color:#6f6977}
+.rh-onboarding .ob-logo{font-size:23px;color:#292631;font-weight:800;letter-spacing:-.075em}
+.rh-onboarding .ob-logo i{font-style:normal;color:#8065aa}
+.rh-onboarding .ob-progress{display:flex;gap:5px}.rh-onboarding .ob-progress span{width:32px;height:3px;border-radius:3px;background:#cdc8d5}.rh-onboarding .ob-progress span.on{background:#685387}
+.rh-onboarding .ob-step{width:100%;flex:1;display:grid;grid-template-columns:minmax(290px,.95fr) minmax(300px,1.05fr);gap:clamp(25px,6vw,90px);align-items:center;padding:45px 0}
+.rh-onboarding h1{font-size:clamp(41px,5.9vw,75px);letter-spacing:-.075em;line-height:1.04;margin:16px 0 22px;font-weight:780}
+.rh-onboarding h1 em{font-style:normal;color:#8166af}
+.rh-onboarding p{font-size:15px;color:#777080;line-height:1.7;max-width:445px}
+.rh-onboarding .ob-overline{font-size:10px;font-weight:800;color:#796197;letter-spacing:.19em;text-transform:uppercase}
+.rh-onboarding .ob-scene{height:455px;display:grid;place-items:center;position:relative;perspective:1000px;min-width:0;isolation:isolate}
+.rh-onboarding .ob-scene:before{content:"";position:absolute;width:min(95%,480px);height:220px;border-radius:50%;background:radial-gradient(ellipse,#72638e48,transparent 67%);transform:translateY(180px) rotateX(70deg);filter:blur(13px)}
+.rh-onboarding .ob-ring{position:absolute;width:390px;height:390px;border:1px solid #a9a0b447;border-radius:50%;transform:rotateX(67deg) translateY(110px);box-shadow:0 0 55px #fff9}
+.rh-onboarding .ob-ring.two{width:290px;height:290px;opacity:.65}
+.rh-onboarding .ob-object{position:relative;width:min(290px,67vw);height:370px;transform-style:preserve-3d;transform:rotateX(13deg) rotateY(-17deg) rotateZ(6deg);transition:transform .65s cubic-bezier(.2,.8,.2,1);filter:drop-shadow(23px 33px 23px #4a3c6860)}
+.rh-onboarding .ob-scene:hover .ob-object,.rh-onboarding .ob-scene.drag .ob-object{transform:rotateX(2deg) rotateY(4deg) rotateZ(-3deg) translateY(-10px)}
+.rh-onboarding .ob-sheet{position:absolute;inset:0;border-radius:18px;background:linear-gradient(128deg,#fff,#e7e3f0 72%,#bab1cc);border:1px solid #fff;box-shadow:inset -16px -12px 30px #786d932e,8px 13px 4px #70688422;transform:translateZ(22px);overflow:hidden}
+.rh-onboarding .ob-sheet:before{content:"";position:absolute;left:29px;top:36px;width:115px;height:9px;border-radius:8px;background:#8c7eaa91;box-shadow:0 32px #b7aecb,0 53px #cfc8dc,0 74px #d2ccdf,0 116px #b7aecb,0 139px #cbc4d9,0 162px #d9d4e2}
+.rh-onboarding .ob-sheet:after{content:"RH";position:absolute;bottom:33px;right:31px;font-weight:800;font-size:75px;color:#8c7eaa22;letter-spacing:-.1em}
+.rh-onboarding .ob-layer{position:absolute;inset:0;border-radius:18px;background:linear-gradient(155deg,#bcb5cf,#847597);transform:translate3d(9px,13px,-13px);box-shadow:9px 13px 15px #76698a40}
+.rh-onboarding .ob-layer.back{transform:translate3d(18px,23px,-35px);background:#a99fbc}
+.rh-onboarding .ob-orb{position:absolute;right:10%;top:15%;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fff,#d1bfea 36%,#846baf 72%,#4b4269);box-shadow:inset -15px -18px 25px #55446a99,10px 20px 24px #4e41654d;transform:translateZ(87px);transition:transform .5s}
+.rh-onboarding .ob-scene.drag .ob-orb{transform:translateZ(135px) scale(1.12)}
+.rh-onboarding .ob-pick{position:absolute;inset:0;z-index:5;border:0;background:transparent;cursor:pointer;border-radius:20px}
+.rh-onboarding .ob-pick:focus-visible{outline:3px solid #8d73c4}
+.rh-onboarding .ob-upload{border:1px dashed #aba0bb;border-radius:12px;padding:19px;background:#ffffffb8;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-top:30px}
+.rh-onboarding .ob-button{background:#292631;border:0;color:#fff;padding:13px 21px;min-height:46px;border-radius:8px;font-weight:750;cursor:pointer}
+.rh-onboarding .ob-button:hover{background:#675186}
+.rh-onboarding .ob-button.secondary{background:#e7e2ee;color:#4b3b60}
+.rh-onboarding .ob-button:focus-visible,.rh-onboarding input:focus-visible,.rh-onboarding textarea:focus-visible{outline:3px solid #a792cd;outline-offset:2px}
+.rh-onboarding .ob-fields{background:#fffffff0;border:1px solid #ded8e5;border-radius:14px;padding:25px;box-shadow:0 25px 70px #54466718;max-width:480px;width:100%}
+.rh-onboarding label{font-size:12px;font-weight:750;display:block;margin:14px 0 5px}
+.rh-onboarding input:not([type=file]),.rh-onboarding textarea,.rh-onboarding select{display:block;width:100%;border:1px solid #d9d3e1;border-radius:7px;background:#fdfcff;padding:12px;color:#2b2731;font:inherit}
+.rh-onboarding textarea{min-height:145px;resize:vertical}
+.rh-onboarding .ob-found{background:#f1edf8;padding:14px;border-radius:9px;font-size:13px;line-height:1.6;overflow-wrap:anywhere;margin:12px 0 22px}
+.rh-onboarding .ob-status{min-height:20px;color:#795a87;font-size:12px;margin-top:12px}
+.rh-onboarding .ob-foot{display:flex;justify-content:space-between;gap:12px;font-size:11px;color:#817b86;border-top:1px solid #dcd7e1;padding-top:15px}
+.rh-onboarding .ob-steps-hidden{display:none!important}
+@media(max-width:760px){.rh-onboarding .ob-shell{padding:17px 18px 30px}.rh-onboarding .ob-step{grid-template-columns:1fr;gap:15px;padding:32px 0}.rh-onboarding h1{font-size:48px}.rh-onboarding .ob-scene{height:320px;order:-1}.rh-onboarding .ob-object{width:185px;height:236px}.rh-onboarding .ob-ring{width:290px;height:290px}.rh-onboarding .ob-ring.two{width:210px;height:210px}.rh-onboarding .ob-orb{width:85px;height:85px}.rh-onboarding .ob-sheet:before{left:20px;top:27px;transform:scale(.75);transform-origin:top left}.rh-onboarding .ob-sheet:after{font-size:55px}.rh-onboarding .ob-upload{margin-top:17px}.rh-onboarding .ob-foot{margin-top:35px}}
+@media(prefers-reduced-motion:reduce){.rh-onboarding .ob-object,.rh-onboarding .ob-orb{transition:none}}
