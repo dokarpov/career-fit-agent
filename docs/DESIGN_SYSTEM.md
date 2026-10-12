@@ -1,60 +1,39 @@
-# RoleHint — gray/lilac editorial website system
+# RoleHint — locked public-site design system
+Updated 12 October 2026.
 
-Updated October 2026. **Marketing website only**. Do not change `site/workspace.html`, `site/workbench.js`, or `site/workbench.css` when polishing the website.
+## Design identity
+**Graphite × neutral ivory × muted lilac × silver metal.** No green icon, pink UI rebrand, decorative vector shapes, cloud landscapes, or generic small-type SaaS cards.
 
-## Files and order
+Public landing: `site/index.html`. Keep independent experimental demos and backend untouched. The homepage presents a concrete fictional vacancy vs. evidence-based decision brief, then specific benefits and an early-access form.
 
-1. `site/design-system.css`: Manrope typography, reset, core colors and control defaults.
-2. `site/landing.css`: original October 12 editorial composition.
-3. `site/lilac-polish.css`: **final source of truth** for the visual tokens, type scale, responsive rules, layered material surfaces, and interactive 01/03 controls. Loaded last.
-4. `site/texture-grain.svg`: small tile of procedural film grain. It is composited into the lilac and graphite background recipes, never drawn over actual text.
-5. `site/landing.js`: one synchronized three-stage narrative across hero and product workflow.
+## Source of truth
+Styles load in this order:
+1. `site/design-system.css`: foundation and Manrope.
+2. `site/landing.css`: original editorial composition.
+3. `site/lilac-polish.css`: historically agreed graphite/lilac material language.
+4. `site/motion-stability.css`: restrained motion and stable layout.
+5. `site/early-access.css` and `site/product-preview.css`: section layouts.
+6. **`site/design-lock.css` (last): authoritative typography and silver surfaces.**
 
-The selected concept is **gray × lilac × graphite**, not orange, white/silver corporate UI, or lime green. Preserve the original RoleHint SVG mark. Neither the composition nor the product workbench should be replaced without approval.
+Do not silently shrink font sizes, add another font family, or replace the brand palette in individual section CSS files.
 
-## Token foundation
+## Fixed typography
+- Primary display: `clamp(70px,8.9vw,150px)` desktop, `clamp(42px,10.4vw,57px)` small mobile.
+- Section headline: `clamp(49px,5.8vw,90px)` desktop, `clamp(38px,9.6vw,54px)` mobile.
+- Body: 17px desktop / 16px mobile.
+- Leading copy: 19–24px desktop / 18px mobile.
+- Buttons: 16px; navigation: 15px desktop.
+- Labels: 13px desktop / 12px mobile (metadata only).
+- Font: Manrope 400–800.
 
-| Role | Token / value |
-| --- | --- |
-| Warm neutral | `--rh-bg: #F6F5F2` |
-| Primary typography | `--rh-ink: #202026` |
-| Secondary typography | `--rh-muted: #5A5864` |
-| Lilac focal color | `--rh-accent: #5945A8` |
-| Accent hover | `--rh-accent-hover: #473586` |
-| Lilac chapter | `--rh-mist` with `--rh-grain` |
-| Product material | `--rh-velvet` with `--rh-grain` |
-| Product walkthrough | `--rh-iris` with `--rh-grain` |
-| Primary controls | `--rh-button` with `--rh-grain` |
+## Materials
+Use silver surface tokens `--rh-silver` and `--rh-silver-light` for light-catching metallic panels, balanced against graphite. The current implementation uses CSS multi-stop highlights, **not a photographic raster metallic material**. A genuine raster silver texture remains a separate asset task. Do not imply the CSS gradient meets the raster-art requirement.
 
-Gradient recipes use paired radial lights with a directional base. A fine noise tile adds texture, **not a gray border**. Cards and chapters use surface depth/shadows rather than visible outlines; thin rules are reserved for truly tabular content. Keep visible outlines for keyboard focus only.
+## Wordmark
+The on-page logo is now the enlarged typography `rolehint.` without the legacy green star icon. The old favicon asset remains and should not be presented as an approved new brandmark; replace it only after an approved icon asset exists.
 
-## Typography and spacing
+## Rules for product previews
+The public product story should show: a job posting with a hidden condition → source-backed mismatch and unknowns → a specific next action. Any examples are fictional. Keep sales copy readable, no misleading real-time AI claims. No public demo CTA until the demo is approved.
 
-One font family: **Manrope**. Use the shared tokens rather than inserting new, arbitrary breakpoints:
-
-| Token | Value |
-| --- | --- |
-| `--rh-label` | 12px |
-| `--rh-small` | 13px |
-| `--rh-body` | 16px |
-| `--rh-lead` | 18–21px |
-| `--rh-h3` | 27–38px |
-| `--rh-h2` | 39–76px |
-| `--rh-display` | 45–120px on desktop; responsive override on mobile |
-
-Space uses `--rh-1` through `--rh-10` on a 4px-based progression. A consistent 10–16px corner radius is for containers, not decorative borders.
-
-## Motion and UX criteria
-
-One *meaningful* state shared between hero 01/03 and workflow tabs: **Eligibility → Your fit → Next action**.
-
-- The two arrows in the hero are actual, accessible buttons; counters update in both locations.
-- The three workflow tabs update the same hero and product content immediately.
-- Stage change animates only the content being evaluated, with restrained entrance motion. No ambient particles or fake cursor.
-- The sequence can advance automatically while the story is visible, but stops on the final decision. A deliberate click stops auto-advance so it does not fight the user.
-- Swipe changes state on touch screens. Keyboard users can use actual buttons and focusable disclosures. Respect reduced-motion preferences.
-- The sample employer/job is explicitly fictional. CTAs say **Try demo** and open the pre-onboarding workbench; there are no unverified real-time discovery claims.
-
-## Acceptance criteria still requiring actual browser verification
-
-Check widths **320, 375, 390, 768, 1440px** for layout, type contrast, overflow, expanding detail rows and arrows. Check keyboard-only focus and touch swipe. No false claim of production-quality cross-device visual QA until these are run.
+## Acceptance criteria
+Visually review 320, 375, 390, 768, 1024, 1440 widths; no horizontal scrolling, no typography below 16px for core copy, no jumpy animations, stable menus, readable silver-surface contrast. Verify on actual mobile Safari and desktop browser before claiming QA complete.
