@@ -1,131 +1,197 @@
-/* RoleHint interactive example. Fictional companies/jobs; no API calls or user data storage. */
+/* RoleHint browser preflight. Transparent deterministic checks, not a server AI.
+   Everything remains in memory; no API calls, cookies, telemetry, or automatic applications. */
 (()=>{
 'use strict';
-const scenarios={
- product:{title:'Senior Product Manager',company:'Northstar Studio',mode:'remote',region:'eu',salary:90000,skills:['Product discovery and user research','Product strategy and prioritization','Cross-functional product delivery','Revenue or P&L ownership']},
- design:{title:'Senior Product Designer',company:'Mosaic Labs',mode:'remote',region:'global',salary:80000,skills:['User research and interviews','Prototypes and usability testing','Product design systems','Measuring design outcomes']},
- engineering:{title:'Software Engineer',company:'Relay Systems',mode:'hybrid',region:'eu',salary:105000,skills:['Shipping production applications','Code reviews and collaboration','System architecture decisions','Testing and reliability']},
- marketing:{title:'Marketing Lead',company:'Orbit Works',mode:'remote',region:'unknown',salary:null,skills:['Campaign planning and execution','Performance analysis','Managing multiple channels','Budget accountability']},
- custom:{title:'Your target role',company:'Sample Company',mode:'remote',region:'unknown',salary:null,skills:['Relevant responsibilities in this role','Cross-functional collaboration','Projects with measurable results','Leadership or ownership experience']}
-};
 const $=id=>document.getElementById(id);
-const stages=['stepRole','stepEligibility','stepFit','stepDecision'];
-const state={kind:null,title:'',mode:'remote',region:'eu',minimum:0,skills:new Set(),stage:0,checks:[],decision:null};
-const enc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const money=n=>n===null?'Not disclosed':'€'+Number(n).toLocaleString('en-US')+' / year';
-const example=()=>scenarios[state.kind]||scenarios.custom;
-function toast(s){const el=$('toast');el.textContent=s;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2600)}
-function updateSelection(){
- const raw=$('targetRole').value.trim();
- state.title=raw;
- if(!raw){state.kind=null}else if(!document.querySelector('.role-choice[aria-pressed="true"]'))state.kind='custom';
- $('goEligibility').disabled=!raw;
+const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const samples={
+ product:{role:'Product Manager',company:'Northstar Studio',description:'Senior Product Manager — Northstar Studio (fictional employer)\nRemote role based in Europe. Full-time. Salary €90,000–€110,000 per year.\nRequirements:\n• Lead product discovery and customer interviews to identify unmet needs.\n• Define and communicate a product strategy and roadmap.\n• Collaborate with engineering and design teams to ship improvements.\n• Own commercial metrics and revenue targets.\n• Experience in B2B SaaS environments is preferred.'},
+ design:{role:'Product Designer',company:'Mosaic Labs',description:'Senior Product Designer — Mosaic Labs (fictional employer)\nRemote from anywhere. Full-time. Salary €80,000–€100,000 annually.\nRequirements:\n• Lead user research, customer interviews and usability studies.\n• Build interactive prototypes and validate product concepts.\n• Improve and maintain a shared design system.\n• Demonstrate the measurable outcomes of design changes.\n• Partner with product managers and engineering.'},
+ engineering:{role:'Software Engineer',company:'Relay Systems',description:'Software Engineer — Relay Systems (fictional employer)\nHybrid in Berlin; office attendance required three days per week. Salary €95,000–€105,000 per year.\nRequirements:\n• Build and maintain production applications.\n• Collaborate through code review and technical planning.\n• Participate in system architecture decisions.\n• Improve automated testing, monitoring and reliability.'},
+ marketing:{role:'Marketing Lead',company:'Orbit Works',description:'Marketing Lead — Orbit Works (fictional employer)\nRemote position; hiring countries not specified. Compensation not disclosed.\nRequirements:\n• Plan and deliver multichannel marketing campaigns.\n• Analyze channel performance and campaign results.\n• Manage external partners and internal stakeholders.\n• Take responsibility for marketing budgets and reporting.'}
+};
+const state={sample:false,role:'',description:'',sourceUrl:'',region:'eu',workMode:'remote',minSalary:0,checks:[],requirements:[],selected:new Set(),notes:'',decision:null};
+const screens=['stepRole','stepEligibility','stepFit','stepDecision'];
+const common=new Set(('the and with from this that have been will able should must into their your for work years experience role team you are our who has using in of to on at by or an as is a lead build developing developed products tools projects software data design product').split(' '));
+const words=t=>(String(t).toLowerCase().match(/[a-z][a-z0-9+#.-]{2,}/g)||[]).filter(x=>!common.has(x));
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2600)}
+function showStep(n){
+ screens.forEach((id,i)=>$(id).hidden=(i!==n));
+ document.querySelectorAll('[data-progress]').forEach((el,i)=>{el.classList.toggle('is-current',i===n);el.classList.toggle('is-done',i<n);i===n?el.setAttribute('aria-current','step'):el.removeAttribute('aria-current')});
+ window.scrollTo({top:0,behavior:'instant'});
+ let h=$(screens[n]).querySelector('h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}
 }
-function pick(kind){
- state.kind=kind;
- const target={product:'Product Manager',design:'Product Designer',engineering:'Software Engineer',marketing:'Marketing Lead'}[kind]||'';
- $('targetRole').value=target;
- state.title=target;
- state.skills.clear();
- document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.example===kind)));
- $('goEligibility').disabled=false;
+function checkInput(){
+ const title=$('targetRole').value.trim(),description=$('jobDescription').value.trim();
+ $('goEligibility').disabled=title.length<2||description.length<80;
+ $('jobInputHelp').textContent=description.length>0&&description.length<80?
+ 'Add more of the original description (at least 80 characters), or load a sample.':
+ 'No upload or live scraping. The browser checks only the text you provide.';
 }
-function getPreferences(){
- state.title=$('targetRole').value.trim();
- state.mode=document.querySelector('input[name="workMode"]:checked')?.value||'remote';
+function selectRole(name){
+ document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.example===name)));
+ const s=samples[name];if(s){$('targetRole').value=s.role;if(state.sample)loadSample(name,false)}
+ checkInput();
+}
+function loadSample(name,announce=true){
+ const s=samples[name]||samples.product;
+ $('jobDescription').value=s.description;
+ $('jobUrl').value='';
+ state.sample=true;
+ if(!$('targetRole').value.trim()){$('targetRole').value=s.role}
+ document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.example===name)));
+ checkInput();if(announce)toast('Fictional example loaded — edit any field');
+}
+function capture(){
+ state.role=$('targetRole').value.trim();
+ state.description=$('jobDescription').value.trim();
+ state.sourceUrl=$('jobUrl').value.trim();
  state.region=$('targetRegion').value;
- state.minimum=Math.max(0,Math.min(500000,Number($('minSalary').value)||0));
+ state.workMode=document.querySelector('input[name="workMode"]:checked')?.value||'remote';
+ state.minSalary=Math.max(0,Math.min(500000,Number($('minSalary').value)||0));
+ state.selected.clear();state.notes='';
 }
-function buildChecks(){
- const e=example(),checks=[];
- const modeMatch=state.mode==='any'||e.mode==='remote';
- checks.push({kind:modeMatch?'pass':'block',label:'Work setup',detail:(e.mode==='remote'?'Remote':'Hybrid · on-site in Berlin')+(modeMatch?' — matches your preference':' — conflicts with remote only')});
- if(e.region==='unknown')checks.push({kind:'ask',label:'Hiring location',detail:'Eligible hiring countries are not specified'});
- else if(e.region==='eu')checks.push({kind:state.region==='eu'?'pass':'ask',label:'Hiring location',detail:state.region==='eu'?'Europe listed':'Europe listed; confirm the employer can hire where you live'});
- else checks.push({kind:'ask',label:'Hiring location',detail:'Worldwide listed; work authorization still needs confirmation'});
- if(e.salary===null)checks.push({kind:state.minimum?'ask':'pass',label:'Salary',detail:'Not disclosed'+(state.minimum?' — compare against your €'+state.minimum.toLocaleString('en-US')+' minimum':'')});
- else checks.push({kind:state.minimum&&e.salary<state.minimum?'block':'pass',label:'Salary',detail:money(e.salary)+(state.minimum&&e.salary<state.minimum?' — below your minimum':' — sample figure, not a confirmed offer')});
- state.checks=checks;
+/* Detect explicit terms. We do not infer work authorization, company legitimacy, or
+   the absence of an obligation from a missing keyword. */
+function excerpt(text,re){let m=re.exec(text);if(!m)return null;let idx=m.index;let left=Math.max(text.lastIndexOf('\n',idx)+1,text.lastIndexOf('.',idx-1)+1);let right=Math.min(text.length,idx+195);let end=text.indexOf('\n',idx);if(end>=0)right=Math.min(right,end);return text.slice(left,right).trim().replace(/^[-•*]\s*/,'').slice(0,185)}
+function checkSetup(text){
+ const onSite=excerpt(text,/\b(hybrid|on[- ]site|onsite|office attendance|in[- ]office|days (?:a|per) week (?:in|at) (?:the )?office)\b/i);
+ const remote=excerpt(text,/\b(remote|work from anywhere|fully distributed)\b/i);
+ if(state.workMode==='remote'&&onSite)return {label:'Work setup',kind:'block',detail:'Office attendance is mentioned: “'+onSite+'”'};
+ if(onSite)return {label:'Work setup',kind:'pass',detail:'Office attendance is mentioned: “'+onSite+'”'};
+ if(remote)return {label:'Work setup',kind:'pass',detail:'Remote work is mentioned: “'+remote+'”'};
+ return {label:'Work setup',kind:'ask',detail:'Work arrangement not found. Confirm remote/hybrid/on-site expectations.'};
 }
-function renderEligibility(){
- const e=example();
- $('sampleTitle').textContent=state.kind==='custom'?state.title:e.title;
- $('sampleCompany').textContent=e.company+' (fictional) · '+(e.mode==='remote'?'Remote':'Hybrid');
- $('eligibilityChecks').innerHTML=state.checks.map(c=>'<div class="check-row"><span class="check-symbol '+c.kind+'" aria-hidden="true">'+(c.kind==='pass'?'✓':c.kind==='block'?'×':'?')+'</span><div><strong>'+enc(c.label)+'</strong><p>'+enc(c.detail)+'</p></div></div>').join('');
- const blocked=state.checks.some(c=>c.kind==='block'),unclear=state.checks.some(c=>c.kind==='ask');
- $('eligibilityVerdict').className='verdict '+(blocked?'block':unclear?'ask':'pass');
- $('eligibilityVerdict').innerHTML='<strong>'+(blocked?'Outside your preferences':unclear?'A few things to confirm':'Worth reviewing')+'</strong><p>'+(blocked?'One or more hard requirements do not match. You can still explore why.':unclear?'Check the unknown details before applying.':'The listed details fit the example settings. The next check is your experience.')+'</p>';
+function checkRegion(text){
+ const regionLine=excerpt(text,/\b(Europe(?:an)?|EU|EMEA|worldwide|anywhere|global|United States|USA|U\.S\.|US[- ]only|UK[- ]only|based in (?:the )?(?:UK|US|United Kingdom))\b/i);
+ const usOnly=/\b(US[- ]only|United States only|U\.S\. only|only (?:in|from) (?:the )?(?:USA|United States))\b/i.test(text);
+ const ukOnly=/\b(UK[- ]only|United Kingdom only)\b/i.test(text);
+ if(state.region==='eu'&&(usOnly||ukOnly))return {label:'Hiring geography',kind:'block',detail:'Potential restriction for Europe: “'+(regionLine||'Country-restricted hiring')+'”'};
+ if(regionLine)return {label:'Hiring geography',kind:'ask',detail:'Location is mentioned: “'+regionLine+'”. Verify your country and work authorization.'};
+ return {label:'Hiring geography',kind:'ask',detail:'Eligible hiring countries not found. Ask the employer before applying.'};
 }
-function renderFit(){
- const e=example(),parent=$('skillOptions');
- parent.innerHTML=e.skills.map((s,i)=>'<label class="skill-check"><input type="checkbox" data-skill="'+i+'" '+(state.skills.has(i)?'checked':'')+'><span>'+enc(s)+'</span></label>').join('');
+function salaryInfo(text){
+ const line=excerpt(text,/(?:salary|compensation|pay range|pay|annual|annually|per year|€|\bEUR\b|\bUSD\b|\$)/i);
+ if(!line)return null;
+ let currency=/€|\bEUR\b/i.test(line)?'EUR':/\$|\bUSD\b/i.test(line)?'USD':null;
+ if(!currency)return {line,currency:null};
+ const r=currency==='EUR'?/(?:€\s*|\bEUR\s*)(\d[\d,]*(?:\.\d+)?)(\s*[kK])?/g:/(?:\$\s*|\bUSD\s*)(\d[\d,]*(?:\.\d+)?)(\s*[kK])?/g;
+ let vals=[...line.matchAll(r)].map(m=>{let v=Number(m[1].replace(/,/g,''));return m[2]?v*1000:v}).filter(v=>v>=1000&&v<2000000);
+ // Also support €90,000–110,000 and €90k–110k where currency occurs once.
+ const range=line.match(/(?:€|\bEUR\b|\$|\bUSD\b)\s*(\d[\d,.]*\s*k?)\s*(?:-|–|to)\s*(\d[\d,.]*\s*k?)/i);
+ if(range){
+ const parse=x=>{const k=/k/i.test(x);const n=Number(x.replace(/[,\sk]/gi,''));return k?n*1000:n};
+ vals=[parse(range[1]),parse(range[2])].filter(v=>v>=1000&&v<2000000);
+ }
+ return {line,currency,low:Math.min(...vals),high:Math.max(...vals),valid:vals.length>0};
+}
+function checkSalary(text){
+ const inf=salaryInfo(text),min=state.minSalary;
+ if(!inf||!inf.currency||!inf.valid||!Number.isFinite(inf.high))return {label:'Compensation',kind:min?'ask':'pass',detail:'Comparable annual salary not identified'+(min?'; check it against your €'+min.toLocaleString('en-US')+' minimum.':'.')};
+ const note='Stated amount: “'+inf.line+'”';
+ if(inf.currency!=='EUR')return {label:'Compensation',kind:'ask',detail:note+'. Different currency; no conversion or salary comparison is made.'};
+ if(/\b(month|hour|hourly|daily|per day)\b/i.test(inf.line))return {label:'Compensation',kind:'ask',detail:note+'. Pay frequency needs clarification before comparing.'};
+ if(min&&inf.high<min)return {label:'Compensation',kind:'block',detail:note+'. Listed maximum is below your €'+min.toLocaleString('en-US')+' annual minimum.'};
+ if(min&&inf.low<min)return {label:'Compensation',kind:'ask',detail:note+'. Only part of the range meets your €'+min.toLocaleString('en-US')+' minimum.'};
+ return {label:'Compensation',kind:'pass',detail:note+(min?'. Looks above your minimum, subject to employer confirmation.':'. Not verified with the employer.')};
+}
+function extractRequirements(text){
+ const lines=text.split(/\n|(?<=\.)\s+(?=[A-Z])/).map(v=>v.trim().replace(/^[-*•\s]+/,'').replace(/^(requirements?|responsibilities|qualifications?|what you(?:'|’)ll do|we(?:'|’)re looking for):?\s*/i,'')).filter(x=>x.length>=26&&x.length<=350);
+ const candidate=lines.filter(x=>/\b(experience|skills?|manage|lead|collaborat|deliver|build|design|knowledge|proficien|responsib|develop|strategy|research|implement|testing|customer|project|support|architect|analys|metric|ownership|growth|marketing|communication|degree|required|years?)\b/i.test(x));
+ const result=[];for(const x of candidate){let clean=x.replace(/\s+/g,' ').slice(0,180);if(!result.some(y=>y.toLowerCase()===clean.toLowerCase()))result.push(clean);if(result.length>=6)break}
+ if(!result.length){
+ for(const x of lines){if(!/salary|remote|location|hiring|employer|company/i.test(x)){result.push(x.slice(0,180));if(result.length>=4)break}}
+ }
+ return result;
+}
+function analyze(){
+ state.checks=[checkSetup(state.description),checkRegion(state.description),checkSalary(state.description)];
+ state.requirements=extractRequirements(state.description);
+}
+function showEligibility(){
+ const original=state.description.split('\n').map(x=>x.trim()).find(Boolean)||state.role;
+ $('sourceType').textContent=state.sample?'FICTIONAL SAMPLE · EDITABLE':'FROM YOUR PASTED JOB DESCRIPTION';
+ $('sampleTitle').textContent=state.role;
+ $('sampleCompany').textContent=(state.sample?'Example only':original.slice(0,140))+' · Source not verified';
+ $('eligibilityChecks').innerHTML=state.checks.map(c=>'<div class="check-row"><span class="check-symbol '+c.kind+'" aria-hidden="true">'+(c.kind==='block'?'×':c.kind==='ask'?'?':'✓')+'</span><div><strong>'+escape(c.label)+'</strong><p>'+escape(c.detail)+'</p></div></div>').join('');
+ const blocked=state.checks.some(c=>c.kind==='block'),ask=state.checks.some(c=>c.kind==='ask');
+ const title=blocked?'Potential mismatch':ask?'Details worth checking':'No obvious blockers found';
+ $('eligibilityVerdict').className='verdict '+(blocked?'block':ask?'ask':'pass');
+ $('eligibilityVerdict').innerHTML='<strong>'+title+'</strong><p>Based on this text only. We have not verified the employer, vacancy, or your legal eligibility.</p>';
+}
+function showFit(){
+ const req=state.requirements;
+ $('skillOptions').innerHTML=req.length?req.map((line,i)=>
+ '<label class="skill-check"><input type="checkbox" data-skill="'+i+'" '+(state.selected.has(i)?'checked':'')+'><span>'+escape(line)+'</span></label>').join(''):
+ '<p>No clear requirements were detected. Add responsibilities or qualifications to the job description, then retry.</p>';
+ $('experienceNotes').value=state.notes;
  updateFit();
 }
 function updateFit(){
- $('fitFeedback').textContent=state.skills.size?state.skills.size+' experience area'+(state.skills.size!==1?'s':'')+' selected. We will only mention what you selected.':'Nothing selected yet. That is OK: the final decision will flag the fit as unconfirmed.';
+ const selected=state.selected.size;
+ $('fitFeedback').textContent=selected?selected+' of '+state.requirements.length+' requirement'+(state.requirements.length===1?'':'s')+' marked as matching your experience. This is your self-assessment, not verified by RoleHint.':'Nothing selected yet. Choose the requirements you can substantiate; unselected areas remain unknown.';
 }
-function buildDecision(){
- const e=example(),blocked=state.checks.filter(c=>c.kind==='block'),unknown=state.checks.filter(c=>c.kind==='ask');
- let status='review',title='Worth a closer look',message='The basic rules match and you selected relevant experience. Review the real listing before applying.';
- if(blocked.length){status='block';title='Skip — unless your rules change';message='A hard requirement conflicts with the preferences you chose. Applying would probably waste time.';}
- else if(unknown.length){status='ask';title='Verify before applying';message='Some critical job details are missing. Check those before spending time on an application.';}
- else if(!state.skills.size){status='ask';title='Check your fit first';message='The requirements may align, but you have not selected relevant experience yet.';}
- state.decision={status,title,message,role:state.title,selected:[...state.skills].map(i=>e.skills[i]),checks:state.checks};
- $('decisionResult').className='decision-result '+status;
- $('decisionResult').innerHTML='<span class="decision-tag">'+(status==='block'?'SKIP':status==='ask'?'VERIFY':'REVIEW')+'</span><h3>'+enc(title)+'</h3><p>'+enc(message)+'</p>';
- const bullets=[];
- if(blocked.length)bullets.push('Mismatch: '+blocked.map(c=>c.label.toLowerCase()).join(', '));
- if(unknown.length)bullets.push('Confirm: '+unknown.map(c=>c.label.toLowerCase()).join(', '));
- if(state.skills.size)bullets.push('You selected '+state.skills.size+' area'+(state.skills.size>1?'s':'')+' of experience.');
- else bullets.push('Your experience has not been compared with actual role requirements.');
- bullets.push('Use the real employer posting before taking action.');
- $('decisionPoints').innerHTML=bullets.map(t=>'<p class="decision-point"><span aria-hidden="true">•</span>'+enc(t)+'</p>').join('');
+function makeDecision(){
+ state.notes=$('experienceNotes').value.trim().slice(0,1800);
+ const blocks=state.checks.filter(c=>c.kind==='block'),asks=state.checks.filter(c=>c.kind==='ask');
+ let kind='review',title='Potentially worth pursuing',detail='No obvious hard blockers found in the pasted text. Check the official posting and prepare concrete examples.';
+ if(blocks.length){kind='block';title='Likely worth skipping';detail='At least one stated condition conflicts with your preferences. Review it before spending more effort.'}
+ else if(asks.length){kind='ask';title='Verify before applying';detail='The posting leaves important details unclear. Resolve them before investing time in an application.'}
+ else if(!state.selected.size){kind='ask';title='Check your fit first';detail='You have not marked any requirements you can demonstrate. Add real examples before applying.'}
+ state.decision={kind,title,detail};
+ $('decisionResult').className='decision-result '+kind;
+ $('decisionResult').innerHTML='<span class="decision-tag">'+(kind==='block'?'SKIP':kind==='ask'?'VERIFY':'REVIEW')+'</span><h3>'+escape(title)+'</h3><p>'+escape(detail)+'</p>';
+ const points=[];
+ for(const c of blocks)points.push('Mismatch — '+c.label+': '+c.detail);
+ for(const c of asks)points.push('Question to resolve — '+c.label+': '+c.detail);
+ const chosen=[...state.selected].sort().map(i=>state.requirements[i]);
+ if(chosen.length)points.push('You marked '+chosen.length+' specific requirement'+(chosen.length!==1?'s':'')+' as relevant: '+chosen.slice(0,2).join(' / '));
+ else points.push('Your experience has not been substantiated against the requirements.');
+ if(state.notes)points.push('Your note: '+state.notes);
+ points.push('Confirm the vacancy on the employer’s own website before taking action.');
+ $('decisionPoints').innerHTML=points.map(x=>'<p class="decision-point"><span aria-hidden="true">•</span><span>'+escape(x)+'</span></p>').join('');
 }
-function showStep(index){
- state.stage=index;
- stages.forEach((id,i)=>{const el=$(id);el.hidden=i!==index;});
- document.querySelectorAll('[data-progress]').forEach((el,i)=>{
- el.classList.toggle('is-current',i===index);el.classList.toggle('is-done',i<index);
- if(i===index)el.setAttribute('aria-current','step');else el.removeAttribute('aria-current');
- });
- window.scrollTo({top:0,behavior:'instant'});
- const h=$(stages[index]).querySelector('h2'); if(h){h.tabIndex=-1;h.focus({preventScroll:true})}
-}
-document.querySelectorAll('[data-example]').forEach(btn=>btn.addEventListener('click',()=>pick(btn.dataset.example)));
+document.querySelectorAll('[data-example]').forEach(button=>button.addEventListener('click',()=>selectRole(button.dataset.example)));
+$('loadSample').addEventListener('click',()=>{
+ let key=document.querySelector('[data-example][aria-pressed="true"]')?.dataset.example||'product';
+ loadSample(key);
+});
 $('targetRole').addEventListener('input',()=>{
- state.kind='custom';state.skills.clear();
  document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed','false'));
- updateSelection();
+ if(state.sample)state.sample=false;checkInput();
 });
+$('jobDescription').addEventListener('input',()=>{state.sample=false;checkInput()});
 $('goEligibility').addEventListener('click',()=>{
- getPreferences();if(!state.title)return;buildChecks();renderEligibility();showStep(1);
+ checkInput();if($('goEligibility').disabled)return;
+ capture();analyze();showEligibility();showStep(1)
 });
-$('goFit').addEventListener('click',()=>{renderFit();showStep(2)});
+$('goFit').addEventListener('click',()=>{showFit();showStep(2)});
 $('skillOptions').addEventListener('change',e=>{
- const i=Number(e.target.dataset.skill);
- if(!Number.isInteger(i)||!e.target.matches('input[type="checkbox"]'))return;
- if(e.target.checked)state.skills.add(i);else state.skills.delete(i);updateFit();
+ if(!e.target.matches('input[type="checkbox"][data-skill]'))return;
+ const i=Number(e.target.dataset.skill);if(!Number.isInteger(i))return;
+ e.target.checked?state.selected.add(i):state.selected.delete(i);updateFit()
 });
-$('goDecision').addEventListener('click',()=>{buildDecision();showStep(3)});
-document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showStep(Number(b.dataset.back))));
+$('experienceNotes').addEventListener('input',()=>{state.notes=$('experienceNotes').value});
+$('goDecision').addEventListener('click',()=>{makeDecision();showStep(3)});
+document.querySelectorAll('[data-back]').forEach(button=>button.addEventListener('click',()=>showStep(Number(button.dataset.back))));
 function reset(){
- state.kind=null;state.title='';state.minimum=0;state.mode='remote';state.region='eu';state.skills.clear();state.checks=[];state.decision=null;
- $('targetRole').value='';$('minSalary').value='';$('targetRegion').value='eu';
- const remote=document.querySelector('input[name="workMode"][value="remote"]');
- if(remote)remote.checked=true;
+ state.sample=false;state.role='';state.description='';state.sourceUrl='';state.minSalary=0;state.region='eu';state.workMode='remote';state.checks=[];state.requirements=[];state.selected.clear();state.notes='';state.decision=null;
+ for(const id of ['targetRole','jobDescription','jobUrl','minSalary','experienceNotes'])$(id).value='';
+ $('targetRegion').value='eu';document.querySelector('input[name="workMode"][value="remote"]').checked=true;
  document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed','false'));
- $('goEligibility').disabled=true;showStep(0);
+ checkInput();showStep(0)
 }
 $('resetDemo').addEventListener('click',reset);
 $('restartFlow').addEventListener('click',reset);
 $('copySummary').addEventListener('click',async()=>{
- const d=state.decision;if(!d)return;
- const lines=['RoleHint demo — fictional job','Target role: '+d.role,'Decision: '+d.title,d.message,...d.checks.map(c=>c.label+': '+c.detail),
- 'Experience you selected: '+(d.selected.join(', ')||'None selected'), 'Illustrative analysis only. Verify a real listing.'];
- try{await navigator.clipboard.writeText(lines.join('\n'));toast('Summary copied');}catch(e){toast('Clipboard unavailable; try selecting the text manually')}
+ if(!state.decision)return;
+ const lines=['RoleHint browser checklist — not verified or sent','Job: '+state.role,'Source URL: '+(state.sourceUrl||'Not provided'),
+ 'Decision: '+state.decision.title,state.decision.detail,...state.checks.map(c=>c.label+' ['+c.kind+']: '+c.detail),
+ 'Requirements you marked:',...([...state.selected].sort().map(i=>'- '+state.requirements[i])),
+ 'Your examples: '+(state.notes||'Not added'),'Check the official vacancy and confirm all unknowns before applying.'];
+ try{await navigator.clipboard.writeText(lines.join('\n'));toast('Decision notes copied')}catch(e){toast('Clipboard unavailable; use browser copy')}
 });
 const requested=new URLSearchParams(location.search).get('role');
-if(['product','design','engineering','marketing'].includes(requested))pick(requested);
-else updateSelection();
-showStep(0);
+if(requested&&samples[requested]){selectRole(requested);loadSample(requested,false)}
+checkInput();showStep(0);
 })();
