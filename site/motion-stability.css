@@ -1,0 +1,17 @@
+/* RoleHint motion stability: never snap-scroll the document or shift scene containers. */
+html{scroll-snap-type:none!important;scroll-behavior:auto}
+.hero,.manifesto,.product-section,.attention,.proof-section,.last-cta{scroll-snap-align:none!important}
+.art-content{min-height:420px;align-items:stretch}
+#heroDecisionContent{min-height:420px;transform:translateZ(0)}
+.art-left,.art-right{min-height:420px}
+#heroDecisionChecks{min-height:248px}
+.stage-content{min-height:440px;contain:layout}
+.stage-card{min-height:580px}
+.art-proof[open] p{animation:rh-detail .22s ease-out both}
+@keyframes rh-detail{from{opacity:.25;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+#heroDecisionContent.rh-switched,.stage-content.rh-switched{animation:rh-quiet-enter .38s cubic-bezier(.2,.72,.3,1) both!important}
+@keyframes rh-quiet-enter{from{opacity:.4;transform:translate3d(0,8px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@media(min-width:781px){.art-content{grid-template-columns:minmax(0,1.12fr) minmax(0,1fr)}}
+@media(max-width:900px){.art-content,#heroDecisionContent{min-height:0}.art-left{min-height:250px}.art-right{min-height:345px}#heroDecisionChecks{min-height:225px}.stage-content{min-height:430px}}
+@media(max-width:470px){.art-left{min-height:230px}.art-right{min-height:315px}#heroDecisionChecks{min-height:200px}.stage-content{min-height:385px}.stage-card{min-height:510px}}
+@media(prefers-reduced-motion:reduce){.rh-reveal,.rh-reveal:not(.rh-visible){opacity:1!important;transform:none!important;filter:none!important;transition:none!important}#heroDecisionContent.rh-switched,.stage-content.rh-switched,.art-proof[open] p{animation:none!important}}
