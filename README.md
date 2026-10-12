@@ -2,22 +2,19 @@
 
 **Less searching. Better deciding.**
 
-RoleHint is an evidence-first job-search workspace: it filters hard eligibility constraints, explains which experience supports each role, and helps you decide where to spend effort.
+An evidence-first career workspace that filters ineligible roles, maps requirements to actual experience, and helps you decide what to pursue.
 
-[**Explore the website ↗**](https://dokarpov.github.io/rolehint/site/) · [Interactive demo ↗](https://dokarpov.github.io/rolehint/site/workspace.html)
+[**Website ↗**](https://dokarpov.github.io/rolehint/site/) · [**Try the workbench ↗**](https://dokarpov.github.io/rolehint/site/workspace.html)
 
-**Review queue** — the next decision.  
-**All roles** — explore the wider shortlist.  
-**Results** — learn from actual responses.  
-**Preferences** — change rules when needed.
+**In the demo:** choose a role → inspect eligibility and evidence → approve a supported claim → prepare a sample draft, save, or pass. No real applications are sent.
 
-### Run locally
+**Real connected app:** requires a running RoleHint backend. GitHub Pages hosts the website and sample workbench only.
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-[Technical setup](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md) · [Source](https://github.com/dokarpov/rolehint)
+[Setup](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md)
 
-*Working prototype (v1.9.0). Demo roles and results are fictional. Outward claims and submissions remain human-controlled; no hiring uplift or product-market fit is claimed.*
+*Prototype · v1.9.0. All public example roles and results are fictional. No hiring uplift or product-market fit is claimed.*
