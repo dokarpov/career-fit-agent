@@ -158,3 +158,12 @@ It does **not** prove PMF, paid traction, statistically calibrated hiring probab
 ---
 
 Built by **Daria Karpova** · Product Systems & AI · 0→1 · [dokarpov](https://github.com/dokarpov)
+
+
+## Design v2 review: interface + public website
+
+The v2 interface redesign is a **progressive presentation layer**: `ux-v2.{css,js}` for the root preview and `telegram_miniapp/ux-v2.{css,js}` for the Telegram app. It preserves the existing endpoints, onboarding, fit decision logic, evidence authorization and final submission boundary.
+
+The public product website lives in [`site/`](site/README.md). Open `site/index.html` through a local static server; the interactive demo uses explicitly illustrative data and is not a live vacancy search. Machine-readable product facts and prototype limitations are documented in [`site/llms.txt`](site/llms.txt).
+
+See [`docs/product/UX_V2_SITE_SPEC.md`](docs/product/UX_V2_SITE_SPEC.md) for scenario taxonomy, implementation notes and acceptance criteria. Deploy the website independently after review; GitHub repository publication does not itself establish a working GitHub Pages URL.
