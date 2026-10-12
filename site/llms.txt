@@ -18,14 +18,18 @@
 5. Prepare human-reviewed packs and allow the person to approve outward claims.
 6. Track observed outcomes and inform search allocation.
 
-## Four different usage frequencies
-- Today (daily): next best decision, priority roles, blockers.
-- Explore (occasionally): broad shortlist and detailed requirement-to-evidence review.
-- Progress (weekly): observed effort and responses; estimates separately labeled.
-- Setup (rarely): consent, search preferences, pace and eligible sources.
+## Public browser demo
+1. Choose a target job title or a role example.
+2. Paste a job description or load a clearly labeled fictional listing.
+3. Enter hard preferences for remote/hybrid, geography and minimum euro salary.
+4. Review explicit wording found for work setup, hiring geography and salary.
+5. Review quoted requirements and select only those the visitor can substantiate.
+6. Copy a Review / Verify / Skip decision note and questions to ask the employer.
+
+All public checks are transparent client-side text heuristics. The public demo **does not** call an AI model, fetch job URLs, confirm job authenticity, check work authorization or save user-submitted text. The richer application/backend is not connected to this GitHub Pages demo.
 
 ## Product truth and limits
-- Website demo roles, employers and outcome numbers are invented samples.
+- The website includes fictional samples, and visitors may paste their own descriptions; originals are not authenticated.
 - The demo does not request data connections or submit applications.
 - No guaranteed job, interview or hiring outcome.
 - The product is not an indiscriminate auto-apply bot or generic résumé writer.
