@@ -1,14 +1,14 @@
 # RoleHint — technical overview (v1.9.0)
 
-[![test](https://github.com/dokarpov/career-fit-agent/actions/workflows/test.yml/badge.svg)](https://github.com/dokarpov/career-fit-agent/actions/workflows/test.yml)
+[![test](https://github.com/dokarpov/rolehint/actions/workflows/test.yml/badge.svg)](https://github.com/dokarpov/rolehint/actions/workflows/test.yml)
 
 **Evidence-first job-search orchestration for experienced professionals.**
 
 ## Experience the product
 
-- [Product website](https://dokarpov.github.io/career-fit-agent/) — plain-language value proposition, limitations and real workflow explanation
-- [Interactive prototype](https://dokarpov.github.io/career-fit-agent/workspace.html) — daily decisions, wider search, weekly progress and occasional setup (sample data only)
-- [Agent-readable facts](https://dokarpov.github.io/career-fit-agent/product.json) · [llms.txt](https://dokarpov.github.io/career-fit-agent/llms.txt)
+- [Product website](https://dokarpov.github.io/rolehint/site/) — plain-language value proposition, limitations and real workflow explanation
+- [Interactive prototype](https://dokarpov.github.io/rolehint/site/workspace.html) — daily decisions, wider search, weekly progress and occasional setup (sample data only)
+- [Agent-readable facts](https://dokarpov.github.io/rolehint/site/product.json) · [llms.txt](https://dokarpov.github.io/rolehint/site/llms.txt)
 - The **Telegram mini-app** remains a separate live-data interface in `telegram_miniapp/`, with progressive `ux-v2.js` / `ux-v2.css` navigation and the existing backend actions.
 
 The public demo intentionally uses fictional roles and illustrative response data. It does not log in, send applications, approve real claims or measure hiring improvements.
