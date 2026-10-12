@@ -1,11 +1,6 @@
-name: Publish Career Fit website
+name: Publish RoleHint website (manual Pages source)
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'site/**'
-      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
