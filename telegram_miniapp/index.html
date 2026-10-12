@@ -22,7 +22,7 @@ body.pipelineMode{max-width:none;margin:0;padding:0;background:#eeeae1;color:#20
 </style><link rel="stylesheet" href="./ux-v2.css"></head><body>
 <div id="loading" class="loading">Starting Autopilot…</div>
 <main id="pipeline" class="hidden">
- <div class="top pipelineTop"><div><div class="eyebrow">Daria Karpova / search desk</div><h1>Активные<br>процессы.</h1><div class="sub" id="pipelineFreshness">Загрузка…</div></div><div class="pipelineHeroCount" id="pipelineHeroCount"></div><button class="ghostBtn" id="pipelineRefresh">Обновить ↗</button></div>
+ <div class="top pipelineTop"><div><div class="eyebrow">Career Fit / search desk</div><h1>Open<br>processes.</h1><div class="sub" id="pipelineFreshness">Загрузка…</div></div><div class="pipelineHeroCount" id="pipelineHeroCount"></div><button class="ghostBtn" id="pipelineRefresh">Обновить ↗</button></div>
  <div class="pipelineTabs" id="pipelineTabs"></div><div class="pipelineList" id="pipelineList"></div>
 </main>
 <main id="onboarding" class="hidden">
@@ -132,8 +132,8 @@ async function savePack(){state.pack=await api(`/me/jobs/${state.job}/pack`,{met
 async function exportPack(format){await savePack();const x=await api(`/me/jobs/${state.job}/pack/export`,{method:'POST',body:JSON.stringify({format})});if(tg?.downloadFile)tg.downloadFile({url:x.url,file_name:x.file_name});else window.open(x.url,'_blank')}
 document.querySelectorAll('[data-export]').forEach(b=>b.onclick=()=>exportPack(b.dataset.export).catch(e=>tg?.showAlert?.(e.message)));tg?.BackButton?.onClick(()=>{if(state.view==='onboarding'&&state.onboarding.step>1)setOnboardStep(state.onboarding.step-1);else view('home')});$('analyticsBtn').onclick=()=>view('analytics');$('upgradeBtn').onclick=()=>tg?.showAlert?.('Use /upgrade in the Career Fit bot.');
 let pipelineData=null,pipelineFilter='do';
-const pipelineLabels={do:'Сделать',verify:'Проверить',waiting:'Ждём',monitor:'Мониторим',all:'Все'};
-function pipelineDate(s){return s?new Date(s.slice(0,10)+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short',year:'numeric'}):''}
+const pipelineLabels={do:'To do',verify:'Verify',waiting:'Waiting',monitor:'Monitoring',all:'All'};
+function pipelineDate(s){return s?new Date(s.slice(0,10)+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):''}
 function pipelineCard(r,index){
  const status=!r.role_known?'Вакансия не подтверждена':r.sent?'Отклик отправлен':'Отправка не подтверждена';
  const due=r.due?pipelineDate(r.due):'Не назначен';
@@ -145,16 +145,16 @@ function pipelineCard(r,index){
 }
 function renderPipeline(){
  if(!pipelineData)return;const d=pipelineData;view('pipeline');document.body.classList.add('pipelineMode');$('loading').classList.add('hidden');
- const fileDate=new Date(d.updated_at).toLocaleString('ru-RU',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+ const fileDate=new Date(d.updated_at).toLocaleString('en-GB',{day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
  $('pipelineFreshness').textContent=`Книга обновлена ${fileDate} · Только чтение · ${d.total} незакрытых процессов`;
- $('pipelineHeroCount').innerHTML=`<b>${d.counts.do||0}</b><span>записей в группе<br>«Сделать»</span>`;
+ $('pipelineHeroCount').innerHTML=`<b>${d.counts.do||0}</b><span>items awaiting<br>your action</span>`;
  $('pipelineTabs').innerHTML=Object.entries(pipelineLabels).map(([key,label])=>`<button class="pipelineTab ${pipelineFilter===key?'active':''}" data-lane="${key}">${label} <b>${key==='all'?d.total:(d.counts[key]||0)}</b></button>`).join('');
  document.querySelectorAll('[data-lane]').forEach(b=>b.onclick=()=>{pipelineFilter=b.dataset.lane;renderPipeline()});
  const rows=pipelineFilter==='all'?d.records:d.records.filter(r=>r.lane===pipelineFilter);
  $('pipelineList').innerHTML=rows.map(pipelineCard).join('')||'<div class="pipelineEmpty">В этой группе нет записей.</div>';
  document.querySelectorAll('.pipelineFolder').forEach(b=>b.onclick=async()=>{await navigator.clipboard.writeText(b.dataset.folder);b.textContent='Путь скопирован'});
 }
-async function loadPipeline(){try{pipelineData=await api('/me/pipeline-view');renderPipeline()}catch(e){$('loading').classList.remove('hidden');$('loading').textContent='Не удалось прочитать канонический pipeline: '+e.message}}
+async function loadPipeline(){try{pipelineData=await api('/me/pipeline-view');renderPipeline()}catch(e){$('loading').classList.remove('hidden');$('loading').textContent='Could not load the pipeline: '+e.message}}
 $('pipelineRefresh').onclick=loadPipeline;
 async function load(){if(new URLSearchParams(location.search).has('pipeline')){await loadPipeline();return}try{render(await api('/me/bootstrap'))}catch(e){$('loading').textContent='Could not start Career Fit: '+e.message}}load();
 </script><script src="./ux-v2.js"></script></body></html>
