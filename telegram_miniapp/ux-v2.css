@@ -45,3 +45,6 @@ body.pipelineMode .cf-appbar,body.pipelineMode .cf-nav{display:none!important}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 /* Keep navigation available on home and detailed views, but never on onboarding/pipeline/loading. */
 body:has(#loading:not(.hidden)) .cf-nav,body:has(#onboarding:not(.hidden)) .cf-nav,body:has(#pipeline:not(.hidden)) .cf-nav{display:none!important}
+
+/* Nav visibility follows the actual visible app surface; guard against stale loader/secondary-view classes. */
+body:has(#home:not(.hidden)):not(.pipelineMode) > .cf-nav:not([hidden]){display:grid!important}
