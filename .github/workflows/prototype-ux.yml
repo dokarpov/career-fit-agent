@@ -6,6 +6,9 @@ on:
     paths:
       - 'site/workspace.html'
       - 'site/onboarding-inline.js'
+      - 'site/workbench.js'
+      - 'site/workbench.css'
+      - 'site/onboarding-3d.css'
       - 'site/ux-flow.*'
       - 'site/qa-workspace.mjs'
       - '.github/workflows/prototype-ux.yml'
