@@ -30,7 +30,7 @@
  const tabs=[...document.querySelectorAll('[data-stage]')];
  const heroPrev=$('#decisionPrev'),heroNext=$('#decisionNext'),heroCounter=$('#decisionCounter');
  const heroLabel=$('#heroDecisionLabel'),heroVerdict=$('#heroDecisionVerdict'),heroRight=$('#heroDecisionCheckLabel'),heroChecks=$('#heroDecisionChecks'),heroContent=$('#heroDecisionContent');
- const stageSlot=$('#stageContent'),stageCounter=$('.feature-number');
+ const stageSlot=$('#stageContent'),stageCounter=$('.feature-number'),stageTopCounter=$('#stageTopCounter');
  const hero=$('.hero'),workflow=$('#how');
  let current=0,timer=null,viewable=false,touched=false;
  function stepMarkup(scene){
@@ -52,6 +52,7 @@
   const scene=scenes[current];
   tabs.forEach((btn,i)=>{btn.setAttribute('aria-pressed',String(i===current));btn.dataset.active=i===current?'true':'false'});
   if(stageCounter)stageCounter.innerHTML=scene.number+'<span>/03</span>';
+  if(stageTopCounter)stageTopCounter.textContent='STEP '+scene.number+' / 03';
   if(stageSlot){stageSlot.innerHTML=stepMarkup(scene);if(!initial)animate(stageSlot)}
   if(heroCounter)heroCounter.textContent=scene.number+' / 03';
   if(heroPrev)heroPrev.disabled=current===0;
