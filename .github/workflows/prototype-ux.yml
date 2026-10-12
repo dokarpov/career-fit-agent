@@ -1,0 +1,26 @@
+name: Prototype UX regression
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'site/workspace.html'
+      - 'site/onboarding-inline.js'
+      - 'site/ux-flow.*'
+      - 'site/qa-workspace.mjs'
+      - '.github/workflows/prototype-ux.yml'
+jobs:
+  onboarding:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Prepare Playwright
+        run: |
+          npm install --no-save playwright@1.58.2
+          npx playwright install --with-deps chromium
+      - name: Check first-session and mobile states
+        run: node site/qa-workspace.mjs
