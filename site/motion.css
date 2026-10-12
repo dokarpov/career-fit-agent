@@ -95,3 +95,9 @@
 .art-bottom-link{color:#1f2024!important;font-weight:800}
 .art-bottom-link:hover{color:#fff!important}
 .art-proof summary>span:nth-child(2){color:#fff8f4!important}
+
+/* The page keeps real explanatory interactions, not an ambient cursor or decorative ticker. */
+.rh-ticker,.rh-cursor,.signal-field{display:none!important}
+.hero-art .art-proof[open]>p{animation:rh-open-meaning .27s cubic-bezier(.16,1,.3,1)}
+@keyframes rh-open-meaning{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.hero-art .art-proof[open]>p{animation:none!important}}
