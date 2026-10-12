@@ -40,7 +40,7 @@ function draw(t){
  // Render an offscreen cloud field, then erase a feathered opening at pointer.
  
  const cl=cloudLayer.getContext('2d');if(cl){
- const scale=cloudLayer.width/w;cl.setTransform(scale,0,0,scale,0,0);cl.clearRect(0,0,w,h);
+ const scale=cloudLayer.width/w;cl.setTransform(scale,0,0,scale,0,0);cl.globalCompositeOperation='source-over';cl.clearRect(0,0,w,h);
  for(const c of clouds){
   const drift=reduce.matches?0:Math.sin(now*c.speed+c.phase)*16;
   const x=c.x+drift*c.depth,y=c.y+Math.cos(now*c.speed+c.phase)*13*c.depth;
