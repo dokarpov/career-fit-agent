@@ -48,9 +48,9 @@ function renderList(){const list=filtered();$('roleList').innerHTML=list.length?
  document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===state.filter)));
 }
 function evidenceItem(e,i){return '<details class="evidence-item" '+(i===0?'open':'')+'><summary><span class="proof-token '+e.type+'">'+proofLabel[e.type]+'</span><span><strong>'+esc(e.name)+'</strong><small>'+esc(e.caption)+'</small></span><span class="chev" aria-hidden="true">+</span></summary><div class="evidence-note">'+esc(e.detail)+'<div class="source">SOURCE / '+esc(e.source)+'</div></div></details>'}
-function band(r){let title='Within sample preferences',note='Location meets the example remote-only preference. This is not an employment-authorisation determination.',kind='ready';
- if(blocked(r)){title='A hard constraint blocks this role';note='Hybrid attendance conflicts with Remote only. The system will not recommend an application.',kind='blocked'}
- else if(requiresVerify(r)){title='Hiring location needs confirmation';note='The role says remote but eligible employment countries are unspecified. Verify this before preparing claims.',kind='review'}
+function band(r){let title='Worth reviewing',note='The sample location fits your preferences. Your experience supports part of the role; review the evidence and remaining gaps before applying.',kind='ready';
+ if(blocked(r)){title='Skip this role';note='Hybrid attendance conflicts with your remote-only rule. A good skills match cannot override a hard requirement.',kind='blocked'}
+ else if(requiresVerify(r)){title='Verify before applying';note='Remote does not necessarily mean the employer can hire in your country. Confirm this before investing more time.',kind='review'}
  return '<div class="eligibility-band '+(kind==='blocked'?'is-blocked':kind==='review'?'is-review':'')+'"><div class="eligibility-copy"><strong>'+esc(title)+'</strong><p>'+esc(note)+'</p></div><span class="status-pill '+kind+'">'+(kind==='ready'?'ELIGIBLE EXAMPLE':kind==='review'?'CHECK FIRST':'BLOCKED')+'</span></div>';
 }
 function draftText(r){const claim=r.evidence.find(e=>e.type==='use');return 'I would welcome the opportunity to discuss the '+r.title+' role. My documented project work includes '+claim.name.toLowerCase()+'. I can share the relevant case study and explain my actual responsibilities.\n\nI would also like to confirm the position’s specific requirements and the areas where my experience may differ.'}
