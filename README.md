@@ -4,7 +4,7 @@
 
 An evidence-first job-search agent. It helps experienced professionals find eligible jobs, understand their fit, and prepare applications without inventing achievements.
 
-[**Website ↗**](https://dokarpov.github.io/career-fit-agent/) · [Interactive demo ↗](https://dokarpov.github.io/career-fit-agent/workspace.html) · [Source code](https://github.com/dokarpov/career-fit-agent)
+**Website & demo:** deployment pending GitHub Pages activation · [Website source](site/) · [Publication instructions](docs/DEPLOY_WEBSITE.md)
 
 ## What it does
 
