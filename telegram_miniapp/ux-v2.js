@@ -10,7 +10,7 @@ function mount(){
  if(mounted||!$('home'))return;mounted=true;
  const home=$('home');
  const brand=document.createElement('div');brand.className='cf-appbar';brand.innerHTML='<a class="cf-wordmark" href="https://github.com/dokarpov/career-fit-agent" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">✳</span> career<span class="cf-light">fit</span></a><span class="cf-status" id="cf-status">Checking search…</span>';document.body.insertBefore(brand,document.body.firstChild);
- const tabs=document.createElement('nav');tabs.className='cf-nav';tabs.setAttribute('aria-label','Search workspace');tabs.innerHTML=[['today','◈','Today'],['explore','⌕','Explore'],['progress','↗','Progress'],['setup','☷','Setup']].map(([id,icon,label])=>'<button type="button" data-cf-tab="'+id+'" aria-pressed="'+(id==='today')+'"><span aria-hidden="true">'+icon+'</span>'+label+'</button>').join('');document.body.append(tabs);
+ const tabs=document.createElement('nav');tabs.className='cf-nav';tabs.setAttribute('aria-label','Search workspace');tabs.innerHTML=[['today','◈','Today'],['explore','⌕','Explore'],['progress','↗','Progress'],['setup','☷','Setup']].map(([id,icon,label])=>'<button type="button" data-cf-tab="'+id+'" aria-pressed="'+(id==='today')+'"><span aria-hidden="true">'+icon+'</span>'+label+'</button>').join('');tabs.hidden=true;document.body.append(tabs);
  const top=home.querySelector(':scope > .top');if(top)top.classList.add('cf-homehead');
  const navNotice=document.createElement('div');navNotice.className='cf-context';navNotice.id='cf-context';if(top)top.after(navNotice);
  const groups={};for(const id of pages){const group=document.createElement('div');group.className='cf-workflow';group.dataset.cfView=id;groups[id]=group;home.append(group)}
@@ -33,7 +33,7 @@ function mount(){
  $('cf-profile').onclick=()=>{if(typeof view==='function')view('profile')};
  $('cf-search').addEventListener('input',applyFilters);
  groups.explore.querySelectorAll('[data-cf-filter]').forEach(b=>b.onclick=()=>{groups.explore.dataset.filter=b.dataset.cfFilter;groups.explore.querySelectorAll('[data-cf-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));applyFilters()});
- document.querySelectorAll('.jobrow').forEach(makeKeyboard);navigate('today',false);
+ document.querySelectorAll('.jobrow').forEach(makeKeyboard);home.dataset.cfActive='today';
 }
 function makeKeyboard(row){if(row.dataset.cfKeyboard)return;row.dataset.cfKeyboard='1';row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-expanded','false');row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();row.click()}});row.addEventListener('click',()=>{document.querySelectorAll('.jobrow').forEach(r=>r.setAttribute('aria-expanded',String(!!r.closest('.job')?.classList.contains('open'))))})}
 function navigate(id,scroll=true){if(!pages.includes(id))id='today';page=id;const home=$('home');if(!home)return;if(typeof view==='function'&&state?.view!=='home')view('home');home.dataset.cfActive=id;document.querySelectorAll('[data-cf-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cfTab===id)));const head=home.querySelector(':scope > .top');if(head)head.hidden=id!=='today';const notice=$('cf-context');if(notice)notice.textContent=id==='today'?'One next step. Nothing else to manage.':'';if(scroll)window.scrollTo({top:0,behavior:'auto'});if(typeof setBottom==='function')setBottom(null);if(id==='explore')applyFilters()}
