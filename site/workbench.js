@@ -18,7 +18,6 @@ function toast(s){const el=$('toast');el.textContent=s;el.classList.add('show');
 function updateSelection(){
  const raw=$('targetRole').value.trim();
  state.title=raw;
- const match=Object.entries(scenarios).find(([key,s])=>key!=='custom'&&s.title.toLowerCase()===raw.toLowerCase().replace(/^senior /,'') );
  if(!raw){state.kind=null}else if(!document.querySelector('.role-choice[aria-pressed="true"]'))state.kind='custom';
  $('goEligibility').disabled=!raw;
 }
@@ -110,8 +109,10 @@ $('skillOptions').addEventListener('change',e=>{
 $('goDecision').addEventListener('click',()=>{buildDecision();showStep(3)});
 document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click',()=>showStep(Number(b.dataset.back))));
 function reset(){
- state.kind=null;state.title='';state.minimum=0;state.skills.clear();state.checks=[];
- $('targetRole').value='';$('minSalary').value='';
+ state.kind=null;state.title='';state.minimum=0;state.mode='remote';state.region='eu';state.skills.clear();state.checks=[];state.decision=null;
+ $('targetRole').value='';$('minSalary').value='';$('targetRegion').value='eu';
+ const remote=document.querySelector('input[name="workMode"][value="remote"]');
+ if(remote)remote.checked=true;
  document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed','false'));
  $('goEligibility').disabled=true;showStep(0);
 }
