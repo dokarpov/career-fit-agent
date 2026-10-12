@@ -55,7 +55,7 @@ function paintScene(index,{instant=false}={}){
 function clearStageTimer(){if(stageTimer!==null){clearTimeout(stageTimer);stageTimer=null}}
 function startStageTimer(){
  clearStageTimer();
- if(reduce||!storyVisible||document.hidden)return;
+ if(reduce||!storyVisible||document.hidden||sceneIndex===scenes.length-1)return;
  stageTimer=setTimeout(()=>{paintScene(sceneIndex+1);startStageTimer()},stageDuration);
 }
 controls.forEach(button=>button.addEventListener('click',()=>{
