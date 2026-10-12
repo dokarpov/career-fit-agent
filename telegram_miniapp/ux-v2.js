@@ -42,4 +42,6 @@ function update(data){last=data;mount();if(!$('home')||!mounted)return;const vis
 mount();
 if(typeof render==='function'){const originalRender=render;render=function(data){originalRender(data);update(data)}}
 if(typeof view==='function'){const originalView=view;view=function(id){originalView(id);const bar=document.querySelector('.cf-nav');if(bar)bar.hidden=id==='onboarding'||id==='pipeline'}}
+// Bootstrap can finish before the enhancement script is downloaded; hydrate from its last state.
+if(typeof state!=='undefined'&&state.data)update(state.data);
 })();
