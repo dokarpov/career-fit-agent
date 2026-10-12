@@ -32,39 +32,68 @@ const idx=id=>roles.findIndex(r=>r.id===id);
 const current=()=>roles.find(r=>r.id===state.selected)||roles[0];
 const blocked=r=>r.type==='hybrid'&&state.remoteOnly;
 const requiresVerify=r=>r.type==='verify'&&!state.regionConfirmed.has(r.id);
-const status=r=>blocked(r)?['Outside preferences','blocked']:state.passed.has(r.id)?['Passed','blocked']:state.saved.has(r.id)?['Saved','saved']:requiresVerify(r)?['Verify eligibility','review']:['Ready for review','ready'];
+const status=r=>blocked(r)?['Outside rules','blocked']:state.passed.has(r.id)?['Passed','blocked']:state.saved.has(r.id)?['Saved','saved']:requiresVerify(r)?['Verify location','review']:['Review','ready'];
 const statusMarkup=r=>{const [label,kind]=status(r);return '<span class="status-pill '+kind+'">'+esc(label)+'</span>'};
-const proofLabel={use:'USE',check:'CHECK',gap:'GAP'};
+const proofLabel={use:'Supported',check:'To confirm',gap:'Missing'};
 function filtered(){const q=state.q.trim().toLowerCase();return roles.filter(r=>{
  if(state.filter==='saved'&&!state.saved.has(r.id))return false;
  if(state.filter==='action'&&(blocked(r)||state.passed.has(r.id)||state.saved.has(r.id)))return false;
  return !q||[r.title,r.employer,r.location].some(x=>x.toLowerCase().includes(q));
 });}
-function listCard(r,i){return '<button class="role-card" type="button" data-role="'+esc(r.id)+'" aria-current="'+(state.selected===r.id)+'"><div class="role-card-head"><span class="role-count">'+String(i+1).padStart(2,'0')+' / '+String(roles.length).padStart(2,'0')+'</span>'+statusMarkup(r)+'</div><h3>'+esc(r.title)+'</h3><p>'+esc(r.employer)+'</p><div class="role-card-foot"><span>'+esc(r.location)+'</span><span class="proof-count">'+r.evidence.filter(e=>e.type==='use').length+' backed</span></div></button>'}
+function listCard(r,i){
+ const [label,kind]=status(r);
+ return '<button class="role-card" type="button" data-role="'+esc(r.id)+'" aria-current="'+(state.selected===r.id)+'">'+
+ '<span class="role-card-main"><strong class="role-name">'+esc(r.title)+'</strong><small class="role-company">'+esc(r.employer)+'</small>'+
+ '<span class="role-location">'+esc(r.location)+'</span></span><span class="role-card-right"><span class="status-pill '+kind+'">'+esc(label)+'</span><span class="item-chevron" aria-hidden="true">›</span></span></button>';
+}
 function renderList(){const list=filtered();$('roleList').innerHTML=list.length?list.map(r=>listCard(r,idx(r))).join(''):'<div class="empty-list">No roles in this view.<br>Try All roles or change your search.</div>';
  $('needsCount').textContent=roles.filter(r=>!blocked(r)&&!state.passed.has(r.id)&&!state.saved.has(r.id)).length;
  $('savedCount').textContent=state.saved.size;
  $('resultsSaved').textContent=state.saved.size;
  document.querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.filter===state.filter)));
 }
-function evidenceItem(e,i){return '<details class="evidence-item" '+(i===0?'open':'')+'><summary><span class="proof-token '+e.type+'">'+proofLabel[e.type]+'</span><span><strong>'+esc(e.name)+'</strong><small>'+esc(e.caption)+'</small></span><span class="chev" aria-hidden="true">+</span></summary><div class="evidence-note">'+esc(e.detail)+'<div class="source">SOURCE / '+esc(e.source)+'</div></div></details>'}
-function band(r){let title='Worth reviewing',note='The sample location fits your preferences. Your experience supports part of the role; review the evidence and remaining gaps before applying.',kind='ready';
- if(blocked(r)){title='Skip this role';note='Hybrid attendance conflicts with your remote-only rule. A good skills match cannot override a hard requirement.',kind='blocked'}
- else if(requiresVerify(r)){title='Verify before applying';note='Remote does not necessarily mean the employer can hire in your country. Confirm this before investing more time.',kind='review'}
- return '<div class="eligibility-band '+(kind==='blocked'?'is-blocked':kind==='review'?'is-review':'')+'"><div class="eligibility-copy"><strong>'+esc(title)+'</strong><p>'+esc(note)+'</p></div><span class="status-pill '+kind+'">'+(kind==='ready'?'ELIGIBLE EXAMPLE':kind==='review'?'CHECK FIRST':'BLOCKED')+'</span></div>';
+function evidenceItem(e,i){
+ return '<details class="evidence-item"><summary><span class="proof-token '+e.type+'">'+proofLabel[e.type]+'</span>'+
+ '<span class="evidence-label"><strong>'+esc(e.name)+'</strong><small>'+esc(e.caption)+'</small></span>'+
+ '<span class="chev" aria-hidden="true">+</span></summary>'+
+ '<div class="evidence-note">'+esc(e.detail)+'<p class="source">Source: '+esc(e.source)+'</p></div></details>';
+}
+function band(r){
+ let title='Review before applying',note='Matches the sample location preference. Hiring eligibility is not guaranteed.',kind='ready';
+ if(blocked(r)){title='Outside your preferences';note='This job requires office attendance. Your search is set to remote only.',kind='blocked'}
+ else if(requiresVerify(r)){title='Check the hiring country';note='“Remote” does not confirm the employer can hire where you live.',kind='review'}
+ return '<div class="eligibility-band '+kind+'"><div class="eligibility-copy"><strong>'+title+'</strong><p>'+note+'</p></div>'+
+ '<span class="status-pill '+kind+'">'+(kind==='ready'?'Review':kind==='review'?'Verify':'Skip')+'</span></div>';
 }
 function draftText(r){const claim=r.evidence.find(e=>e.type==='use');return 'I would welcome the opportunity to discuss the '+r.title+' role. My documented project work includes '+claim.name.toLowerCase()+'. I can share the relevant case study and explain my actual responsibilities.\n\nI would also like to confirm the position’s specific requirements and the areas where my experience may differ.'}
-function renderDetail(){const r=current(),isBlocked=blocked(r),needsVerify=requiresVerify(r),allow=!isBlocked&&!needsVerify;
+function renderDetail(){
+ const r=current(),isBlocked=blocked(r),needsVerify=requiresVerify(r),allow=!isBlocked&&!needsVerify;
  $('roleIndex').textContent=String(idx(r.id)+1).padStart(2,'0')+' / '+String(roles.length).padStart(2,'0');
- const steps=(needsVerify?'<div class="next-step"><h4>Resolve eligibility first</h4><p>For this fictional role, you can simulate receiving confirmation that hiring in your country is possible. Real RoleHint must rely on actual employer evidence.</p><button type="button" class="secondary-button" data-action="confirm-region">Simulate employer confirmation ↗</button></div>':
- allow?'<div class="next-step"><h4>Before creating a draft</h4><p>Review the supported example statement. You—not the AI—choose whether the claim can be used.</p><label class="approval-label"><input id="approveClaim" type="checkbox" '+(state.approved.has(r.id)?'checked':'')+'><span>I reviewed the sample case-study claim for this application.</span></label><div class="actions" style="justify-content:flex-start;margin-top:16px"><button type="button" class="primary-button" data-action="prepare" '+(!state.approved.has(r.id)?'disabled':'')+'>Prepare draft ↗</button></div>'+(state.draft===r.id?'<div class="draft"><div class="draft-header"><strong>Illustrative recruiter introduction</strong><span class="status-pill ready">DRAFT ONLY</span></div><pre>'+esc(draftText(r))+'</pre><p class="draft-note">No application is submitted or saved. Verify every statement against your own experience.</p><button class="secondary-button" type="button" data-action="copy-draft">Copy sample draft ↗</button></div>':'')+'</div>':'<div class="next-step"><h4>Why this stays excluded</h4><p>Turning a great keyword match into an application would break your remote-only rule. Inspect the constraints or look at an eligible alternative.</p><button class="secondary-button" type="button" data-action="preferences">Inspect preferences ↗</button></div>');
- $('roleDetail').innerHTML='<article class="detail" data-current-role="'+esc(r.id)+'"><div class="detail-eyebrow">YOUR EVIDENCE × THIS OPPORTUNITY</div><div class="detail-head"><div><h2 id="roleTitle">'+esc(r.title)+'</h2><p>'+esc(r.employer)+' <span aria-hidden="true">·</span> '+esc(r.location)+'</p></div><span class="detail-id">'+String(idx(r.id)+1).padStart(2,'0')+'</span></div>'+
- band(r)+'<div class="section-heading"><h3>What supports the match?</h3><span>01 USE / 01 CHECK / 01 GAP</span></div><div class="evidence-list">'+r.evidence.map(evidenceItem).join('')+'</div>'+steps+
- '<div class="decision-bar"><p>'+esc(r.summary)+'</p><div class="actions">'+(isBlocked?'<button class="secondary-button" type="button" data-action="next">See another role ↗</button>':'<button type="button" class="secondary-button '+(state.saved.has(r.id)?'is-saved':'')+'" data-action="save">'+(state.saved.has(r.id)?'Saved ✓':'Save for later')+'</button><button type="button" class="secondary-button" data-action="pass">Pass on role</button>')+'</div></div></article>';
+ const nextStep=needsVerify?
+ '<h3>Verify the hiring region</h3><p>The employer’s eligible countries are unknown in this example.</p>'+
+ '<button type="button" class="primary-button" data-action="confirm-region">Simulate confirmation <span aria-hidden="true">→</span></button>'+
+ '<small class="helper">Demo only. No employer was contacted.</small>'
+ :isBlocked?
+ '<h3>Not a match for your rules</h3><p>The on-site requirement conflicts with your preferences.</p>'+
+ '<button type="button" class="primary-button" data-action="next">See next job <span aria-hidden="true">→</span></button>'
+ :'<h3>Your next step</h3><p>Approve a claim only if you could substantiate it yourself.</p>'+
+ '<label class="approval-label"><input id="approveClaim" type="checkbox" '+(state.approved.has(r.id)?'checked':'')+'><span>I verified this sample claim.</span></label>'+
+ '<button type="button" class="primary-button" data-action="prepare" '+(!state.approved.has(r.id)?'disabled':'')+'>Preview application draft <span aria-hidden="true">→</span></button>'+
+ (state.draft===r.id?'<div class="draft"><div class="draft-header"><strong>Draft preview</strong><span class="status-pill">Not sent</span></div>'+
+ '<pre>'+esc(draftText(r))+'</pre><button class="secondary-button" type="button" data-action="copy-draft">Copy draft</button></div>':'');
+ $('roleDetail').innerHTML='<article class="detail" data-current-role="'+esc(r.id)+'">'+
+ '<div class="detail-head"><div><h2 id="roleTitle">'+esc(r.title)+'</h2><p>'+esc(r.employer)+' <span aria-hidden="true">·</span> '+esc(r.location)+'</p></div></div>'+
+ band(r)+'<div class="review-layout"><section class="evidence-section" aria-label="Fit evidence">'+
+ '<div class="section-heading"><h3>What does your experience support?</h3></div>'+
+ '<div class="evidence-list">'+r.evidence.map(evidenceItem).join('')+'</div></section>'+
+ '<aside class="next-step">'+nextStep+'</aside></div>'+
+ '<div class="decision-bar"><p>Sample analysis. Nothing is submitted.</p><div class="actions">'+
+ (isBlocked?'': '<button type="button" class="secondary-button '+(state.saved.has(r.id)?'is-saved':'')+'" data-action="save">'+(state.saved.has(r.id)?'Saved ✓':'Save job')+'</button>')+
+ '<button type="button" class="quiet-link" data-action="pass">Pass</button></div></div></article>';
 }
 function render(){renderList();renderDetail();}
 function notify(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>e.classList.remove('show'),2800)}
-function selectRole(id){if(!roles.some(r=>r.id===id))return;const apply=()=>{state.selected=id;state.draft=null;render();document.body.classList.add('detail-open');if(matchMedia('(max-width:760px)').matches)scrollTo({top:0,behavior:'instant'})};
+function selectRole(id){if(!roles.some(r=>r.id===id))return;const apply=()=>{state.selected=id;state.draft=null;render();document.body.classList.add('detail-open');if(matchMedia('(max-width:760px)').matches)scrollTo({top:0,behavior:'instant'});else $('inspector').scrollTop=0};
  // Selection state must change synchronously: CSS animates the inspector afterwards.
  // A deferred View Transition callback can race with subsequent user interactions.
  apply();
@@ -75,9 +104,9 @@ function openDialog(id){const dialog=$(id==='results'?'resultsDialog':'preferenc
 function action(type){const r=current();
  if(type==='next'){nextRole();return}
  if(type==='preferences'){openDialog('settings');return}
- if(type==='confirm-region'){state.regionConfirmed.add(r.id);notify('Eligibility simulated for this example only');render();return}
+ if(type==='confirm-region'){state.regionConfirmed.add(r.id);notify('Sample confirmation applied — not verified with an employer');render();return}
  if(type==='save'){if(state.saved.has(r.id))state.saved.delete(r.id);else{state.saved.add(r.id);state.passed.delete(r.id)};notify(state.saved.has(r.id)?'Added to sample saved list':'Removed from saved list');render();return}
- if(type==='pass'){state.passed.add(r.id);state.saved.delete(r.id);notify('Role passed in this session');const list=filtered();if(list.length&&list.some(x=>x.id!==r.id)){selectRole(list.find(x=>x.id!==r.id).id)}else render();return}
+ if(type==='pass'){state.passed.add(r.id);state.saved.delete(r.id);notify('Passed in this demo');const list=filtered();if(list.length&&list.some(x=>x.id!==r.id)){selectRole(list.find(x=>x.id!==r.id).id)}else render();return}
  if(type==='prepare'){if(!state.approved.has(r.id)||blocked(r)||requiresVerify(r))return;state.draft=r.id;renderDetail();notify('Sample draft prepared — nothing submitted');return}
  if(type==='copy-draft'){const text=draftText(r);if(navigator.clipboard?.writeText){navigator.clipboard.writeText(text).then(()=>notify('Sample draft copied')).catch(()=>notify('Clipboard unavailable — select the draft text'))}else notify('Select the draft text to copy');return}
 }
