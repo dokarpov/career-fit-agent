@@ -91,16 +91,21 @@ function checkSalary(text){
  const note='Stated amount: “'+inf.line+'”';
  if(inf.currency!=='EUR')return {label:'Compensation',kind:'ask',detail:note+'. Different currency; no conversion or salary comparison is made.'};
  if(/\b(month|hour|hourly|daily|per day)\b/i.test(inf.line))return {label:'Compensation',kind:'ask',detail:note+'. Pay frequency needs clarification before comparing.'};
+ if(!/\b(annual|annually|per year|\/year|\/yr|a year|yearly)\b/i.test(inf.line))return {label:'Compensation',kind:'ask',detail:note+'. The pay period is not explicit. Confirm annual compensation before comparing.'};
  if(min&&inf.high<min)return {label:'Compensation',kind:'block',detail:note+'. Listed maximum is below your €'+min.toLocaleString('en-US')+' annual minimum.'};
  if(min&&inf.low<min)return {label:'Compensation',kind:'ask',detail:note+'. Only part of the range meets your €'+min.toLocaleString('en-US')+' minimum.'};
  return {label:'Compensation',kind:'pass',detail:note+(min?'. Looks above your minimum, subject to employer confirmation.':'. Not verified with the employer.')};
 }
 function extractRequirements(text){
  const lines=text.split(/\n|(?<=\.)\s+(?=[A-Z])/).map(v=>v.trim().replace(/^[-*•\s]+/,'').replace(/^(requirements?|responsibilities|qualifications?|what you(?:'|’)ll do|we(?:'|’)re looking for):?\s*/i,'')).filter(x=>x.length>=26&&x.length<=350);
- const candidate=lines.filter(x=>/\b(experience|skills?|manage|lead|collaborat|deliver|build|design|knowledge|proficien|responsib|develop|strategy|research|implement|testing|customer|project|support|architect|analys|metric|ownership|growth|marketing|communication|degree|required|years?)\b/i.test(x));
+ const candidate=lines.filter(x=>
+ !/(?:€|\$|\bEUR\b|\bUSD\b|salary|compensation|pay range|remote|hybrid|on-site|onsite|worldwide|based in|hiring countr|annual|per year)/i.test(x) &&
+ /\b(experience|skills?|manage|lead|collaborate|deliver|build|design|knowledge|proficiency|responsibilities|develop|strategy|research|implement|testing|customer|project|support|architecture|analyze|analyse|metric|ownership|growth|marketing|communication|degree|required|years?|retention|maintain|roadmap|prototypes|onboarding)\b/i.test(x) &&
+ x.toLowerCase()!==state.role.toLowerCase()
+);
  const result=[];for(const x of candidate){let clean=x.replace(/\s+/g,' ').slice(0,180);if(!result.some(y=>y.toLowerCase()===clean.toLowerCase()))result.push(clean);if(result.length>=6)break}
  if(!result.length){
- for(const x of lines){if(!/salary|remote|location|hiring|employer|company/i.test(x)){result.push(x.slice(0,180));if(result.length>=4)break}}
+ for(const x of lines){if(!/salary|compensation|remote|location|hiring|employer|company|per year|annual|€|\$/i.test(x)&&x.toLowerCase()!==state.role.toLowerCase()){result.push(x.slice(0,180));if(result.length>=4)break}}
  }
  return result;
 }
@@ -143,7 +148,12 @@ function makeDecision(){
  $('decisionResult').innerHTML='<span class="decision-tag">'+(kind==='block'?'SKIP':kind==='ask'?'VERIFY':'REVIEW')+'</span><h3>'+escape(title)+'</h3><p>'+escape(detail)+'</p>';
  const points=[];
  for(const c of blocks)points.push('Mismatch — '+c.label+': '+c.detail);
- for(const c of asks)points.push('Question to resolve — '+c.label+': '+c.detail);
+ for(const c of asks){
+  const question=c.label==='Hiring geography'?'Which countries are eligible for employment, and can you hire someone based in my country?':
+    c.label==='Compensation'?'What is the annual base salary, its currency, and the expected range?':
+    'Is the role fully remote, hybrid, or on-site, and is office attendance mandatory?';
+  points.push('Ask the employer — '+question);
+}
  const chosen=[...state.selected].sort().map(i=>state.requirements[i]);
  if(chosen.length)points.push('You marked '+chosen.length+' specific requirement'+(chosen.length!==1?'s':'')+' as relevant: '+chosen.slice(0,2).join(' / '));
  else points.push('Your experience has not been substantiated against the requirements.');
