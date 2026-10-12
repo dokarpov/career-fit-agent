@@ -74,8 +74,19 @@ for(const vp of viewports){
   if(siteWidth[0]>siteWidth[1]+2)throw new Error(vp.name+': marketing site horizontal overflow '+siteWidth.join('/'));
   const ticker=await page.locator('.rh-ticker-track').evaluate(e=>getComputedStyle(e).animationName);
   if(ticker==='none')throw new Error(vp.name+': motion layer not loaded');
-  await page.locator('[data-stage="prove"]').click();
-  if(!await page.locator('#stageContent').textContent().then(t=>t.includes('A good match')&&t.includes('substantiate')))throw new Error(vp.name+': proof stage interaction broken');
+  if(await page.locator('.feature-number, .feature-nav, #stageContent').count())throw new Error(vp.name+': obsolete crowded step navigation still rendered');
+  const orange=await page.locator('#how').evaluate(el=>getComputedStyle(el).backgroundColor);
+  if(orange!=='rgb(245, 107, 70)')throw new Error(vp.name+': immersive orange background missing: '+orange);
+  await page.locator('#how').scrollIntoViewIfNeeded();
+  await page.locator('#storyCurrentNumber').waitFor({state:'attached'});
+  if(!await page.locator('#storyScene .screen-check').count())throw new Error(vp.name+': eligibility preview did not render');
+  await page.waitForFunction(()=>document.querySelector('#storyCurrentNumber')?.textContent==='02',null,{timeout:9000}).catch(()=>{});
+  if(await page.locator('#storyCurrentNumber').textContent()!=='02')throw new Error(vp.name+': product story failed to auto-advance, tap required');
+  if(!await page.locator('#storyScene .proof-preview-row').count())throw new Error(vp.name+': evidence stage did not render automatically');
+  await page.locator('[data-story-stage="move"]').click();
+  if(!await page.locator('#storyScene .draft-preview').count())throw new Error(vp.name+': human-decision stage control broken');
+  const storyWidth=await page.evaluate(()=>[document.documentElement.scrollWidth,innerWidth]);
+  if(storyWidth[0]>storyWidth[1]+2)throw new Error(vp.name+': orange story causes horizontal scroll '+storyWidth.join('/'));
   if(!await page.locator('a[href="./workspace.html"]').count())throw new Error(vp.name+': missing workspace link');
 
   // One cohesive master-detail workbench with end-to-end human-reviewed actions.
