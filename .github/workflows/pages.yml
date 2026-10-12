@@ -1,4 +1,4 @@
-name: Deploy Career Fit website
+name: Publish Career Fit website
 
 on:
   push:
@@ -15,23 +15,29 @@ permissions:
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
+      - name: Verify website files
+        run: |
+          test -s site/index.html
+          test -s site/workspace.html
+          test -s site/landing.css
+          test -s site/workspace.js
+          test -s site/product.json
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Upload only the public website
+        uses: actions/upload-pages-artifact@v4
         with:
-          enablement: true
-      # Publish at /career-fit-agent/site/ while keeping the existing root app URL.
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - name: Deploy static site
+          path: site
+      - name: Deploy website
         id: deployment
         uses: actions/deploy-pages@v4
