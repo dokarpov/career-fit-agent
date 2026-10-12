@@ -281,3 +281,12 @@ h1,h2,h3,h4,p{margin-top:0}
 .check-job-path a{color:#b04930;font-weight:750;border-bottom:1px solid #dca18e;padding-bottom:1px}
 .check-job-path a:hover{color:#7d2f21;border-color:#7d2f21}
 @media(max-width:560px){.check-job-path{margin:10px 17px 21px;font-size:13px}}
+
+/* Custom role is a supported setup state, with its limitations visible. */
+.custom-target{display:flex;align-items:center;gap:12px;padding:0 32px 24px}
+.custom-target label{font-size:12px;font-weight:800;white-space:nowrap}
+.custom-target input{height:43px;min-width:140px;width:min(100%,365px);font-size:12px;border:1px solid #dad8d6;background:#fff;border-radius:9px;padding:10px 12px;color:var(--ink)}
+.custom-target input:focus{border-color:#c96f55}
+.custom-note{color:#827a7a;font-size:10px;line-height:1.45;max-width:280px}
+@media(max-width:800px){.custom-target{flex-wrap:wrap;gap:9px;padding:0 22px 22px}.custom-note{max-width:100%}}
+@media(max-width:570px){.custom-target{padding:0 17px 20px;align-items:stretch}.custom-target label{width:100%}.custom-target input{width:100%}}
