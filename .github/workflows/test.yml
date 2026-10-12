@@ -1,44 +1,5 @@
 name: test
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'backend/**'
-      - 'src/**'
-      - 'tests/**'
-      - 'evals/**'
-      - 'extension/**'
-      - 'telegram_bot/**'
-      - 'telegram_miniapp/**'
-      - 'selfhost_setup/**'
-      - 'schemas/**'
-      - 'prompts/**'
-      - 'index.html'
-      - 'site/**'
-      - '.github/workflows/pages.yml'
-      - 'config.js'
-      - 'package*.json'
-      - 'docker-compose.yml'
-      - '.github/workflows/test.yml'
-  pull_request:
-    paths:
-      - 'backend/**'
-      - 'src/**'
-      - 'tests/**'
-      - 'evals/**'
-      - 'extension/**'
-      - 'telegram_bot/**'
-      - 'telegram_miniapp/**'
-      - 'selfhost_setup/**'
-      - 'schemas/**'
-      - 'prompts/**'
-      - 'index.html'
-      - 'site/**'
-      - '.github/workflows/pages.yml'
-      - 'config.js'
-      - 'package*.json'
-      - 'docker-compose.yml'
-      - '.github/workflows/test.yml'
   workflow_dispatch:
 
 concurrency:
