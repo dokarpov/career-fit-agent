@@ -43,3 +43,5 @@ body.pipelineMode .cf-appbar,body.pipelineMode .cf-nav{display:none!important}
 .cf-quietbtn{border:1px solid #c5d6c7;background:var(--section);border-radius:9px;padding:12px 16px;color:var(--link);font-weight:750}
 @media(max-width:520px){body:not(.pipelineMode){padding-left:12px;padding-right:12px}.cf-nav{border-radius:0;gap:0}.cf-nav button{font-size:10px}.cf-appbar{padding-top:2px}.cf-focus{padding:21px 17px}.cf-focus h2{font-size:26px}.cf-status{font-size:9px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+/* Keep navigation available on home and detailed views, but never on onboarding/pipeline/loading. */
+body:has(#loading:not(.hidden)) .cf-nav,body:has(#onboarding:not(.hidden)) .cf-nav,body:has(#pipeline:not(.hidden)) .cf-nav{display:none!important}
