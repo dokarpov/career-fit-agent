@@ -32,7 +32,7 @@ let lastSession={};try{lastSession=JSON.parse(localStorage.getItem('rolehint_sam
 const roleIds=new Set(roles.map(r=>r.id));
 const safeSet=values=>new Set((Array.isArray(values)?values:[]).filter(id=>roleIds.has(id)));
 const state={selected:roleIds.has(lastSession.selected)?lastSession.selected:'atlas',filter:'action',q:'',remoteOnly:initialRemoteOnly,regionConfirmed:new Set(),approved:new Set(),saved:safeSet(lastSession.saved),passed:safeSet(lastSession.passed),draft:null};
-function saveSampleSession(){try{localStorage.setItem('rolehint_sample_decisions_v1',JSON.stringify({selected:state.selected,saved:[...state.saved],passed:[...state.passed]}))}catch(e){}}
+function saveSampleSession(){try{if(state.selected==='atlas'&&!state.saved.size&&!state.passed.size){localStorage.removeItem('rolehint_sample_decisions_v1');return}localStorage.setItem('rolehint_sample_decisions_v1',JSON.stringify({selected:state.selected,saved:[...state.saved],passed:[...state.passed]}))}catch(e){}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const idx=id=>roles.findIndex(r=>r.id===id);
 const current=()=>roles.find(r=>r.id===state.selected)||roles[0];
