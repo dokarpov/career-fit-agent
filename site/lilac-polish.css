@@ -208,3 +208,14 @@ a,button,summary{ -webkit-tap-highlight-color:transparent}
  html{scroll-snap-type:none}
  .hero-art,.stage-content{transition:none!important;animation:none!important}
 }
+
+
+/* Semantic chapter entrances: readable by default, reveal only when JS opts in. */
+@media(prefers-reduced-motion:no-preference){
+ .rh-reveal{opacity:1;transform:translateY(0)}
+ .rh-reveal:not(.rh-visible){opacity:.15;transform:translateY(26px);filter:blur(2px)}
+ .rh-reveal.rh-visible{opacity:1;transform:translateY(0);filter:blur(0)}
+ .rh-reveal{transition:opacity .78s var(--rh-ease),transform .78s var(--rh-ease),filter .7s var(--rh-ease);transition-delay:var(--rh-delay,0ms)}
+}
+.feature-nav button:focus-visible,.art-proof summary:focus-visible{outline:2px solid #c4b2ff;outline-offset:3px}
+@media(max-width:320px){.hero h1{font-size:34px}.art-left h2{font-size:32px}.last-cta h2{font-size:47px}.header-action{font-size:11px}}
