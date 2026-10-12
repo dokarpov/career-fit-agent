@@ -25,7 +25,7 @@ try{
   if(!(await page.locator('#obFinalStatus').textContent()).includes('country')){console.error('missing country validation',width);failures++}
   await page.locator('#obCountry').fill('Spain');
   await page.locator('#obFinish').click();
-  if(!(await page.locator('#rhFirstGuideMissing').count()) && !(await page.locator('.rh-first-guide').isVisible())){console.error('first decision guide missing',width);failures++}
+  if(!(await page.locator('.rh-first-guide').isVisible())){console.error('first decision guide missing',width);failures++}
   await page.locator('#rhGuideStart').click();
   if(!(await page.locator('#roleTitle').isVisible())){console.error('role inspector not visible',width);failures++}
   if(!(await page.locator('#personalBanner').textContent()).includes('Senior Product Manager')){console.error('profile summary not refreshed',width);failures++}
