@@ -2,6 +2,7 @@ import { chromium } from 'playwright';
 
 const base=process.env.BASE_URL||'http://127.0.0.1:4173';
 const fixture={
+  onboarding:{completed:true},
   capabilities:{payment_required:false},
   autopilot:{connectors:{google:false,github:false},search_profiles:[]},
   funnel:{
@@ -79,6 +80,15 @@ for(const vp of viewports){
   if(await page.locator('#roleDialog .callout').count())throw new Error(vp.name+': remote preference toggle did not update eligibility');
   await page.locator('[data-close]').first().click();
   if(errors.length)throw new Error(vp.name+': site/demo '+errors.join(' | '));
+  // The actual Telegram mini-app entry point must retain onboarding-aware navigation.
+  await page.goto(base+'/telegram_miniapp/',{waitUntil:'domcontentloaded'});
+  await page.waitForFunction(()=>document.querySelector('#home')&&!document.querySelector('#home').classList.contains('hidden')&&document.querySelector('[data-cf-tab="today"]'));
+  await page.locator('[data-cf-tab="explore"]').click();
+  if(await page.locator('#home').getAttribute('data-cf-active')!=='explore')throw new Error(vp.name+': Telegram Explore unavailable');
+  await page.locator('[data-cf-tab="setup"]').click();
+  if(await page.locator('#home').getAttribute('data-cf-active')!=='setup')throw new Error(vp.name+': Telegram Setup unavailable');
+  await page.locator('[data-cf-tab="today"]').click();
+  if(errors.length)throw new Error(vp.name+': Telegram mini-app '+errors.join(' | '));
   console.log('PASS',vp.name);
   await context.close();
 }
