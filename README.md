@@ -55,7 +55,7 @@ docker compose up --build
 
 ## UX prototype — first-session implementation (12 October 2026)
 
-The **separate experimental workspace** at [`site/workspace.html`](https://dokarpov.github.io/rolehint/site/workspace.html) now supports CV upload or paste, editable extracted text, optional no-CV sandbox exploration, target-role and hiring-country confirmation, and a guided first sample-job decision. The old decorative upload sculpture is hidden and a straightforward mobile-first upload control replaces it. The browser-local profile can be deleted from Preferences.
+The **separate experimental workspace** at [`site/workspace.html`](https://dokarpov.github.io/rolehint/site/workspace.html) now supports CV upload or paste, editable extracted text, optional no-CV sandbox exploration, target-role and hiring-country confirmation, and a guided first sample-job decision. The old decorative upload sculpture is hidden and a straightforward mobile-first upload control replaces it. The browser-local CV/search profile can be deleted from Preferences. Saved/skipped sample decisions and the last inspected sample role also persist locally between visits.
 
 The implementation contract and limitations are in [`docs/PROTOTYPE_UX_V1.md`](docs/PROTOTYPE_UX_V1.md). Automated browser scenarios are specified in `site/qa-workspace.mjs` and `.github/workflows/prototype-ux.yml`. **A test file does not prove those tests passed.** Real device/browser testing remains pending.
 
