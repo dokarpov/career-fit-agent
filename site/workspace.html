@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="./workbench.css?v=restored-workbench-1">
 <link rel="stylesheet" href="./typography.css">
 <script src="./workbench.js?v=restored-workbench-1" defer></script>
-<script>try{if(!localStorage.getItem("rolehint_onboarding_v1")&&!new URLSearchParams(location.search).has("legacy"))location.replace("./onboarding.html")}catch(e){}</script><style>.personalBanner{max-width:1300px;margin:17px auto;padding:15px 22px;border:1px solid #d8d3e2;background:#f5f1fc;color:#31293d;border-radius:9px;font:13px/1.6 system-ui}.personalBanner b{font-weight:750}.personalBanner a{color:#6850a5;text-underline-offset:3px}.personalBanner .bannerClose{margin-left:14px;background:none;border:0;color:#695087;text-decoration:underline;cursor:pointer}</style></head>
+<style>.personalBanner{max-width:1300px;margin:17px auto;padding:15px 22px;border:1px solid #d8d3e2;background:#f5f1fc;color:#31293d;border-radius:9px;font:13px/1.6 system-ui}.personalBanner b{font-weight:750}.personalBanner a{color:#6850a5;text-underline-offset:3px}.personalBanner .bannerClose{margin-left:14px;background:none;border:0;color:#695087;text-decoration:underline;cursor:pointer}</style><link rel="stylesheet" href="./onboarding-3d.css?v=1"><script src="./onboarding-inline.js?v=1" defer></script></head>
 <body>
 <a class="skip" href="#inboxTitle">Skip to job list</a>
 <header class="global">
@@ -18,7 +18,7 @@
   <span class="sample-label">Interactive demo <span aria-hidden="true">·</span> Fictional data</span>
   <div class="global-actions"><button type="button" class="quiet-action" data-modal="settings">Preferences <span aria-hidden="true">⚙</span></button></div>
 </header>
-<div id="personalBanner" class="personalBanner" hidden aria-live="polite"></div><main class="desk" id="main">
+<section id="rhOnboarding" class="rh-onboarding" hidden aria-label="Personalized onboarding"></section><div id="personalBanner" class="personalBanner" hidden aria-live="polite"></div><main class="desk" id="main">
 <section class="inbox" aria-labelledby="inboxTitle">
   <div class="inbox-head">
     <div class="inbox-title-line"><h1 id="inboxTitle">Jobs to review</h1><span class="live-counts"><strong id="needsCount">0</strong> to review <span class="count-divider">·</span> <strong id="savedCount">0</strong> saved</span></div>
@@ -59,5 +59,5 @@
 </dialog>
 <div role="status" id="toast" class="toast" aria-live="polite"></div>
 <script>
-(()=>{try{const data=JSON.parse(localStorage.getItem('rolehint_onboarding_v1')||'null');if(!data)return;const el=document.getElementById('personalBanner');const days=Math.max(0,7-Math.floor((Date.now()-new Date(data.createdAt).getTime())/86400000));el.hidden=false;const strong=document.createElement('b');strong.textContent='Your search: '+data.role;el.append(strong,document.createTextNode(' · '+(data.remote==='remote'?'Remote only':data.remote==='flexible'?'Remote or hybrid':'Any work setup')+(data.location?' · '+data.location:'')+' · '+days+' of 7 exploration days left. '));const note=document.createElement('span');note.textContent='The opportunities below remain fictional demo data; your CV is not scored against live roles. ';el.append(note);const link=document.createElement('a');link.href='./onboarding.html';link.textContent='Update profile';el.append(link) }catch(e){}})();
+(()=>{try{const data=JSON.parse(localStorage.getItem('rolehint_onboarding_v1')||'null');if(!data)return;const el=document.getElementById('personalBanner');const days=Math.max(0,7-Math.floor((Date.now()-new Date(data.createdAt).getTime())/86400000));el.hidden=false;const strong=document.createElement('b');strong.textContent='Your search: '+data.role;el.append(strong,document.createTextNode(' · '+(data.remote==='remote'?'Remote only':data.remote==='flexible'?'Remote or hybrid':'Any work setup')+(data.location?' · '+data.location:'')+' · '+days+' of 7 exploration days left. '));const note=document.createElement('span');note.textContent='The opportunities below remain fictional demo data; your CV is not scored against live roles. ';el.append(note);const link=document.createElement('a');link.href='#onboarding';link.addEventListener('click',e=>{e.preventDefault();window.dispatchEvent(new Event('rolehint:open-onboarding'))});link.textContent='Update profile';el.append(link) }catch(e){}})();
 </script></body></html>
