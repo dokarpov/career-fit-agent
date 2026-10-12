@@ -18,7 +18,8 @@ const examples=[
   review:'Leadership scope',reviewDetail:'The level of decision authority still requires review.',
   gap:'On-site work requirement',gapDetail:'This is a hard constraint when remote-only is enabled.'}
 ];
-const state={view:'today',filter:'all',q:'',remoteOnly:true,selected:'product',claim:false,showPack:false};
+const initialView=new URLSearchParams(location.search).get('view');
+const state={view:['today','explore','progress','setup'].includes(initialView)?initialView:'today',filter:'all',q:'',remoteOnly:true,selected:'product',claim:false,showPack:false};
 const $=id=>document.getElementById(id);
 const esc=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 const eligible=j=>!(j.type==='hybrid'&&state.remoteOnly);
