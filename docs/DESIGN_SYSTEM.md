@@ -1,48 +1,49 @@
-# RoleHint design system — active site
+# RoleHint — current visual system
 
-**Status:** shared, conservative visual baseline. No new brand exploration or logo changes.
+**Status:** active, shared across the landing page and the guided interactive demo. Last updated October 2026.
 
-## Live surfaces and source of truth
+## Source of truth
 
-| Surface | Entry | Product-specific CSS | Shared |
+| Surface | HTML | Structural styling | Shared theme |
 | --- | --- | --- | --- |
-| Landing | `site/index.html` | `site/landing.css` | `site/tokens.css`, `site/typography.css` |
-| Interactive demo | `site/workspace.html` | `site/workbench.css` | `site/tokens.css`, `site/typography.css` |
+| Marketing site | `site/index.html` | `site/landing.css`, `site/motion.css`, `site/story.css` | `site/finish.css` (loaded last) |
+| Guided demo | `site/workspace.html` | `site/workbench.css` | `site/finish.css` (loaded last) |
 
-The existing starburst `site/favicon.svg` is approved as the provisional mark. Do not replace it with generated icons. Retired prototype styles `site/workspace.css` and `site/design-system.css` are not loaded by these two live pages.
+The landing base imports `site/design-system.css`. Both surfaces use **Manrope** (400/500/600/700/800) and share `site/finish.css` for all final appearance decisions. Do not add divergent color overrides to individual pages. Film texture lives in `site/film-grain.svg`, composed with gradients via `background-image` and `background-blend-mode`; it never requires large raster images.
 
-## Task A — typography
+## Identity and color
 
-The typography source of truth is `site/typography.css`. One family, Inter with system-sans fallback, across both active surfaces. It defines a fluid display scale, section heading scale, consistent paragraph line height, coherent weights, and mobile overrides. Headline, job detail, labels and actionable copy all have explicitly scoped selectors. Typography overrides are loaded **after** each page's own CSS.
+The original approved starburst remains unchanged at `site/favicon.svg`; it is not an invitation to redesign the logo.
 
-Do not introduce a second display face, novelty font, italic headline, or decorative tracking without a separate brand decision. 320px is the lower target width; body text remains legible and important labels are not reduced to tiny metadata.
+- **Backgrounds and interactive panels:** white `#FFFFFF`.
+- **Primary copy:** near-black `#24252D`; muted copy `#60616E`.
+- **Dividers / gray checks:** `#E6E6ED`, `#EDEDF0`, and `#626470`.
+- **Accent:** lilac-to-silver gradient `linear-gradient(117deg, #AC9CDA 0%, #D6D5E4 46%, #A1A9BB 100%)`.
+- **Accent used for typography on white:** deeper tonal gradient `#68598F → #82799F → #5E6C84`, not pale silver text.
+- **Film grain:** `film-grain.svg` at low opacity, composited with the accent gradient; not over paragraphs, cards or body backgrounds.
+- **Checks:** neutral gray in every state. Uncertainty is explained in text; no green success/red failure color dependency.
 
-## Task B — foundations and components
+The background stays white in all chapters, including the formerly orange story and formerly dark mockup. Gradient is only an *accent material*: CTA, selected progress indication, heading highlight, cursor and small motifs. Keep the landing and guided demo aligned.
 
-The shared token source of truth is `site/tokens.css`. It defines:
+## Typography, spacing, and components
 
-- neutral page, canvas, text and borders;
-- restrained landing identity with forest-green action, plus a neutral workbench action scheme registered in the same token file;
-- red-orange focus ring (functional accessibility, not a decorative accent);
-- status colors for positive / pending / blocked;
-- radii, spacing and motion easing.
+- Hero/headline uses Manrope 800 with controlled negative tracking; body is 16px desktop, approximately 15–16px narrow screens.
+- Labels are at least 11–12px; body paragraphs should not rely on tiny uppercase captions.
+- Use consistent moderate corner radii (8–14px); controls and fields target at least 44px height on touch devices.
+- Primary CTA text is **Try demo** on the landing, not a different long phrase in each section.
+- Real interactive elements must have keyboard activation, focus states and click behavior. Static comparison cards must not mimic buttons.
+- Marketing home illustrates fit checks through actual `details/summary` expanders.
+- The guided demo reveals *one stage at a time*: role and preferences → eligibility → self-declared fit → next decision. Never claim these are live vacancies, verified offers, or actual user outcomes.
+- Progress stages and mockups can animate, but animation must communicate eligibility, fit or decision, never manufacture a result.
 
-`landing.css` and `workbench.css` map their local variables to canonical tokens while retaining page-specific layout rules. The workbench deliberately uses a denser neutral interface, not the green marketing accent. Both palettes are governed by the same token source, but the component styles have not yet been fully deduplicated. This is **token consolidation**, not a full component-library migration.
+## Responsive, motion, and acceptance criteria
 
-### Design rules
+- Minimum supported viewport target: **320px**. Also check 375/390px mobile, 768px tablet, 1280/1440px desktop.
+- Test keyboard-only interaction, details expansion, role selection, custom role entry, soft/hard eligibility constraints, back, reset, copy and completion.
+- Observe `prefers-reduced-motion:reduce`; hover enhancements must not block pointer/touch or scrolling.
+- Maintain at least WCAG AA contrast for normal-sized text (4.5:1); gradient action buttons use dark text for readability, and gradient display typography uses the darker secondary gradient.
+- Do not claim cross-device visual QA until an actual browser has been exercised on those viewports.
 
-1. One primary action per screen; visually de-emphasize secondary actions.
-2. A job result distinguishes hard eligibility, evidence coverage, uncertainty and user decision. Do not replace these with a single confidence score.
-3. Status color is always accompanied by text. No color-only meaning.
-4. Focus state must be visible; controls should have at least 44px target when practical.
-5. Animations have reduced-motion behavior and must not obstruct content.
-6. Hero graphic uses real product interface conventions and always discloses fictional data.
-7. Keep headings compact, paragraph widths readable, and mobile flow logically ordered.
+## Avoid
 
-## Release verification
-
-Verify at 320, 390, 768 and 1440px: no horizontal scrolling, legible display and labels, usable controls, no overlapping fixed/sticky headers, keyboard navigation and reduced-motion fallback. Check both the landing and interactive workbench. Do not claim automated checks have passed without a recorded browser run.
-
-## Boundaries
-
-There is no completed cross-project favicon identity system. Apart from existing approved marks, logo concepts remain proposals until explicitly approved. Product claims of interview lift, live verified roles or paid traction are not supported by the demo.
+No orange-theme overrides, green checks, extra font families, overlaid grain across white background, ghost buttons with deceptive hover, unsupported hiring promises, or publication of unapproved logos.
