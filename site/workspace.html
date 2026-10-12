@@ -1,85 +1,79 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#ffffff">
-<meta name="description" content="Try RoleHint. Check an actual job description against your preferences and experience. Your text stays in your browser.">
-<title>RoleHint — Interactive demo</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fffaf6">
+<meta name="description" content="Try RoleHint's opportunity agent with fictional listings: define your target, see the shortlist, inspect fit and decide what to do next.">
+<title>RoleHint — See the opportunity agent in action</title>
 <link rel="canonical" href="https://dokarpov.github.io/rolehint/site/workspace.html">
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="./workbench.css?v=job-check-3">
-<script src="./workbench.js?v=job-check-3" defer></script>
+<link rel="stylesheet" href="./workbench.css?v=agent-v3">
+<script src="./workbench.js?v=agent-v3" defer></script>
 </head>
 <body>
-<a class="skip" href="#demoTitle">Skip to demo</a>
-<header class="demo-header">
- <div class="demo-width header-inner">
- <a class="brand" href="./" aria-label="RoleHint home"><img src="./favicon.svg" width="34" height="34" alt=""><span>rolehint<span class="brand-period">.</span></span></a>
- <span class="demo-label">Private browser demo <span aria-hidden="true">·</span> no account</span>
- <button class="reset-link" type="button" id="resetDemo">Start over ↺</button>
- </div>
-</header>
-<main class="demo-width" id="main">
-<div class="demo-intro">
- <span class="eyebrow"><span class="eyebrow-line"></span> YOUR JOB, YOUR RULES</span>
- <h1 id="demoTitle">Find out if a job<br><em>is worth your time.</em></h1>
- <p>Paste a job description. Check the real requirements, your fit, and the next sensible move.</p>
-</div>
-<nav class="stepper" aria-label="Demo progress">
- <span class="step is-current" data-progress="0" aria-current="step"><span>01</span> Your role</span>
- <span class="step" data-progress="1"><span>02</span> Eligibility</span>
- <span class="step" data-progress="2"><span>03</span> Your fit</span>
- <span class="step" data-progress="3"><span>04</span> Next step</span>
-</nav>
-<div class="demo-card">
- <section class="stage" id="stepRole" aria-labelledby="roleHeading">
-  <div class="stage-head"><div class="section-count">01 / GET STARTED</div><h2 id="roleHeading">What job are you considering?</h2><p>Paste a job description or try a sample. Then set your non-negotiables.</p></div>
-  <div class="choice-grid" role="group" aria-label="Suggested target roles">
-   <button type="button" class="role-choice" data-example="product" aria-pressed="false"><strong>Product Manager</strong><span>Discovery · strategy</span></button>
-   <button type="button" class="role-choice" data-example="design" aria-pressed="false"><strong>Product Designer</strong><span>Research · UX</span></button>
-   <button type="button" class="role-choice" data-example="engineering" aria-pressed="false"><strong>Software Engineer</strong><span>Systems · delivery</span></button>
-   <button type="button" class="role-choice" data-example="marketing" aria-pressed="false"><strong>Marketing Lead</strong><span>Campaigns · growth</span></button>
+<a class="skip" href="#main">Skip to product demo</a>
+<header class="site-header"><div class="shell header-inner">
+  <a class="logo" href="./" aria-label="RoleHint home"><img src="./favicon.svg" width="32" height="32" alt=""><span>rolehint<span class="orange-dot">.</span></span></a>
+  <span class="header-note"><span class="status-orb" aria-hidden="true"></span> Interactive product simulation <span class="header-note-extra">· Fictional jobs and results</span></span>
+  <button type="button" class="header-reset" id="startOver">Start over <span aria-hidden="true">↗</span></button>
+</div></header>
+<main id="main">
+<section id="setupScreen" class="setup shell" aria-labelledby="setupTitle">
+  <div class="intro-label"><span class="label-line" aria-hidden="true"></span> THE ROLEHINT EXPERIENCE</div>
+  <div class="intro-layout"><div>
+    <h1 id="setupTitle">Less searching.<br><em>Better decisions.</em></h1>
+    <p class="intro-desc">Tell RoleHint what you're looking for. See how the agent finds, filters and prioritizes opportunities—before you spend time applying.</p>
+  </div><div class="mini-steps" aria-label="What happens in this demo">
+    <div><span>01</span> Set your criteria</div><div><span>02</span> Agent builds your shortlist</div><div><span>03</span> Inspect fit and act</div>
+  </div></div>
+  <div class="setup-panel">
+    <div class="panel-head"><div><span class="eyebrow">01 / YOUR SEARCH</span><h2>What role are you looking for?</h2></div><span class="sample-tag">DEMO DATA</span></div>
+    <div class="role-options" role="group" aria-label="Choose target role">
+      <button class="role-option selected" type="button" data-role="product" aria-pressed="true"><span class="role-icon">P</span><span><strong>Product</strong><small>Manager / Lead</small></span><span class="choice-indicator" aria-hidden="true"></span></button>
+      <button class="role-option" type="button" data-role="design" aria-pressed="false"><span class="role-icon">D</span><span><strong>Design</strong><small>Product / UX</small></span><span class="choice-indicator" aria-hidden="true"></span></button>
+      <button class="role-option" type="button" data-role="engineering" aria-pressed="false"><span class="role-icon">E</span><span><strong>Engineering</strong><small>Software</small></span><span class="choice-indicator" aria-hidden="true"></span></button>
+      <button class="role-option" type="button" data-role="marketing" aria-pressed="false"><span class="role-icon">M</span><span><strong>Marketing</strong><small>Growth / Lead</small></span><span class="choice-indicator" aria-hidden="true"></span></button>
+    </div>
+    <div class="setup-grid">
+      <div class="profile-settings">
+        <div class="input-section-head"><label class="form-label" for="profileEditor">Example background <span class="tiny-muted">· editable</span></label><span class="form-hint">Select what you can demonstrate</span></div>
+        <div id="profileEditor" class="profile-options" role="group" aria-label="Experience signals"></div>
+        <p class="microcopy">These are example achievements, not claims about you. Changing them changes the recommendations.</p>
+      </div>
+      <div class="search-settings">
+        <div class="field"><label class="form-label" for="remoteRule">Work arrangement</label><select id="remoteRule"><option value="remote">Remote only</option><option value="any">Remote or hybrid</option></select></div>
+        <div class="field"><label class="form-label" for="regionRule">Hiring region</label><select id="regionRule"><option value="eu">Europe</option><option value="any">No regional preference</option></select></div>
+        <div class="field"><label class="form-label" for="salaryRule">Minimum annual base (€)</label><input id="salaryRule" type="number" min="0" max="500000" step="5000" value="75000"></div>
+        <div class="field"><label class="form-label" for="timeRule">Time per application</label><select id="timeRule"><option value="45">Up to 45 minutes</option><option value="90">Up to 90 minutes</option><option value="180">Up to 3 hours</option></select></div>
+      </div>
+    </div>
+    <div class="panel-bottom"><p><strong>No account, no live search.</strong> The simulation uses fictional listings and runs locally in your browser.</p><button class="button-primary" type="button" id="runAgent">Run sample search <span aria-hidden="true">→</span></button></div>
   </div>
-  <label class="field-label" for="targetRole">Target role</label>
-  <input class="text-input" id="targetRole" type="text" maxlength="68" placeholder="e.g. Head of Customer Success" autocomplete="off">
-  <div class="job-input">
- <div class="job-input-head"><label class="field-label" for="jobDescription">Job description</label><button class="secondary example-link" type="button" id="loadSample">Load a sample job ↗</button></div>
- <textarea class="text-input job-description" id="jobDescription" rows="7" minlength="80" placeholder="Paste a job posting here: requirements, responsibilities, location, and salary if listed." aria-describedby="jobInputHelp"></textarea>
- <p id="jobInputHelp" class="input-help">Use the original vacancy text. Checks run locally in this browser; nothing is uploaded.</p>
- <label class="field-label" for="jobUrl">Original job URL <span class="optional">(optional; saved only in this browser session)</span></label>
- <input class="text-input" id="jobUrl" type="url" placeholder="https://company.com/careers/..." autocomplete="url">
- </div>
- <div class="preferences-inline">
-   <fieldset class="work-options"><legend>Work preference</legend><label><input name="workMode" type="radio" value="remote" checked> Remote only</label><label><input name="workMode" type="radio" value="any"> Remote or hybrid</label></fieldset>
-   <label class="mini-field" for="targetRegion">Where can you work?<select id="targetRegion"><option value="eu">Europe</option><option value="global">Worldwide</option></select></label>
-   <label class="mini-field" for="minSalary">Minimum annual salary, EUR <span>(optional)</span><input id="minSalary" type="number" min="0" max="500000" step="5000" placeholder="e.g. 75000"></label>
+</section>
+<section id="runScreen" class="running shell" hidden aria-labelledby="runningTitle">
+  <div class="running-frame"><div class="running-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+    <div class="intro-label">02 / OPPORTUNITY AGENT · SIMULATION</div><h2 id="runningTitle">Turning job noise<br>into a shortlist.</h2><p id="runDetail" role="status" aria-live="polite">Loading the example opportunity set…</p><div class="run-bar"><span id="runProgress"></span></div><div id="runMilestones" class="run-milestones"></div>
+    <button type="button" id="skipAnimation" class="button-link">Show results now →</button>
   </div>
-  <div class="stage-footer"><p>Heuristic browser checks, not verified employer facts.</p><button class="primary" type="button" id="goEligibility" disabled>Continue <span aria-hidden="true">→</span></button></div>
- </section>
- <section class="stage" id="stepEligibility" aria-labelledby="eligibilityHeading" hidden>
-  <div class="section-count">02 / CHECK THE BASICS</div><h2 id="eligibilityHeading">Does this job meet your rules?</h2>
-  <div class="sample-role"><span id="sourceType">POSTED JOB DESCRIPTION</span><strong id="sampleTitle"></strong><small id="sampleCompany"></small></div>
-  <div class="checks" id="eligibilityChecks"></div>
-  <div class="verdict" id="eligibilityVerdict" role="status"></div>
-  <div class="stage-footer"><button type="button" class="secondary" data-back="0">← Back</button><button class="primary" type="button" id="goFit">Continue <span aria-hidden="true">→</span></button></div>
- </section>
- <section class="stage" id="stepFit" aria-labelledby="fitHeading" hidden>
-  <div class="section-count">03 / YOUR EXPERIENCE</div><h2 id="fitHeading">What have you actually done?</h2><p class="stage-description">Mark requirements you can genuinely meet. Nothing is inferred about your experience.</p>
-  <div class="skill-options" id="skillOptions"></div><label class="field-label" for="experienceNotes">What have you actually done? <span class="optional">(optional)</span></label><textarea class="text-input experience-notes" id="experienceNotes" rows="4" placeholder="Example: Led 12 user interviews and redesigned onboarding, reducing activation time by 18%."></textarea>
-  <div class="live-feedback" id="fitFeedback" aria-live="polite">Select requirements you meet. The summary will distinguish your answers from what the listing actually says.</div>
-  <div class="stage-footer"><button type="button" class="secondary" data-back="1">← Back</button><button class="primary" type="button" id="goDecision">Continue <span aria-hidden="true">→</span></button></div>
- </section>
- <section class="stage" id="stepDecision" aria-labelledby="decisionHeading" hidden>
-  <div class="section-count">04 / YOUR NEXT STEP</div><h2 id="decisionHeading">Here's your next move.</h2>
-  <div class="decision-result" id="decisionResult" role="status"></div>
-  <div class="decision-points" id="decisionPoints"></div>
-  <p class="safety-note">Browser-only checklist. Recheck the original listing; no employer or account is contacted.</p>
-  <div class="stage-footer"><button type="button" class="secondary" data-back="2">← Back</button><div class="decision-actions"><button class="secondary" type="button" id="copySummary">Copy decision notes</button><button class="primary" type="button" id="restartFlow">Try another role <span aria-hidden="true">→</span></button></div></div>
- </section>
-</div>
-<div class="demo-bottom"><span>Try it. Change the inputs. See what changes.</span><a href="./">← Back to RoleHint</a></div>
+</section>
+<section id="resultsScreen" class="results shell" hidden aria-labelledby="resultsTitle">
+  <div class="results-top"><div class="intro-label"><span class="label-line" aria-hidden="true"></span> YOUR OPPORTUNITY QUEUE · SIMULATION</div><button class="button-link" type="button" id="editSearch">Edit search <span aria-hidden="true">↗</span></button></div>
+  <div class="results-heading"><div><h1 id="resultsTitle">Your shortlist<span class="orange-dot">.</span></h1><p>Prioritized against your criteria and example experience. Select a job to see why.</p></div><div id="resultsMetrics" class="metrics" aria-label="Example search breakdown"></div></div>
+  <div id="decisionSummary" class="decision-summary" aria-live="polite"></div>
+  <div class="queue-toolbar"><div class="filters" role="group" aria-label="Filter opportunity decisions">
+    <button class="filter-tab active" data-filter="all" aria-pressed="true" type="button">All <span id="allCount"></span></button>
+    <button class="filter-tab" data-filter="pursue" aria-pressed="false" type="button">Pursue <span id="pursueCount"></span></button>
+    <button class="filter-tab" data-filter="verify" aria-pressed="false" type="button">Verify <span id="verifyCount"></span></button>
+    <button class="filter-tab" data-filter="skip" aria-pressed="false" type="button">Skip <span id="skipCount"></span></button>
+  </div><span class="queue-caption">SAMPLE RESULTS · NO EXTERNAL APPLICATIONS</span></div>
+  <div class="queue-layout">
+    <div class="list-pane" id="listPane" aria-label="Sample opportunities"><div id="jobList"></div><div class="list-footer">Changing your criteria or profile changes the shortlist.</div></div>
+    <div class="detail-pane" id="detailPane" aria-label="Opportunity details" tabindex="-1"><div id="jobDetail"></div></div>
+  </div>
+  <div class="how-note"><div><span class="eyebrow">WHAT THE AGENT ACTUALLY DOES</span><p>Sources → deduplication → eligibility checks → requirement-to-experience matching → recommended next action. In the connected product, those steps operate on configured sources and user-approved information.</p></div><a href="https://github.com/dokarpov/rolehint/blob/main/docs/DECISION_POLICY.md" target="_blank" rel="noopener noreferrer">Decision policy <span aria-hidden="true">↗</span></a></div>
+</section>
 </main>
-<noscript><p class="noscript">JavaScript is required to run the interactive sample.</p></noscript>
+<footer class="footer shell"><span>RoleHint · Prototype</span><span>All displayed opportunities, employers, salaries and outcomes are fictional.</span><a href="./">Back to website ↗</a></footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-</body>
-</html>
+</body></html>
