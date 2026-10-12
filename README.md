@@ -2,37 +2,44 @@
 
 **Less searching. Better deciding.**
 
-[Public website](https://dokarpov.github.io/rolehint/site/) · [Early-access request](https://dokarpov.github.io/rolehint/site/#apply)
+[Public website](https://dokarpov.github.io/rolehint/site/) · [Early-access application](https://dokarpov.github.io/rolehint/site/#apply) · [Privacy](https://dokarpov.github.io/rolehint/site/privacy.html)
 
-## Public site
+## What visitors see
 
-The public RoleHint website uses an evidence-led sales narrative: the hidden catch in a seemingly ideal remote job, an illustrative vacancy-versus-decision brief, and three concrete outputs: grounded experience, precise recruiter questions, and an apply/verify/skip next step. Preview data is fictional, not a live analysis or a customer result.
+A responsive editorial landing page with restored large typography, purple brand icon, graphite/lilac/silver accents, and an embedded preview of the existing RoleHint workspace. The embedded opportunities are fictional demonstration data; it is **not** real CV matching or employer discovery. The public CTA opens an early-access application form.
 
-The public product presentation embeds the **actual existing RoleHint workspace** in a responsive iframe with a legacy demo bypass, explicitly labelled as fictional sample jobs and not live matching. The previous synthetic glass product mockup is no longer loaded. The showcase follows a locked editorial design system with restored large Manrope typography, graphite/lilac contrast, and silver metallic CSS surfaces. The on-page logo uses the enlarged rolehint. wordmark; the legacy green icon is removed from the page (favicon replacement pending). See [design system](docs/DESIGN_SYSTEM.md). The previous animated abyss, 3D CV sculpture, and CV-upload conversion block were removed from the homepage. The site's main CTA now opens a simple, responsive **early-access form** on the same page. Submitting the form opens an email draft addressed to the project owner; the visitor must send that email. The website itself does **not** collect or store form submissions.
+## Receiving applications
 
-The experimental interactive workspace and CV-first onboarding remain in source control but are intentionally **not linked from the public marketing website** until the demo is ready. Other experimental checkers and backend components remain separate from the public-site user journey.
+The form submits via **FormSubmit** to `dokarpov@gmail.com` and includes name, email, and an optional job-search goal. It does **not** use `mailto:` or require a visitor to send an email draft. A CAPTCHA/honeypot is enabled.
 
-## Status and limitations
+**Required one-time activation:** FormSubmit sends an activation/verification message to the receiving address. Confirm that message before sharing the site widely. Until verification and an end-to-end test succeed, **receipt of submissions is unverified**. Test with a different email address and verify delivery to Inbox/Spam. The form depends on FormSubmit's availability and privacy practices, and this static site has no first-party submission database, autoresponder, or admin console.
 
-The public site is a prototype. No account system, live job discovery, CV-to-job scoring, live AI analysis, billing, or real subscription trial is offered through the public homepage. Illustrative examples should not be treated as verified employer or user data.
+## Install RoleHint
 
-## Intended architecture
+The public website includes a web manifest and service worker for installation and basic offline caching.
 
-- `rolehint-site`: public marketing (planned separate repository)
-- `rolehint-app`: public frontend (planned separate repository)
-- `rolehint-core`: private backend (planned separate repository)
+- **iPhone (Safari):** open the site, Share → Add to Home Screen.
+- **Android (Chrome):** open the site, menu → Install app or Add to Home Screen.
+- **Desktop (Chromium):** use the browser's Install option when offered.
 
-The split is **not finished**: this repository remains public and includes experimental backend files. Moving code into a private repository would not erase earlier public Git history.
+A standalone app-store package is not provided. The current manifest references an SVG icon; some browsers require PNG icon sizes for install prompts, so installability is device/browser dependent. Offline caching is for public pages, **not** submitting applications offline.
 
-## Backend experiments
+## Repository contents
 
-Not connected to GitHub Pages.
+- `site/` — public marketing site, early-access form, PWA assets, privacy and thank-you pages.
+- `site/workspace.html` — experimental fictional job-decision workspace and CV-first onboarding; not ready for public product launch.
+- Other backend and checker experiments are **not connected** to the GitHub Pages site.
+- `docs/DESIGN_SYSTEM.md` — typography and visual rules.
+
+Planned split into `rolehint-site` (public), `rolehint-app` (public), and `rolehint-core` (private) is **not completed**. This GitHub repo remains public, including its history and experimental backend.
+
+## Development
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-[Technical overview](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md)
+[Technical overview](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md) · [Design system](docs/DESIGN_SYSTEM.md)
 
-*Prototype. No independently verified hiring uplift or product–market fit.*
+*Exploratory prototype. No verified hiring uplift or product–market fit.*
