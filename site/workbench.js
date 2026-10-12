@@ -57,6 +57,7 @@ function loadSample(name,announce=true){
 function capture(){
  state.role=$('targetRole').value.trim();
  state.description=$('jobDescription').value.trim();
+ state.sample=Object.values(samples).some(item=>item.description.trim()===state.description);
  state.sourceUrl=$('jobUrl').value.trim();
  state.region=$('targetRegion').value;
  state.workMode=document.querySelector('input[name="workMode"]:checked')?.value||'remote';
@@ -69,7 +70,10 @@ function excerpt(text,re){let m=re.exec(text);if(!m)return null;let idx=m.index;
 function checkSetup(text){
  const onSite=excerpt(text,/\b(hybrid|on[- ]site|onsite|office attendance|in[- ]office|days (?:a|per) week (?:in|at) (?:the )?office)\b/i);
  const remote=excerpt(text,/\b(remote|work from anywhere|fully distributed)\b/i);
- if(state.workMode==='remote'&&onSite)return {label:'Work setup',kind:'block',detail:'Office attendance is mentioned: “'+onSite+'”'};
+ if(state.workMode==='remote'&&onSite){
+  const compulsory=/\b(required|mandatory|must attend|days? per week|days? a week|in-office required|office attendance required)\b/i.test(onSite);
+  return {label:'Work setup',kind:compulsory?'block':'ask',detail:'Office or hybrid work is mentioned: “'+onSite+'”. '+(compulsory?'This appears incompatible with remote only.':'Confirm whether fully remote work is permitted.')};
+ }
  if(onSite)return {label:'Work setup',kind:'pass',detail:'Office attendance is mentioned: “'+onSite+'”'};
  if(remote)return {label:'Work setup',kind:'pass',detail:'Remote work is mentioned: “'+remote+'”'};
  return {label:'Work setup',kind:'ask',detail:'Work arrangement not found. Confirm remote/hybrid/on-site expectations.'};
@@ -99,7 +103,7 @@ function salaryInfo(text){
 }
 function checkSalary(text){
  const inf=salaryInfo(text),min=state.minSalary;
- if(!inf||!inf.currency||!inf.valid||!Number.isFinite(inf.high))return {label:'Compensation',kind:min?'ask':'pass',detail:'Comparable annual salary not identified'+(min?'; check it against your €'+min.toLocaleString('en-US')+' minimum.':'.')};
+ if(!inf||!inf.currency||!inf.valid||!Number.isFinite(inf.high))return {label:'Compensation',kind:'ask',detail:'Comparable annual salary not identified'+(min?'; check it against your €'+min.toLocaleString('en-US')+' minimum.':'. Ask the employer for the actual range.')};
  const note='Stated amount: “'+inf.line+'”';
  if(inf.currency!=='EUR')return {label:'Compensation',kind:'ask',detail:note+'. Different currency; no conversion or salary comparison is made.'};
  if(/\b(month|hour|hourly|daily|per day)\b/i.test(inf.line))return {label:'Compensation',kind:'ask',detail:note+'. Pay frequency needs clarification before comparing.'};
@@ -180,7 +184,7 @@ $('loadSample').addEventListener('click',()=>{
 });
 $('targetRole').addEventListener('input',()=>{
  document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed','false'));
- if(state.sample)state.sample=false;checkInput();
+ state.sample=false;checkInput();
 });
 $('jobDescription').addEventListener('input',()=>{state.sample=false;checkInput()});
 $('goEligibility').addEventListener('click',()=>{
