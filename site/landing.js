@@ -4,26 +4,75 @@
 'use strict';
 const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 const coarse=matchMedia('(pointer:coarse)').matches;
-const stages={
- screen:{index:'01',kicker:'01 — ELIGIBILITY',title:'Great on paper.<br>But can you actually take it?',body:'Location, hiring region and other hard constraints are evaluated before semantic matching. A blocked role never becomes a priority just because the keywords fit.',rows:[['Remote · Europe','PASS','use'],['Hybrid · Berlin','EXCLUDED','gap']]},
- prove:{index:'02',kicker:'02 — EVIDENCE REVIEW',title:'A good match<br>needs better proof.',body:'Requirements are mapped to work you can substantiate, claims that need confirmation and genuine gaps. Each category has a different next action.',rows:[['Owned product discovery','USE','use'],['Revenue accountability','CHECK','review'],['Specialist domain proof','GAP','gap']]},
- move:{index:'03',kicker:'03 — HUMAN DECISION',title:'Move forward.<br>Without making things up.',body:'Review an application-ready pack with clear sources. You approve outward claims and decide whether to submit. Outcomes become useful feedback instead of vanity metrics.',rows:[['Source-backed statements','READY','use'],['Unverified achievements','ON HOLD','review']]}
-};
-const buttons=[...document.querySelectorAll('[data-stage]')],slot=document.querySelector('#stageContent'),counter=document.querySelector('.feature-number'),story=document.querySelector('.product-section');
-let active='screen',lastManual=0;
-function stage(id,manual=false){const s=stages[id];if(!s||!slot||active===id&&!manual)return;active=id;if(manual)lastManual=performance.now();
- buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.stage===id)));
- if(counter)counter.innerHTML=s.index+'<span>/03</span>';
- slot.innerHTML='<span class="stage-kicker">'+s.kicker+'</span><h3>'+s.title+'</h3><p>'+s.body+'</p><div class="stage-mini">'+s.rows.map(r=>'<div><span>'+r[0]+'</span><span class="proof-state '+r[2]+'">'+r[1]+'</span></div>').join('')+'</div>';
- if(!reduce){slot.classList.remove('rh-switched');void slot.offsetWidth;slot.classList.add('rh-switched')}
+/* Three content-rich scenes in ONE work surface. They advance without user taps. */
+const scenes=[
+{id:'screen',index:'01',label:'01 — Eligibility',title:'First, remove<br>the noise.',body:'Check the non-negotiables before spending time on a match.',
+html:`<div class="screen-context"><span>01 / ELIGIBILITY</span><span>CHECK FIRST</span></div>
+<h4 class="screen-role">Senior Product<br>Manager</h4><p class="screen-location">Illustrative role · Europe</p>
+<div class="screen-check"><span class="check-orb">✓</span><span>Remote in Europe</span><strong>ELIGIBLE</strong></div>
+<div class="screen-check excluded"><span class="check-orb">×</span><span>Hybrid in Berlin</span><strong>EXCLUDED</strong></div>
+<div class="screen-foot">Hard constraints before a match score. <span>↗</span></div>`},
+{id:'prove',index:'02',label:'02 — Evidence',title:'Then, check<br>the proof.',body:'See what your experience supports—and what still needs confirming.',
+html:`<div class="screen-context"><span>02 / EVIDENCE</span><span>REVIEW</span></div>
+<h4 class="screen-role">What can<br>you prove?</h4>
+<p class="proof-preview-intro">Sample evidence mapped to the role’s requirements.</p>
+<div class="proof-preview-row"><span class="proof-preview-tag use">USE</span><strong>Product discovery leadership</strong><small>Documented work</small></div>
+<div class="proof-preview-row"><span class="proof-preview-tag check">CHECK</span><strong>Revenue ownership</strong><small>Confirm scope</small></div>
+<div class="proof-preview-row"><span class="proof-preview-tag gap">GAP</span><strong>Specialist domain experience</strong><small>No proof yet</small></div>
+<div class="proof-preview-end">No invented achievements. No magic match score.</div>`},
+{id:'move',index:'03',label:'03 — Your decision',title:'Finally, move<br>with confidence.',body:'You control what gets claimed. AI prepares the draft—not the decision.',
+html:`<div class="screen-context"><span>03 / HUMAN REVIEW</span><span>DRAFT ONLY</span></div>
+<h4 class="screen-role">Your move.<br>Your call.</h4>
+<div class="draft-preview"><div class="draft-preview-top"><span>APPLICATION / SAMPLE</span><span>NOT SENT</span></div>
+<p>“My documented work includes end-to-end product discovery and cross-functional delivery…”</p>
+<div class="draft-preview-approve"><span>✓</span><span>Claim reviewed by you</span></div></div>
+<div class="screen-foot">A decision, not another auto-apply. <span>↗</span></div>`}
+];
+const sceneRoot=document.getElementById('storyScene'),story=document.getElementById('how');
+const controls=[...document.querySelectorAll('[data-story-stage]')],copyRoot=document.getElementById('storyCopy');
+const stageDuration=6200;
+let sceneIndex=0,storyVisible=false,stageTimer=null,manualHold=0;
+function paintScene(index,{instant=false}={}){
+ if(!sceneRoot)return;
+ sceneIndex=(index+scenes.length)%scenes.length;
+ const s=scenes[sceneIndex];
+ document.getElementById('storyCurrentNumber').textContent=s.index;
+ document.getElementById('storyStepLabel').textContent=s.label;
+ document.getElementById('storyStepTitle').innerHTML=s.title;
+ document.getElementById('storyStepBody').textContent=s.body;
+ sceneRoot.innerHTML=s.html;
+ sceneRoot.classList.remove('is-entering');void sceneRoot.offsetWidth;
+ if(!reduce&&!instant)sceneRoot.classList.add('is-entering');
+ if(copyRoot&&!reduce&&!instant){copyRoot.animate([{opacity:.3,transform:'translateY(12px)'},{opacity:1,transform:'translateY(0)'}],{duration:560,easing:'cubic-bezier(.16,1,.3,1)'})}
+ controls.forEach((button,i)=>{
+   button.classList.toggle('is-active',i===sceneIndex);
+   button.classList.toggle('is-complete',i<sceneIndex);
+   button.setAttribute('aria-pressed',String(i===sceneIndex));
+   const fill=button.querySelector('.story-progress-fill');
+   if(fill&&i===sceneIndex){fill.style.animation='none';void fill.offsetWidth;fill.style.animation=''}
+ });
 }
-buttons.forEach(b=>b.addEventListener('click',()=>{
- stage(b.dataset.stage,true);
- if(matchMedia('(min-width:1000px)').matches&&story){
-  const n=['screen','prove','move'].indexOf(b.dataset.stage),dist=story.offsetHeight-innerHeight;
-  if(dist>0){const target=window.scrollY+story.getBoundingClientRect().top+dist*(n===0?.1:n===1?.47:.87);window.scrollTo({top:target,behavior:reduce?'instant':'smooth'})}
- }
+function clearStageTimer(){if(stageTimer!==null){clearInterval(stageTimer);stageTimer=null}}
+function startStageTimer(){
+ clearStageTimer();
+ if(reduce||!storyVisible||document.hidden)return;
+ stageTimer=setInterval(()=>{if(Date.now()<manualHold)return;paintScene(sceneIndex+1)},stageDuration);
+}
+controls.forEach(button=>button.addEventListener('click',()=>{
+ const next=scenes.findIndex(x=>x.id===button.dataset.storyStage);
+ if(next<0)return;
+ manualHold=Date.now()+stageDuration;
+ paintScene(next);
+ startStageTimer();
 }));
+if(story&&'IntersectionObserver'in window){
+ new IntersectionObserver(entries=>{
+  const visible=entries[0].intersectionRatio>.12;
+  if(visible!==storyVisible){storyVisible=visible;if(visible)startStageTimer();else clearStageTimer()}
+ },{threshold:[0,.12,.3,.6]}).observe(story);
+}else{storyVisible=true;startStageTimer()}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)clearStageTimer();else startStageTimer()});
+paintScene(0,{instant:true});
 /* Subtle editorial reveals. Content remains visible when JS fails. */
 if(!reduce&&'IntersectionObserver'in window){
  document.documentElement.classList.add('rh-motion-ready');
@@ -39,14 +88,7 @@ function updateScroll(){
  if(progress)progress.style.transform='scaleX('+p+')';
  const hero=document.querySelector('.hero');
  if(hero&&hero.getBoundingClientRect().bottom>0)hero.style.setProperty('--hero-drift',Math.min(1,scrollY/Math.max(1,innerHeight)).toFixed(3));
- if(story&&innerWidth>=1000&&performance.now()-lastManual>1200){
-  const rect=story.getBoundingClientRect(),distance=story.offsetHeight-innerHeight;
-  if(distance>50&&rect.top<=120&&rect.bottom>=innerHeight*.4){
-    const t=Math.min(1,Math.max(0,(120-rect.top)/distance));
-    const desired=t<.32?'screen':t<.69?'prove':'move';
-    if(desired!==active)stage(desired);
-  }
- }
+
 }
 addEventListener('scroll',()=>{if(!rafScroll)rafScroll=requestAnimationFrame(updateScroll)},{passive:true});addEventListener('resize',updateScroll,{passive:true});updateScroll();
 /* Real-time editorial signal field: many noisy paths converge into a smaller set
