@@ -6,7 +6,7 @@
 
 ## What visitors see
 
-A responsive editorial landing page with restored large typography, purple brand icon, graphite/lilac/silver accents, and an embedded preview of the existing RoleHint workspace. The embedded opportunities are fictional demonstration data; it is **not** real CV matching or employer discovery. The public CTA opens an early-access application form.
+A responsive editorial landing page with restored large typography, purple brand icon, graphite/lilac/silver accents, and a responsive, native guided preview derived from the existing RoleHint workspace. The three selectable opportunities are fictional demonstration data; it is **not** real CV matching or employer discovery. The public CTA opens an early-access application form.
 
 ## Receiving applications
 
@@ -43,3 +43,12 @@ docker compose up --build
 [Technical overview](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md) · [Design system](docs/DESIGN_SYSTEM.md)
 
 *Exploratory prototype. No verified hiring uplift or product–market fit.*
+
+## Release 1 — one-site shareability pass
+
+- Replaced iframe with one responsive, fully clickable HTML/CSS/JS product preview for three illustrative roles (no inner scroll or separate mini-browser).
+- Bumped service-worker cache so updated styles, privacy policy and preview scripts refresh.
+- Added `site/qa-release.mjs` and `.github/workflows/release-qa.yml` for Chromium regression checks at 320, 375, 390, 768, 1024 and 1440px; checks preview selection, CTA wiring and privacy overflow. A test definition is **not proof of a passed run**. Check GitHub Actions for the actual result.
+- Kept live demo unpromoted while product onboarding remains experimental.
+
+**Release acceptance still pending:** receiving mailbox verification, a real end-to-end test lead, legal controller identification and direct privacy contact, real Safari/Android device QA, and verification of deployment/build status. Do not claim complete GDPR compliance or validated mobile QA without those checks. The FormSubmit recipient is still the existing personal address pending creation of an approved dedicated mailbox.
