@@ -91,55 +91,7 @@ function updateScroll(){
 
 }
 addEventListener('scroll',()=>{if(!rafScroll)rafScroll=requestAnimationFrame(updateScroll)},{passive:true});addEventListener('resize',updateScroll,{passive:true});updateScroll();
-/* Real-time editorial signal field: many noisy paths converge into a smaller set
-   of defensible decisions. Rendered with Canvas 2D, no textures or stock assets. */
-const canvas=document.querySelector('#signalField'),ctx=canvas?.getContext('2d',{alpha:true});
-if(canvas&&ctx){
- let w=0,h=0,dpr=1,frame=0,running=true,visible=true,ptr={x:.6,y:.45},smooth={x:.6,y:.45},last=0;
- const arcs=Array.from({length:27},(_,i)=>({seed:i,a:(i*.61803398875)%1,b:(i*.354877666)%1,speed:.17+(i%8)*.031,width:i%4===0?1.25:.7}));
- function resize(){const rect=canvas.getBoundingClientRect();w=rect.width;h=rect.height;dpr=Math.min(2,devicePixelRatio||1);canvas.width=Math.max(1,Math.round(w*dpr));canvas.height=Math.max(1,Math.round(h*dpr));ctx.setTransform(dpr,0,0,dpr,0,0)}
- function bezier(p0,p1,p2,t){const i=1-t;return {x:i*i*p0.x+2*i*t*p1.x+t*t*p2.x,y:i*i*p0.y+2*i*t*p1.y+t*t*p2.y}}
- function draw(time){
-  if(!w||!h)return;ctx.clearRect(0,0,w,h);
-  smooth.x+=(ptr.x-smooth.x)*.045;smooth.y+=(ptr.y-smooth.y)*.045;
-  const center={x:w*(.55+(smooth.x-.5)*.075),y:h*(.51+(smooth.y-.5)*.09)};
-  const pulse=reduce?0:Math.sin(time*.0008)*3;
-  ctx.lineCap='round';ctx.lineJoin='round';
-  arcs.forEach((a,i)=>{
-   const sy=h*(.045+.89*a.a),sx=w*(-.08+.15*a.b);
-   const ty=center.y+(i-13)*3.25+pulse,tx=center.x+(i-13)*2.4;
-   const p0={x:sx,y:sy},p1={x:w*(.22+a.b*.31),y:sy+(ty-sy)*(.4+a.b*.12)},p2={x:tx,y:ty};
-   const lit=i%5===0||i%7===0;
-   ctx.beginPath();ctx.moveTo(p0.x,p0.y);ctx.quadraticCurveTo(p1.x,p1.y,p2.x,p2.y);
-   ctx.strokeStyle=lit?'rgba(238,88,56,.30)':'rgba(23,27,34,.10)';ctx.lineWidth=lit?1.3:a.width;ctx.stroke();
-   if(!reduce){
-    const t=(time*.00013*a.speed+i*.137)%1,pos=bezier(p0,p1,p2,t);
-    ctx.beginPath();ctx.arc(pos.x,pos.y,lit?2.5:1.2,0,Math.PI*2);
-    ctx.fillStyle=lit?'rgba(238,88,56,.72)':'rgba(40,51,61,.25)';ctx.fill();
-   }
-  });
-  for(let ring=2;ring>=0;ring--){
-   ctx.beginPath();ctx.arc(center.x,center.y,ring*12+7+(reduce?0:Math.sin(time*.001+ring)*1.8),0,Math.PI*2);
-   ctx.strokeStyle='rgba(238,88,56,'+(.1+(.15*(3-ring)/3))+')';ctx.lineWidth=.8;ctx.stroke();
-  }
-  ctx.beginPath();ctx.arc(center.x,center.y,5.5,0,Math.PI*2);ctx.fillStyle='#ee5838';ctx.fill();
- }
- function tick(t){if(!running)return;if(!visible){frame=requestAnimationFrame(tick);return}if(!reduce||!last){draw(t);last=t}if(!reduce)frame=requestAnimationFrame(tick)}
- canvas.addEventListener('pointermove',e=>{const r=canvas.getBoundingClientRect();ptr.x=(e.clientX-r.left)/r.width;ptr.y=(e.clientY-r.top)/r.height},{passive:true});
- if('ResizeObserver'in window){new ResizeObserver(resize).observe(canvas)}else addEventListener('resize',resize);
- if('IntersectionObserver'in window)new IntersectionObserver(es=>{visible=es[0].isIntersecting},{threshold:0}).observe(canvas);
- document.addEventListener('visibilitychange',()=>{visible=!document.hidden});
- resize();frame=requestAnimationFrame(tick);
- addEventListener('pagehide',()=>{running=false;cancelAnimationFrame(frame)},{once:true});
-}
-/* Native cursor remains visible; companion marker only adds directional feedback. */
-const cursor=document.getElementById('rhCursor');if(cursor&&!reduce&&!coarse){
- let x=-80,y=-80,tx=-80,ty=-80,shown=false,anim=0;
- function move(){x+=(tx-x)*.17;y+=(ty-y)*.17;cursor.style.transform='translate3d('+(x-11)+'px,'+(y-11)+'px,0)';anim=requestAnimationFrame(move)}
- addEventListener('pointermove',e=>{tx=e.clientX;ty=e.clientY;if(!shown){shown=true;cursor.classList.add('active')}} ,{passive:true});
- document.querySelectorAll('a,.feature-nav button').forEach(el=>{el.addEventListener('pointerenter',()=>cursor.classList.add('over-link'));el.addEventListener('pointerleave',()=>cursor.classList.remove('over-link'))});
- move();addEventListener('pagehide',()=>cancelAnimationFrame(anim),{once:true});
-}
+/* No ambient noise canvas or follower cursor: only product-meaningful motion remains. */
 /* Small magnetic travel responds to pointer velocity, never hijacks click targets. */
 if(!reduce&&!coarse)document.querySelectorAll('.hero-actions .button,.cta-bottom .button').forEach(el=>{
  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();const dx=(e.clientX-r.left-r.width/2)*.055,dy=(e.clientY-r.top-r.height/2)*.095;el.style.translate=dx.toFixed(1)+'px '+dy.toFixed(1)+'px'});
