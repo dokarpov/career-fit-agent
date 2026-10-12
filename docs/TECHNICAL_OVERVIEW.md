@@ -1,4 +1,4 @@
-# Career Fit — technical overview (v1.9.0)
+# RoleHint — technical overview (v1.9.0)
 
 [![test](https://github.com/dokarpov/career-fit-agent/actions/workflows/test.yml/badge.svg)](https://github.com/dokarpov/career-fit-agent/actions/workflows/test.yml)
 
@@ -15,7 +15,7 @@ The public demo intentionally uses fictional roles and illustrative response dat
 
 
 
-Most AI job tools optimize text generation. Career Fit starts one layer earlier: **is the role actually eligible, what evidence supports the match, what is missing, and what can the system safely say without inventing ownership or impact?**
+Most AI job tools optimize text generation. RoleHint starts one layer earlier: **is the role actually eligible, what evidence supports the match, what is missing, and what can the system safely say without inventing ownership or impact?**
 
 ```text
 connect sources
