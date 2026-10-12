@@ -2,16 +2,16 @@
 
 [![test](https://github.com/dokarpov/rolehint/actions/workflows/test.yml/badge.svg)](https://github.com/dokarpov/rolehint/actions/workflows/test.yml)
 
-**Evidence-first job-search orchestration for experienced professionals.**
+**A career decision agent that screens opportunities against eligibility, experience and effort before application preparation.**
 
 ## Experience the product
 
 - [Product website](https://dokarpov.github.io/rolehint/site/) — plain-language value proposition, limitations and real workflow explanation
-- [Interactive prototype](https://dokarpov.github.io/rolehint/site/workspace.html) — daily decisions, wider search, weekly progress and occasional setup (sample data only)
+- [Opportunity-agent demo](https://dokarpov.github.io/rolehint/site/workspace.html) — customize a target profession, example experience and hard constraints; watch simulated sourcing, deduplication and prioritization; inspect opportunity decisions and next actions (fictional data only)\n- [Job-description checker](https://dokarpov.github.io/rolehint/site/check.html) — separate, optional text-paste utility using transparent browser-side rules, not a live source connector
 - [Agent-readable facts](https://dokarpov.github.io/rolehint/site/product.json) · [llms.txt](https://dokarpov.github.io/rolehint/site/llms.txt)
 - The **Telegram mini-app** remains a separate live-data interface in `telegram_miniapp/`, with progressive `ux-v2.js` / `ux-v2.css` navigation and the existing backend actions.
 
-The public demo intentionally uses fictional roles and illustrative response data. It does not log in, send applications, approve real claims or measure hiring improvements.
+The primary public demo is a **simulation of the agent workflow** using fictional source records, companies and salaries. The source-driven backend is separate and is not connected to GitHub Pages. The public demo does not log in, fetch employer listings, send applications, verify user history or measure hiring improvements.
 
 
 
