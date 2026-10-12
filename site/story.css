@@ -162,3 +162,15 @@
 .story-progress{position:relative}
 .story-progress:focus-visible{outline:2px solid #201b1a;outline-offset:4px;border-radius:2px}
 .story-progress-name{font-size:13px}
+
+
+/* Contrast audit: accessible orange story without changing the approved composition. */
+.product-story{background:#ed5b3b;color:#1c1d22}
+.story-intro h2 span{color:#fff}
+.story-intro>p,.story-copy p{color:#2d1d1b}
+.story-overline,.story-step-label,.story-current,.story-progress-name{color:#2c1e1e}
+.story-progress.is-active{color:#181c22}
+.story-endline>span{color:#2d1d1b}
+.story-monitor{cursor:pointer}
+.story-monitor:focus-visible{outline:3px solid #fff;outline-offset:4px}
+@media(prefers-reduced-motion:reduce){.story-monitor-body.is-entering{animation:none!important}}
