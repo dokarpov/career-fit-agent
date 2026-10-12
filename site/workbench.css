@@ -24,3 +24,32 @@
 @media(max-width:490px){.demo-width{width:calc(100% - 32px)}.demo-header{height:64px}.brand{font-size:21px}.brand img{width:28px;height:28px}.demo-label{display:none}.reset-link{font-size:12px}.demo-intro{padding:44px 0 27px}.demo-intro h1{font-size:clamp(38px,10vw,48px);letter-spacing:-.065em;margin:17px 0}.demo-intro>p{font-size:16px}.stepper{margin-bottom:18px;gap:2px}.step{gap:5px;padding:11px 2px 14px;font-size:10px;flex-wrap:wrap;align-content:center}.step>span{font-size:10px}.demo-card{border-radius:12px}.stage{padding:24px 18px}.stage h2{font-size:32px}.stage-head p{font-size:15px}.choice-grid{grid-template-columns:1fr;gap:9px;margin:19px 0}.role-choice{min-height:66px;padding:12px 15px;gap:3px}.role-choice strong{font-size:15px}.role-choice span{font-size:12px}.preferences-inline{gap:15px;grid-template-columns:1fr}.work-options{grid-column:auto}.work-options label{font-size:13px}.stage-footer{margin-top:24px;gap:13px}.stage-footer>p{max-width:100%}.stage-footer .primary{flex:1}.skill-options{grid-template-columns:1fr}.skill-check{padding:13px 14px;font-size:14px}.demo-bottom{flex-direction:column;align-items:flex-start;gap:8px}.decision-actions{width:100%;justify-content:space-between}.decision-actions .primary{flex:1;white-space:normal}.sample-role strong{font-size:20px}.stage-footer>p{font-size:11px}}
 @media(max-width:345px){.step{font-size:9px}.step>span{font-size:9px}.stage{padding:20px 15px}.stage h2{font-size:29px}.work-options label{white-space:normal}.demo-intro h1{font-size:37px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+
+/* Real pasted vacancy input: keeps the four-step journey concise and usable. */
+.job-input{margin-top:22px}
+.job-input-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.job-input-head>.field-label{margin-bottom:9px}
+.example-link{font-size:13px;color:#ae452d;padding:3px 0;min-height:0;white-space:nowrap}
+.example-link:hover{color:#7d2c20;text-decoration:underline}
+.text-input.job-description,.text-input.experience-notes{
+ display:block;appearance:auto;height:auto;min-height:175px;
+ resize:vertical;line-height:1.65;padding:14px 16px;
+ width:100%;font-family:var(--font);font-size:15px;
+ border-radius:10px;overflow:auto;tab-size:4;
+}
+.text-input.experience-notes{min-height:110px;margin-bottom:15px}
+.input-help{margin:8px 0 20px;color:#67615e;font-size:12px;line-height:1.6}
+.optional{font-weight:500;color:#807a78}
+#jobUrl{display:block}
+#sourceType{font-size:11px}
+.check-row p,.decision-point{overflow-wrap:anywhere}
+.skill-options{grid-template-columns:1fr}
+.skill-check{align-items:flex-start;min-height:50px}
+.skill-check input{margin-top:3px}
+@media(max-width:490px){
+ .job-input-head{align-items:start;flex-wrap:wrap}
+ .example-link{font-size:12px}
+ .text-input.job-description{min-height:190px}
+ .text-input.experience-notes{min-height:120px}
+}
