@@ -275,3 +275,9 @@ h1,h2,h3,h4,p{margin-top:0}
  html{scroll-behavior:auto}
  *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+/* Optional direct analysis without diluting the sample agent's primary action. */
+.check-job-path{margin:8px 28px 24px;color:#6e6362;font-size:13px;line-height:1.5}
+.check-job-path a{color:#b04930;font-weight:750;border-bottom:1px solid #dca18e;padding-bottom:1px}
+.check-job-path a:hover{color:#7d2f21;border-color:#7d2f21}
+@media(max-width:560px){.check-job-path{margin:10px 17px 21px;font-size:13px}}
