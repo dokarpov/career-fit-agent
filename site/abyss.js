@@ -4,7 +4,7 @@
 const stage=document.getElementById('abyssStage'),canvas=document.getElementById('abyssCanvas');if(!stage||!canvas)return;
 const context=canvas.getContext('2d',{alpha:false});if(!context)return;
 const reduce=window.matchMedia('(prefers-reduced-motion: reduce)');
-let width=0,height=0,dpr=1,raf=0,tick=0,active=false,pointer={x:0,y:0,tx:0,ty:0,energy:0},clouds=[],stars=[],lastTime=0;
+const cloudLayer=document.createElement('canvas');let width=0,height=0,dpr=1,raf=0,tick=0,active=false,pointer={x:0,y:0,tx:0,ty:0,energy:0},clouds=[],stars=[],lastTime=0;
 const rand=(a,b)=>a+Math.random()*(b-a);
 function size(){
  const b=stage.getBoundingClientRect(),oldW=width||b.width,oldH=height||b.height;
@@ -12,7 +12,7 @@ function size(){
  canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);context.setTransform(dpr,0,0,dpr,0,0);
  if(!pointer.x){pointer.x=pointer.tx=width*.5;pointer.y=pointer.ty=height*.5}else{pointer.x*=width/oldW;pointer.tx*=width/oldW;pointer.y*=height/oldH;pointer.ty*=height/oldH}
  const count=Math.min(48,Math.max(24,Math.round(width*height/14500)));
- clouds=Array.from({length:count},(_,i)=>({x:rand(-.12,1.12)*width,y:rand(-.12,1.12)*height,r:rand(80,180)*(width<480?.72:1),depth:rand(.2,1),phase:rand(0,6.28),speed:rand(.05,.2),hue:i%4===0?'164,123,210':i%3===0?'104,78,156':'78,69,114'}));
+ cloudLayer.width=Math.ceil(width*.55);cloudLayer.height=Math.ceil(height*.55);clouds=Array.from({length:count},(_,i)=>({x:rand(-.12,1.12)*width,y:rand(-.12,1.12)*height,r:rand(80,180)*(width<480?.72:1),depth:rand(.2,1),phase:rand(0,6.28),speed:rand(.05,.2),hue:i%4===0?'164,123,210':i%3===0?'104,78,156':'78,69,114'}));
  stars=Array.from({length:Math.min(130,Math.round(width*height/2700))},()=>({x:rand(0,width),y:rand(0,height),r:rand(.35,1.5),depth:rand(.2,1),phase:rand(0,6.28)}));
  draw(0);
 }
@@ -38,9 +38,9 @@ function draw(t){
   context.fillStyle='#ddd2fa';context.beginPath();context.arc(p.x+dx,p.y+dy,p.r,0,6.283);context.fill();
  }context.globalAlpha=1;
  // Render an offscreen cloud field, then erase a feathered opening at pointer.
- const cloudLayer=document.createElement('canvas');cloudLayer.width=Math.ceil(w*.55);cloudLayer.height=Math.ceil(h*.55);
+ 
  const cl=cloudLayer.getContext('2d');if(cl){
- const scale=cloudLayer.width/w;cl.scale(scale,scale);
+ const scale=cloudLayer.width/w;cl.setTransform(scale,0,0,scale,0,0);cl.clearRect(0,0,w,h);
  for(const c of clouds){
   const drift=reduce.matches?0:Math.sin(now*c.speed+c.phase)*16;
   const x=c.x+drift*c.depth,y=c.y+Math.cos(now*c.speed+c.phase)*13*c.depth;
