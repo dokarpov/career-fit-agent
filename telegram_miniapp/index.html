@@ -19,7 +19,7 @@ body.pipelineMode{max-width:none;margin:0;padding:0;background:#eeeae1;color:#20
 .pipelineCard .detail{padding:14px 20px 20px 64px;border-top:1px solid #d9dcd3;background:#f6f6ef}.pipelineFields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 28px}.pipelineField{min-width:0;border-bottom:1px solid #dce0d7;padding:8px 0;overflow-wrap:anywhere}.pipelineField small{display:block;color:#68766b;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}.pipelineField span{font-size:12px;line-height:1.35}.pipelineLinks{display:flex;gap:16px;flex-wrap:wrap;margin:2px 0 12px}.pipelineLinks a,.pipelineLinks button{font-size:12px;color:#a83d32;font-weight:750}.pipelineFlag{color:#ad3f33;font-size:12px;font-weight:750;margin:7px 0}.pipelineEmpty{padding:36px;text-align:center;color:#67736a;font:18px Georgia,serif}
 @media(max-width:750px){#pipeline{padding:0 0 30px}.pipelineTop{border-radius:0;min-height:180px;padding:26px 18px}.pipelineTop:after{right:-170px;top:-85px;width:250px;height:250px}.pipelineTop h1{font-size:45px;max-width:280px}.pipelineTop .sub{max-width:280px}.pipelineTop .ghostBtn{white-space:nowrap}.pipelineHeroCount{display:none}.pipelineTabs{gap:22px;padding:0 15px;margin-top:0;background:#faf8f3}.pipelineList{border-left:0;border-right:0}.pipelineCard summary{grid-template-columns:20px minmax(0,1fr) 80px 14px;gap:7px 10px;padding:12px 14px;min-height:105px}.pipelineAction{grid-column:2/4}.pipelineRole{font-size:17px}.pipelineDue{grid-column:3;grid-row:1}.pipelinePlus{grid-column:4;grid-row:1}.pipelineCard .detail{padding:14px 16px}.pipelineFields{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.pipelineCard summary{transition:none}}
-</style></head><body>
+</style><link rel="stylesheet" href="./ux-v2.css"></head><body>
 <div id="loading" class="loading">Starting Autopilot…</div>
 <main id="pipeline" class="hidden">
  <div class="top pipelineTop"><div><div class="eyebrow">Daria Karpova / search desk</div><h1>Активные<br>процессы.</h1><div class="sub" id="pipelineFreshness">Загрузка…</div></div><div class="pipelineHeroCount" id="pipelineHeroCount"></div><button class="ghostBtn" id="pipelineRefresh">Обновить ↗</button></div>
@@ -157,4 +157,5 @@ function renderPipeline(){
 async function loadPipeline(){try{pipelineData=await api('/me/pipeline-view');renderPipeline()}catch(e){$('loading').classList.remove('hidden');$('loading').textContent='Не удалось прочитать канонический pipeline: '+e.message}}
 $('pipelineRefresh').onclick=loadPipeline;
 async function load(){if(new URLSearchParams(location.search).has('pipeline')){await loadPipeline();return}try{render(await api('/me/bootstrap'))}catch(e){$('loading').textContent='Could not start Career Fit: '+e.message}}load();
-</script></body></html>
+</script><script src="./ux-v2.js"></script>
+</body></html>
