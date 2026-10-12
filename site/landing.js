@@ -145,4 +145,56 @@ if(!reduce&&!coarse)document.querySelectorAll('.hero-actions .button,.cta-bottom
  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect();const dx=(e.clientX-r.left-r.width/2)*.055,dy=(e.clientY-r.top-r.height/2)*.095;el.style.translate=dx.toFixed(1)+'px '+dy.toFixed(1)+'px'});
  el.addEventListener('pointerleave',()=>{el.style.translate='0 0'});
 });
+
+// Chapter line announces the change of narrative context without blocking natural scrolling.
+if(!reduce&&'IntersectionObserver'in window){
+ const chapterWatcher=new IntersectionObserver(entries=>{
+   for(const entry of entries)if(entry.isIntersecting){entry.target.classList.add('is-inview');chapterWatcher.unobserve(entry.target)}
+ },{threshold:.16});
+ document.querySelectorAll('.manifesto,.proof-section,.last-cta').forEach(el=>chapterWatcher.observe(el));
+}
+// Product stories are slides inside the orange chapter; swipe horizontally on mobile.
+const storyVisual=document.getElementById('storyVisual'),storyExperience=document.getElementById('storyExperience');
+if(storyVisual){
+ let sx=0,sy=0;
+ storyVisual.addEventListener('pointerdown',e=>{if(e.pointerType==='touch'){sx=e.clientX;sy=e.clientY}},{passive:true});
+ storyVisual.addEventListener('pointerup',e=>{
+  if(e.pointerType!=='touch')return;
+  const dx=e.clientX-sx,dy=e.clientY-sy;
+  if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)*1.3){
+   manualHold=Date.now()+stageDuration;
+   paintScene(sceneIndex+(dx<0?1:-1));
+   startStageTimer();
+  }
+ },{passive:true});
+}
+if(storyExperience)storyExperience.addEventListener('keydown',e=>{
+ if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
+ if(e.target.matches('a,input,textarea'))return;
+ e.preventDefault();
+ manualHold=Date.now()+stageDuration;
+ paintScene(sceneIndex+(e.key==='ArrowRight'?1:-1));
+ startStageTimer();
+});
+// Hover inertia follows reading intent: inspect a job -> move through its evidence.
+if(!reduce&&!coarse){
+ for(const el of document.querySelectorAll('.hero-art,.story-monitor')){
+  let px=0,py=0,stamp=0;
+  el.addEventListener('pointermove',e=>{
+   const r=el.getBoundingClientRect(),nx=((e.clientX-r.left)/Math.max(1,r.width)-.5)*2,ny=((e.clientY-r.top)/Math.max(1,r.height)-.5)*2;
+   const t=performance.now(),dt=Math.max(14,t-stamp),velocity=Math.min(2.3,Math.hypot(e.clientX-px,e.clientY-py)/dt);
+   stamp=t;px=e.clientX;py=e.clientY;
+   const scale=1+velocity*.35;
+   el.style.setProperty('--hover-x',(nx*4*scale).toFixed(2)+'px');
+   el.style.setProperty('--hover-y',(ny*4*scale).toFixed(2)+'px');
+   el.style.setProperty('--hover-rx',(-ny*1.2*scale).toFixed(2)+'deg');
+   el.style.setProperty('--hover-ry',(nx*1.4*scale).toFixed(2)+'deg');
+   el.style.setProperty('--hover-rz',(nx*.55*scale).toFixed(2)+'deg');
+  },{passive:true});
+  el.addEventListener('pointerleave',()=>{
+   for(const [key,val] of [['--hover-x','0px'],['--hover-y','0px'],['--hover-rx','0deg'],['--hover-ry','0deg'],['--hover-rz','0deg']])el.style.setProperty(key,val);
+  });
+ }
+}
+
 })();
