@@ -39,6 +39,6 @@ Before public promotion, verify the FormSubmit receiving inbox and a test submis
 
 ## Product UX implementation (separate from the marketing site)
 
-`workspace.html` now offers a direct first-use path: choose/paste CV → review editable text → confirm hiring rules → guided sample job review, with a transparent no-CV bypass. It preserves the fictional-data distinction, shows locally saved search preferences, and offers a delete-local-CV control under Preferences.
+`workspace.html` now offers a direct first-use path: choose/paste CV → review editable text → confirm hiring rules → guided sample job review, with a transparent no-CV bypass. It preserves the fictional-data distinction, shows locally saved search preferences, and offers a delete-local-CV control under Preferences. Saved/passed sample-role decisions persist in localStorage across visits.
 
 See [UX specification](../docs/PROTOTYPE_UX_V1.md) and [automated onboarding scenarios](qa-workspace.mjs); the Actions workflow is `../.github/workflows/prototype-ux.yml`. Browser and device acceptance remain unverified until the checks are run and reviewed. Real personalized job analysis is not present.
