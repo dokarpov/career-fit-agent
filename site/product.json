@@ -21,22 +21,16 @@
   ],
   "frequencyBasedWorkflows": [
     {
-      "name": "Review a job",
+      "name": "Opportunity agent demo",
       "frequency": "on demand",
-      "purpose": "paste real job text or load an explicitly fictional sample; check work setup, geography and salary from stated text",
+      "purpose": "Edit profile/preferences and explore simulated search, prioritization, eligibility, next actions",
       "entry": "https://dokarpov.github.io/rolehint/site/workspace.html"
     },
     {
-      "name": "Clarify personal fit",
-      "frequency": "per opportunity",
-      "purpose": "select relevant job requirements and add your own achievements without invented evidence",
-      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html"
-    },
-    {
-      "name": "Decide next action",
-      "frequency": "per opportunity",
-      "purpose": "copy a Review / Verify / Skip summary including unresolved questions for the employer",
-      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html"
+      "name": "Check an actual job description",
+      "frequency": "on demand",
+      "purpose": "Paste vacancy text for local rules-based checks and copy questions",
+      "entry": "https://dokarpov.github.io/rolehint/site/check.html"
     }
   ],
   "capabilities": [
@@ -55,12 +49,13 @@
     "proven uplift or validated product-market fit"
   ],
   "privacyAndControl": "The public demo runs without a server, cookie persistence or external requests, beyond static assets; pasted job text and notes stay in the current browser session. The connected backend is a separate environment.",
-  "demoData": "Fictional sample postings are clearly labeled. Visitors may also paste actual job descriptions, processed entirely in browser memory.",
+  "demoData": "The agent demo uses fictional employer/job data. The independent text checker accepts pasted real descriptions but processes them locally without fetching or verifying external sources.",
   "productBoundaries": "https://github.com/dokarpov/rolehint/blob/main/docs/PRODUCT_BOUNDARIES.md",
   "decisionPolicy": "https://github.com/dokarpov/rolehint/blob/main/docs/DECISION_POLICY.md",
   "repository": "https://github.com/dokarpov/rolehint",
   "website": "https://dokarpov.github.io/rolehint/site/",
   "demo": "https://dokarpov.github.io/rolehint/site/workspace.html",
   "contact": "https://github.com/dokarpov",
-  "demoDescription": "Static browser demo: paste a job description, set remote/geography/salary preferences, inspect extracted requirements, self-select experience, and copy a decision checklist. Local text heuristics only: no network fetch, AI inference, login, or real vacancy verification."
+  "demoDescription": "Two browser demos: an editable fictional opportunity-agent simulation (role/profile, constraints, shortlist, decision details) and a separate local text-only job-description checker (work mode, region, salary, requirement excerpts and copyable questions). Neither verifies real vacancies or submits applications.",
+  "jobCheck": "https://dokarpov.github.io/rolehint/site/check.html"
 }
