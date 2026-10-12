@@ -36,3 +36,9 @@ The landing page no longer embeds the workspace in an iframe. `release-v1.css` a
 QA source: `qa-release.mjs` with GitHub Actions workflow `../.github/workflows/release-qa.yml` (GitHub Actions tab). It checks 320/375/390/768/1024/1440 widths, preview controls, CTA, form wiring and privacy overflow using headless Chromium. Check the workflow result; a test file is not a successful test.
 
 Before public promotion, verify the FormSubmit receiving inbox and a test submission, supply the dedicated project mailbox and full controller identity, review the privacy notice, and validate on actual mobile Safari/Android. These steps are pending external confirmation.
+
+## Product UX implementation (separate from the marketing site)
+
+`workspace.html` now offers a direct first-use path: choose/paste CV → review editable text → confirm hiring rules → guided sample job review, with a transparent no-CV bypass. It preserves the fictional-data distinction, shows locally saved search preferences, and offers a delete-local-CV control under Preferences.
+
+See [UX specification](../docs/PROTOTYPE_UX_V1.md) and [automated onboarding scenarios](qa-workspace.mjs); the Actions workflow is `../.github/workflows/prototype-ux.yml`. Browser and device acceptance remain unverified until the checks are run and reviewed. Real personalized job analysis is not present.
