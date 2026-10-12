@@ -65,3 +65,8 @@
  .stage:not([hidden]){view-transition-name:none}
  ::view-transition-old(rolehint-step),::view-transition-new(rolehint-step){animation:none!important}
 }
+
+/* Direct word-level comparison is informational, not proof of qualification. */
+.requirement-label{display:block;min-width:0}
+.word-overlap{display:block;color:#695e69;font-size:11px;line-height:1.5;margin-top:6px;font-weight:600}
+.word-overlap:empty{display:none}
