@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#19382b">
+<title>Career Fit — Interactive search workspace</title>
+<meta name="description" content="Explore the four Career Fit workflows: daily decisions, shortlist browsing, weekly outcomes and one-time setup. Interactive prototype with illustrative data only.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://dokarpov.github.io/career-fit-agent/site/workspace.html">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./workspace.css">
+<script src="./workspace.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#workspace">Skip to workspace</a>
+<div class="preview"><span class="preview-dot"></span><strong>Interactive product prototype</strong><span>All roles, sources and outcomes are illustrative. Nothing is connected or submitted.</span><a href="./">← Back to website</a></div>
+<div class="app">
+<aside class="sidebar" aria-label="Main workspace navigation">
+ <a class="logo" href="./" aria-label="Career Fit website"><span class="logo-mark">✳</span><span>career<span class="thin">fit</span><small> / demo</small></span></a>
+ <p class="nav-caption">YOUR WORKSPACE</p>
+ <nav id="nav" aria-label="Workspace">
+  <button type="button" class="nav-item active" data-view="today" aria-current="page"><span class="nav-icon">◈</span><span>Today<small>Your next best action</small></span><span class="nav-count" id="attentionCount">2</span></button>
+  <button type="button" class="nav-item" data-view="explore"><span class="nav-icon">⌕</span><span>Explore<small>Your complete shortlist</small></span></button>
+  <button type="button" class="nav-item" data-view="progress"><span class="nav-icon">↗</span><span>Progress<small>What works over time</small></span></button>
+  <button type="button" class="nav-item" data-view="setup"><span class="nav-icon">☷</span><span>Setup<small>Your boundaries &amp; sources</small></span></button>
+ </nav>
+ <div class="side-foot"><span class="status-led"></span><span>Prototype mode<br><small>No real user data</small></span></div>
+</aside>
+<main id="workspace" class="main">
+ <header class="topbar"><div><div class="crumb">CAREER FIT <span>/</span> <span id="crumb">TODAY</span></div></div><div class="top-actions"><span class="agent-tag">EVIDENCE-FIRST</span><span class="avatar" aria-label="Example user">CF</span></div></header>
+ <div id="content" aria-live="polite"></div>
+ <footer class="main-foot">Illustrative interface, not a live account · <a href="https://github.com/dokarpov/career-fit-agent" target="_blank" rel="noopener noreferrer">Inspect the actual implementation ↗</a></footer>
+</main></div>
+<dialog id="roleDialog" class="role-dialog" aria-labelledby="roleDialogTitle"><div id="roleContent"></div></dialog>
+</body></html>

@@ -1,0 +1,47 @@
+/* Frequency-first layer for the existing Career Fit Telegram app.
+   No backend calls, eligibility changes, consent changes or automatic submissions. */
+(function(){
+'use strict';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pages=['today','explore','progress','setup'];let mounted=false,last=null,page='today';
+function section(title){return [...$('home').querySelectorAll(':scope > section.section')].find(el=>el.querySelector('.sectionTitle')?.textContent.trim()===title)}
+function mount(){
+ if(mounted||!$('home'))return;mounted=true;
+ const home=$('home');
+ const brand=document.createElement('div');brand.className='cf-appbar';brand.innerHTML='<a class="cf-wordmark" href="https://github.com/dokarpov/career-fit-agent" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">✳</span> career<span class="cf-light">fit</span></a><span class="cf-status" id="cf-status">Checking search…</span>';document.body.insertBefore(brand,document.body.firstChild);
+ const tabs=document.createElement('nav');tabs.className='cf-nav';tabs.setAttribute('aria-label','Search workspace');tabs.innerHTML=[['today','◈','Today'],['explore','⌕','Explore'],['progress','↗','Progress'],['setup','☷','Setup']].map(([id,icon,label])=>'<button type="button" data-cf-tab="'+id+'" aria-pressed="'+(id==='today')+'"><span aria-hidden="true">'+icon+'</span>'+label+'</button>').join('');document.body.append(tabs);
+ const top=home.querySelector(':scope > .top');if(top)top.classList.add('cf-homehead');
+ const navNotice=document.createElement('div');navNotice.className='cf-context';navNotice.id='cf-context';if(top)top.after(navNotice);
+ const groups={};for(const id of pages){const group=document.createElement('div');group.className='cf-workflow';group.dataset.cfView=id;groups[id]=group;home.append(group)}
+ const heading=(id,caption,title,summary)=>{const h=document.createElement('header');h.className='cf-section-intro';h.innerHTML='<div class="cf-eyebrow">'+caption+'</div><h2>'+title+'</h2><p>'+summary+'</p>';groups[id].append(h)};
+ const focus=document.createElement('div');focus.id='cf-focus';focus.className='cf-focus';groups.today.append(focus);
+ const move=(el,id)=>{if(el)groups[id].append(el)};
+ move($('paywall'),'today');
+ move(section('Today’s batch'),'today');move(section('Needs verification'),'today');
+ heading('explore','THE WIDER SHORTLIST','Explore when you want to.','All matched opportunities live here, without competing with today’s decisions.');
+ const search=document.createElement('div');search.className='cf-explore-tools';search.innerHTML='<label for="cf-search">Find a role</label><input id="cf-search" type="search" placeholder="Title, employer or location" autocomplete="off"><div class="cf-filters" role="group" aria-label="Filter roles"><button type="button" data-cf-filter="all" aria-pressed="true">All</button><button type="button" data-cf-filter="priority" aria-pressed="false">Priority</button><button type="button" data-cf-filter="verify" aria-pressed="false">Needs checking</button></div>';groups.explore.append(search);
+ move(section('Queue'),'explore');
+ heading('progress','WEEKLY CHECK-IN','Understand what is working.','Separate observed applications and responses from estimates. Avoid optimizing to quotas alone.');
+ move(home.querySelector(':scope > .metrics'),'progress');move(section('Weekly funnel'),'progress');move(home.querySelector(':scope > .forecastCard'),'progress');move($('analyticsBtn')?.parentElement,'progress');
+ const note=document.createElement('div');note.className='cf-note';note.textContent='Forecast screening rates are estimates, not observed placement results. Review the actual funnel before changing strategy.';groups.progress.append(note);
+ heading('setup','OCCASIONAL SETUP','Your search. Your boundaries.','Connect sources and adjust search pace only when your circumstances change.');
+ move(section('Autopilot'),'setup');move(section('Search strategy'),'setup');
+ const link=document.createElement('div');link.className='cf-setting-actions';link.innerHTML='<button type="button" id="cf-profile" class="cf-quietbtn">View your inferred profile →</button>';groups.setup.append(link);
+ const all=[...home.children];for(const child of all){if(child===top||child===navNotice||child.classList?.contains('cf-workflow'))continue}
+ tabs.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>navigate(b.dataset.cfTab)));
+ $('cf-profile').onclick=()=>{if(typeof view==='function')view('profile')};
+ $('cf-search').addEventListener('input',applyFilters);
+ groups.explore.querySelectorAll('[data-cf-filter]').forEach(b=>b.onclick=()=>{groups.explore.dataset.filter=b.dataset.cfFilter;groups.explore.querySelectorAll('[data-cf-filter]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));applyFilters()});
+ document.querySelectorAll('.jobrow').forEach(makeKeyboard);home.dataset.cfActive='today';
+}
+function makeKeyboard(row){if(row.dataset.cfKeyboard)return;row.dataset.cfKeyboard='1';row.tabIndex=0;row.setAttribute('role','button');row.setAttribute('aria-expanded','false');row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();row.click()}});row.addEventListener('click',()=>{document.querySelectorAll('.jobrow').forEach(r=>r.setAttribute('aria-expanded',String(!!r.closest('.job')?.classList.contains('open'))))})}
+function navigate(id,scroll=true){if(!pages.includes(id))id='today';page=id;const home=$('home');if(!home)return;if(typeof view==='function'&&state?.view!=='home')view('home');home.dataset.cfActive=id;document.querySelectorAll('[data-cf-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.cfTab===id)));const head=home.querySelector(':scope > .top');if(head)head.hidden=id!=='today';const notice=$('cf-context');if(notice)notice.textContent=id==='today'?'One next step. Nothing else to manage.':'';if(scroll)window.scrollTo({top:0,behavior:'auto'});if(typeof setBottom==='function')setBottom(null);if(id==='explore')applyFilters()}
+function applyFilters(){const queue=$('queue');if(!queue)return;const q=($('cf-search')?.value||'').trim().toLowerCase(),filter=document.querySelector('[data-cf-filter][aria-pressed="true"]')?.dataset.cfFilter||'all';let shown=0;queue.querySelectorAll('.job').forEach(el=>{const job=last?.jobs?.find(j=>'job-'+j.job_id===el.id);const tier=job?.payload?.funnel?.tier||job?.payload?.analysis?.funnel?.tier||'';const found=el.textContent.toLowerCase().includes(q);const matches=filter==='all'||(filter==='priority'&&['P0','P1'].includes(tier))||(filter==='verify'&&tier==='VERIFY');el.hidden=!(found&&matches);if(!el.hidden)shown++});let empty=$('cf-no-results');if(!empty){empty=document.createElement('p');empty.id='cf-no-results';empty.className='cf-note';queue.after(empty)}empty.hidden=shown>0;empty.textContent='No roles match this filter. Try All or a different search.'}
+function update(data){last=data;mount();if(!$('home')||!mounted)return;const visible=!!data?.onboarding?.completed;const nav=document.querySelector('.cf-nav');if(nav)nav.hidden=false;if(!visible)return;const batch=data?.funnel?.today_batch||[],verify=data?.funnel?.verify||[],queue=data?.funnel?.queue||[];const target=verify[0]||batch[0];let title,desc,action;if(verify.length){title=verify.length+' eligibility '+(verify.length===1?'decision':'decisions')+' to make';desc='Confirm a boundary before spending time on an application.';action='Check eligibility'}else if(batch.length){title=batch.length+' '+(batch.length===1?'role':'roles')+' worth reviewing';desc='Start with the strongest eligible recommendation. Review source-backed evidence before applying.';action='Review first match'}else if(queue.length){title='No urgent actions right now';desc='Your broader shortlist is available whenever you want to explore.';action='Browse shortlist'}else{title='Start with your sources';desc='Connect a source once. Career Fit will not invent vacancies just to fill a quota.';action='Open setup'}const focus=$('cf-focus');if(focus){focus.innerHTML='<div class="cf-eyebrow">✳ &nbsp; RECOMMENDED NEXT STEP</div><h2>'+esc(title)+'</h2><p>'+esc(desc)+'</p><button class="cf-primary" id="cf-focus-action" type="button">'+esc(action)+' ↗</button>';focus.querySelector('button').onclick=()=>{if(target){navigate('today');if(typeof openJob==='function')openJob(target.job_id)}else navigate(queue.length?'explore':'setup')}}const status=$('cf-status');if(status)status.textContent=data?.capabilities?.payment_required?'Managed search paused':data?.autopilot?.search_profiles?.length?'Search active':'Setup incomplete';const head=$('headline');if(head)head.textContent='Your next move.';document.querySelectorAll('.jobrow').forEach(makeKeyboard);applyFilters();navigate(page,false)}
+mount();
+if(typeof render==='function'){const originalRender=render;render=function(data){originalRender(data);update(data)}}
+if(typeof view==='function'){const originalView=view;view=function(id){originalView(id);const bar=document.querySelector('.cf-nav');if(bar)bar.hidden=false}}
+// Bootstrap can finish before the enhancement script is downloaded; hydrate from its last state.
+if(typeof state!=='undefined'&&state.data)update(state.data);
+})();

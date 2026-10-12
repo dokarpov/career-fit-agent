@@ -1,0 +1,71 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Career Fit",
+  "alternateName": "Career Fit Agent",
+  "url": "https://dokarpov.github.io/career-fit-agent/site/",
+  "codeRepository": "https://github.com/dokarpov/career-fit-agent",
+  "version": "1.9.0",
+  "productStatus": "working prototype; hiring-outcome uplift and product-market fit not independently validated",
+  "description": "Evidence-first job-search orchestration for experienced professionals: eligibility preflight, requirement-to-evidence mapping, human-reviewed application packs and outcome tracking.",
+  "audience": [
+    "experienced professionals",
+    "career changers",
+    "professionals managing an urgent or targeted job search"
+  ],
+  "userProblems": [
+    "too many irrelevant listings",
+    "uncertainty about role eligibility",
+    "unsupported claims in AI-generated applications",
+    "difficulty seeing which job-search effort works"
+  ],
+  "frequencyBasedWorkflows": [
+    {
+      "name": "Today",
+      "frequency": "daily",
+      "purpose": "review the most important role and any hard eligibility checks",
+      "entry": "https://dokarpov.github.io/career-fit-agent/site/workspace.html?view=today"
+    },
+    {
+      "name": "Explore",
+      "frequency": "as needed",
+      "purpose": "filter broader shortlist and inspect requirement-to-evidence reasons",
+      "entry": "https://dokarpov.github.io/career-fit-agent/site/workspace.html?view=explore"
+    },
+    {
+      "name": "Progress",
+      "frequency": "weekly",
+      "purpose": "review observed applications, responses and estimates separately",
+      "entry": "https://dokarpov.github.io/career-fit-agent/site/workspace.html?view=progress"
+    },
+    {
+      "name": "Setup",
+      "frequency": "occasional",
+      "purpose": "review sources, hard constraints and search pace",
+      "entry": "https://dokarpov.github.io/career-fit-agent/site/workspace.html?view=setup"
+    }
+  ],
+  "capabilities": [
+    "source-driven opportunity discovery",
+    "deduplication",
+    "hard eligibility checks before semantic fit",
+    "explicit verified, review and gap evidence states",
+    "evidence-backed application preparation",
+    "human approval of outward-facing claims",
+    "application outcomes and funnel learning"
+  ],
+  "notCapabilities": [
+    "automatic unreviewed application submission",
+    "manufactured employment qualifications",
+    "guaranteed interviews or placements",
+    "proven uplift or validated product-market fit"
+  ],
+  "privacyAndControl": "Connections are consent based in the application. Sample website demos do not connect accounts, submit applications or persist choices.",
+  "demoData": "fictional role listings, fictional employers and illustrative activity only",
+  "productBoundaries": "https://github.com/dokarpov/career-fit-agent/blob/main/docs/PRODUCT_BOUNDARIES.md",
+  "decisionPolicy": "https://github.com/dokarpov/career-fit-agent/blob/main/docs/DECISION_POLICY.md",
+  "repository": "https://github.com/dokarpov/career-fit-agent",
+  "website": "https://dokarpov.github.io/career-fit-agent/site/",
+  "demo": "https://dokarpov.github.io/career-fit-agent/site/workspace.html",
+  "contact": "https://github.com/dokarpov"
+}
