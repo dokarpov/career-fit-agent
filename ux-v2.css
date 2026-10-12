@@ -1,0 +1,72 @@
+/* Career Fit v2 progressive UX layer. Existing API, consent and approval paths are unchanged. */
+:root{--bg:#f5f7f2;--section:#fffefb;--text:#172e22;--hint:#68796b;--link:#326749;--button:#1e3d2b;--buttonText:#fff;--sep:#e1e6dc;--green:#2c8556;--amber:#9f7336;--red:#b96757;--violet:#326749}
+body:not(.pipelineMode){background:var(--bg);color:var(--text);font-family:Inter,"Avenir Next",Avenir,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;max-width:880px;padding-bottom:92px}
+body:not(.pipelineMode) .top{padding:15px 4px 22px}
+body:not(.pipelineMode) .top h1{font-size:clamp(31px,5vw,46px);letter-spacing:-.06em;line-height:1.02;max-width:520px;margin:12px 0 7px}
+body:not(.pipelineMode) .top .eyebrow{color:#5d8a67;font-size:10px;font-weight:800;letter-spacing:.15em;text-transform:uppercase}
+body:not(.pipelineMode) .top .sub{font-size:13px;line-height:1.55;color:#7b8b7d}
+body:not(.pipelineMode) .section{border:1px solid #e1e7dc;border-radius:12px;background:#fffefb;box-shadow:0 6px 19px #23462a08;margin:12px 0;overflow:hidden}
+body:not(.pipelineMode) .sectionTitle{font-size:10px;letter-spacing:.11em;font-weight:800;text-transform:uppercase;color:#7e8c80;padding:17px 19px 10px}
+body:not(.pipelineMode) .row{padding:17px 18px;min-height:73px;gap:14px}
+body:not(.pipelineMode) .row+.row:before{left:63px;right:18px}
+body:not(.pipelineMode) .title{font-size:14px;font-weight:700;letter-spacing:-.016em}
+body:not(.pipelineMode) .icon{height:39px;width:39px;border-radius:11px;background:#e7f0e4;color:#295b3b}
+body:not(.pipelineMode) .badge{font-size:9px;letter-spacing:.015em;padding:4px 7px}
+body:not(.pipelineMode) .primaryBtn{background:#21432f;border-radius:7px;padding:12px 14px}
+body:not(.pipelineMode) .ghostBtn{border-radius:7px}
+body:not(.pipelineMode) .metrics{margin:18px 0 5px}
+body:not(.pipelineMode) .metric{background:#eaf0e5;border:1px solid #dce4d8;border-radius:9px;padding:15px}
+body:not(.pipelineMode) .metric b{font-size:25px;letter-spacing:-.05em}
+body:not(.pipelineMode) .metric span{font-size:10px;color:#6e7f70}
+body:not(.pipelineMode) .jobrow{cursor:pointer}
+body:not(.pipelineMode) .jobrow:hover,body:not(.pipelineMode) .jobrow:focus-visible{background:#f1f7ee}
+body:not(.pipelineMode) .job.open .jobDetail{background:#f7faf4;border-top:1px solid #e4e9df;padding:4px 19px 18px}
+body:not(.pipelineMode) .funnelCell{background:#f4f8f2;border:1px solid #e6ece1}
+body:not(.pipelineMode) .funnelCell b{font-size:20px;letter-spacing:-.04em}
+body:not(.pipelineMode) .progress i{background:#4d956b}
+body:not(.pipelineMode) .notice{background:#fff1df;border-color:#f2dac2}
+body:not(.pipelineMode) .packCard{padding:17px 20px}
+body:not(.pipelineMode) .proposalItem{padding:15px 0}
+body:not(.pipelineMode) .proposalItem.locked{opacity:1;background:#fbfaf6;padding:14px 12px;border:1px solid #e6dfd7;border-radius:8px;margin:8px 0}
+body:not(.pipelineMode) .proposalHead input{accent-color:#2b704d;min-width:18px;min-height:18px}
+body:not(.pipelineMode) .sourceRef{font-size:11px;line-height:1.5}
+body:not(.pipelineMode) textarea{min-height:85px;padding:12px;background:#f2f6ef;border:1px solid #e1e8dc}
+body:not(.pipelineMode) .onboardStep{padding:12px 16px}
+.ux-appbar{display:flex;justify-content:space-between;align-items:center;padding:0 4px 21px;gap:10px}
+.ux-brand{display:inline-flex;align-items:center;gap:11px;font-size:15px;font-weight:780;letter-spacing:-.04em}
+.ux-mark{width:24px;height:24px;display:grid;grid-template-columns:repeat(2,1fr);gap:3px}
+.ux-mark i{background:#1e3d2b;border-radius:50%}.ux-mark i:last-child{border-radius:2px;background:#7bae79}
+.ux-appstatus{font-size:10px;color:#55765c;background:#e7f2e4;border:1px solid #d8e9d4;padding:7px 12px;border-radius:99px;white-space:nowrap}
+.ux-appstatus:before{content:'●';color:#619f73;margin-right:6px;font-size:9px}
+.ux-next{padding:21px 23px;background:#213d2e;color:#f8fcf2;border-radius:12px;position:relative;overflow:hidden;margin:5px 0 16px}
+.ux-next:after{content:'✳';position:absolute;right:-15px;top:-47px;font-size:180px;line-height:1;color:#395b45;opacity:.35;pointer-events:none}
+.ux-next *{position:relative;z-index:1}
+.ux-next-kicker{font-size:10px;color:#bbe6ab;font-weight:800;letter-spacing:.12em}
+.ux-next-head{font-size:clamp(22px,3.9vw,31px);letter-spacing:-.04em;line-height:1.14;font-weight:700;margin:10px 0 5px;max-width:560px}
+.ux-next-sub{font-size:12px;color:#bed0c0;line-height:1.5;margin:6px 0 18px;max-width:540px}
+.ux-next-button{border:0;background:#d8fa8b;color:#17311e;font-size:12px;font-weight:800;padding:11px 16px;border-radius:5px}
+.ux-next-button span{margin-left:25px}
+.ux-section-label{font-size:10px;font-weight:800;letter-spacing:.1em;color:#748779;margin:24px 4px 6px;text-transform:uppercase}
+.ux-secondary-details{margin:12px 0 10px;border:1px solid #dfe7db;border-radius:10px;background:#f9fbf6}
+.ux-secondary-details>summary{list-style:none;display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:17px 20px;font-weight:700;font-size:13px}
+.ux-secondary-details>summary::-webkit-details-marker{display:none}
+.ux-secondary-details>summary:after{content:'+';font-size:21px;font-weight:400;color:#5d7463}
+.ux-secondary-details[open]>summary:after{content:'−'}
+.ux-secondary-details>.section{margin:0 12px 12px}
+.ux-secondary-details>.forecastCard{margin:9px 12px}
+.ux-secondary-details>[style]{margin:0 12px 14px!important}
+.ux-secondary-details .metrics{margin:0 12px 15px}
+.ux-empty-verify{display:none}
+.ux-nav{position:fixed;bottom:0;left:0;right:0;z-index:30;display:flex;justify-content:center;gap:4px;background:rgba(253,254,249,.95);backdrop-filter:blur(18px);border-top:1px solid #dce5d9;padding:9px max(12px,env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px #1f3b2708}
+.ux-nav button{flex:1;max-width:170px;border:0;background:transparent;color:#788a79;border-radius:7px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:700;white-space:nowrap}
+.ux-nav button span{font-size:17px;line-height:1}
+.ux-nav button[aria-current='page']{color:#254f34;background:#ecf4e8}
+body.pipelineMode .ux-nav,body.pipelineMode .ux-appbar{display:none!important}
+.ux-subtitle{margin:0 4px 15px;color:#748474;font-size:12px}
+#pack .top{padding-top:15px}
+#pack .section{margin:11px 0}
+@media(min-width:740px){body:not(.pipelineMode){max-width:900px;padding-left:32px;padding-right:32px}.ux-next{padding:28px 32px}.ux-nav{left:50%;right:auto;transform:translateX(-50%);width:520px;border:1px solid #d9e4d8;border-bottom:0;border-radius:13px 13px 0 0}}
+@media(max-width:480px){body:not(.pipelineMode) .metrics{gap:6px}body:not(.pipelineMode) .metric{padding:11px}body:not(.pipelineMode) .metric b{font-size:21px}.ux-next{padding:20px}.ux-next-head{font-size:23px}.ux-nav button{font-size:9px}}
+@media(prefers-reduced-motion:reduce){body:not(.pipelineMode) *{scroll-behavior:auto!important;transition:none!important}}
+
+.ux-nav[hidden]{display:none!important}
