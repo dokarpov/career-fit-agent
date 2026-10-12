@@ -4,6 +4,17 @@
 
 **Evidence-first job-search orchestration for experienced professionals.**
 
+## Experience the product
+
+- [Product website](https://dokarpov.github.io/career-fit-agent/site/) — plain-language value proposition, limitations and real workflow explanation
+- [Interactive prototype](https://dokarpov.github.io/career-fit-agent/site/workspace.html) — daily decisions, wider search, weekly progress and occasional setup (sample data only)
+- [Agent-readable facts](https://dokarpov.github.io/career-fit-agent/site/product.json) · [llms.txt](https://dokarpov.github.io/career-fit-agent/site/llms.txt)
+- The **Telegram mini-app** remains a separate live-data interface in `telegram_miniapp/`, with progressive `ux-v2.js` / `ux-v2.css` navigation and the existing backend actions.
+
+The public demo intentionally uses fictional roles and illustrative response data. It does not log in, send applications, approve real claims or measure hiring improvements.
+
+
+
 Most AI job tools optimize text generation. Career Fit starts one layer earlier: **is the role actually eligible, what evidence supports the match, what is missing, and what can the system safely say without inventing ownership or impact?**
 
 ```text
