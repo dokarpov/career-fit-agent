@@ -61,6 +61,19 @@ const roleSets={
   titles:['Growth Marketing Lead','Head of Growth','Marketing Lead','Growth Marketer','VP of Marketing','Marketing Director','Lifecycle Marketing Lead']
  }
 };
+roleSets.custom={
+ name:'Custom role',target:'Custom role',
+ skills:[
+  ['Relevant domain work','I have done work directly related to this target role.'],
+  ['User or customer needs','I have identified needs and solved problems for customers or stakeholders.'],
+  ['Cross-team delivery','I have collaborated across teams to deliver outcomes.'],
+  ['Specialist knowledge','I can show specialist skills required for this position.'],
+  ['Ownership and leadership','I have taken responsibility for decisions, people or outcomes.'],
+  ['Measurable impact','I can describe results and the measures used to assess them.']
+ ],
+ chosen:[],
+ titles:Array(7).fill('Custom role')
+};
 const mockTemplates=[
  {id:'01',company:'Northstar Studio',mode:'remote',region:'eu',from:90000,to:115000,source:'employer',keys:[0,1,2,3],effort:35,context:'Discovery, roadmap and cross-functional product delivery.'},
  {id:'02',company:'Mosaic Labs',mode:'remote',region:'unknown',from:122000,to:145000,source:'employer',keys:[0,1,3],effort:70,context:'International remit, but hiring countries are not listed.'},
@@ -71,13 +84,14 @@ const mockTemplates=[
  {id:'07',company:'Nova Collective',mode:'remote',region:'eu',from:108000,to:132000,source:'repost',keys:[0,1,5],effort:30,context:'The sample has a repost but no original employer posting attached.'},
  {id:'01-repost',duplicateOf:'01',company:'Northstar Studio',mode:'remote',region:'eu',from:90000,to:115000,source:'repost',keys:[0,1,2,3],effort:35,context:'Duplicate sample repost.'}
 ];
-const state={role:'product',chosen:new Set(roleSets.product.chosen),remote:'remote',region:'eu',floor:75000,budget:45,items:[],filter:'all',selected:null,saved:new Set(),passed:new Set(),revealed:new Set(),progressTimers:[],runToken:0,phase:'setup'};
+const state={customTitle:'',role:'product',chosen:new Set(roleSets.product.chosen),remote:'remote',region:'eu',floor:75000,budget:45,items:[],filter:'all',selected:null,saved:new Set(),passed:new Set(),revealed:new Set(),progressTimers:[],runToken:0,phase:'setup'};
 const getRole=()=>roleSets[state.role];
 const selectedSkills=()=>getRole().skills.filter((x,i)=>state.chosen.has(i)).map(x=>x[0]);
 function toast(msg){let e=$('toast');e.textContent=msg;e.classList.add('visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('visible'),2600)}
 function setPhase(p){state.phase=p;for(let [name,id] of [['setup','setupScreen'],['running','runScreen'],['results','resultsScreen']])$(id).hidden=name!==p;window.scrollTo({top:0,behavior:'instant'})}
 function changeRole(role){
  if(!roleSets[role])return;
+ if(role==='custom'&&!state.customTitle.trim())return;
  state.role=role;state.chosen=new Set(roleSets[role].chosen);
  document.querySelectorAll('[data-role]').forEach(el=>{let selected=el.dataset.role===role;el.classList.toggle('selected',selected);el.setAttribute('aria-pressed',String(selected))});
  renderProfile();
@@ -86,6 +100,7 @@ function renderProfile(){
  $('profileEditor').innerHTML=getRole().skills.map(([label],i)=>'<label class="profile-chip"><input type="checkbox" data-skill="'+i+'" '+(state.chosen.has(i)?'checked':'')+'><span class="chip-symbol" aria-hidden="true"></span><span>'+safe(label)+'</span></label>').join('');
 }
 function readSettings(){
+ if(state.role==='custom'){roleSets.custom.target=state.customTitle||'Custom role';roleSets.custom.titles=Array(7).fill(roleSets.custom.target)}
  state.remote=$('remoteRule').value;
  state.region=$('regionRule').value;
  state.floor=Math.max(0,Math.min(500000,Number($('salaryRule').value)||0));
@@ -94,7 +109,7 @@ function readSettings(){
 function makeJobs(){
  // 8 illustrative raw postings; one deliberate duplicate removed.
  let base=mockTemplates.filter(t=>!t.duplicateOf);
- return base.map((job,i)=>({...job,title:getRole().titles[i],key:state.role+'-'+job.id}));
+ return base.map((job,i)=>({...job,title:state.role==='custom'?state.customTitle:getRole().titles[i],key:state.role+'-'+job.id}));
 }
 function decide(job){
  let blockers=[],unknowns=[],notes=[],fits=[],unshown=[];
@@ -260,6 +275,12 @@ function runAction(action){
 }
 function reset(){stopTimers();state.saved.clear();state.passed.clear();state.revealed.clear();setPhase('setup')}
 document.querySelectorAll('[data-role]').forEach(button=>button.addEventListener('click',()=>changeRole(button.dataset.role)));
+$('customRole').addEventListener('input',()=>{
+ state.customTitle=$('customRole').value.trim().slice(0,70);
+ if(!state.customTitle){changeRole('product');return;}
+ changeRole('custom');
+});
+
 $('profileEditor').addEventListener('change',e=>{const t=e.target;if(!t.matches('input[data-skill]'))return;const n=Number(t.dataset.skill);t.checked?state.chosen.add(n):state.chosen.delete(n)});
 $('runAgent').addEventListener('click',runDemo);
 $('skipAnimation').addEventListener('click',showResults);
