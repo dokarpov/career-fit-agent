@@ -32,7 +32,7 @@
  const heroLabel=$('#heroDecisionLabel'),heroVerdict=$('#heroDecisionVerdict'),heroRight=$('#heroDecisionCheckLabel'),heroChecks=$('#heroDecisionChecks'),heroContent=$('#heroDecisionContent');
  const stageSlot=$('#stageContent'),stageCounter=$('.feature-number'),stageTopCounter=$('#stageTopCounter');
  const hero=$('.hero'),workflow=$('#how');
- let current=0,timer=null,viewable=false,touched=false;
+ let current=0,timer=null,viewable=false,touched=false,scrollIdle=null,scrollActive=false;
  function stepMarkup(scene){
   return '<span class="stage-kicker">'+scene.step+'</span><h3>'+scene.title+'</h3><p>'+scene.copy+'</p>'+
    '<div class="stage-mini">'+scene.rows.map(([tag,label,kind])=>'<div><span>'+label+'</span><span class="proof-state '+kind+'">'+tag+'</span></div>').join('')+'</div>';
@@ -44,7 +44,7 @@
  }
  function animate(el){
   if(!el||reduced)return;
-  el.classList.remove('rh-switched');void el.offsetWidth;el.classList.add('rh-switched');
+  el.classList.remove('rh-switched');requestAnimationFrame(()=>el.classList.add('rh-switched'));
  }
  function render(index,{initial=false,user=false}={}){
   current=Math.max(0,Math.min(scenes.length-1,index));
@@ -67,8 +67,8 @@
  }
  function planNext(){
   if(timer!==null){clearTimeout(timer);timer=null}
-  if(reduced||!viewable||touched||document.hidden||current>=2)return;
-  timer=setTimeout(()=>render(current+1),6500);
+  if(reduced||!viewable||touched||document.hidden||scrollActive||current>=2)return;
+  timer=setTimeout(()=>{if(!scrollActive&&!document.hidden)render(current+1)},6500);
  }
  tabs.forEach((b,i)=>b.addEventListener('click',()=>render(i,{user:true})));
  heroPrev?.addEventListener('click',()=>render(current-1,{user:true}));
@@ -92,6 +92,8 @@
   if(workflow)io.observe(workflow);
  }else{viewable=true}
  document.addEventListener('visibilitychange',planNext);
+ window.addEventListener('scroll',()=>{scrollActive=true;if(timer!==null){clearTimeout(timer);timer=null}clearTimeout(scrollIdle);scrollIdle=setTimeout(()=>{scrollActive=false;planNext()},450)},{passive:true});
+ heroChecks?.addEventListener('toggle',e=>{if(e.target instanceof HTMLDetailsElement&&e.target.open){touched=true;planNext()}},true);
  render(0,{initial:true});
  if(!reduced&&'IntersectionObserver' in window){
   const els=document.querySelectorAll('.manifesto h2,.manifesto p,.section-intro h2,.section-intro>p,.proof-tile,.attention-grid>div,.last-cta h2');
