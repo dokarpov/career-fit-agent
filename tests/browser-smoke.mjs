@@ -61,31 +61,49 @@ for(const vp of viewports){
   if(await page.locator('#home').getAttribute('data-space')!=='progress')throw new Error(vp.name+': Progress does not open');
   await page.locator('[data-space-tab="today"]').click();
 
-  // Public website and deep-linked interactive workspace must work without an account.
+  // Public RoleHint Pages is static. A live backend is not available on github.io,
+  // so the root entry must route into the self-contained workbench instead of showing an API error.
+  const rootHtml=await (await fetch(base+'/')).text();
+  if(!rootHtml.includes("location.hostname.endsWith('.github.io')")||!rootHtml.includes("./site/workspace.html"))throw new Error(vp.name+': static Pages startup fallback missing');
+
+  // Editorial site: meaningful animation, keyboard-safe controls, no horizontal scrolling.
   await page.goto(base+'/site/',{waitUntil:'domcontentloaded'});
   await page.locator('.hero h1').waitFor();
+  await page.waitForFunction(()=>document.querySelector('#signalField')?.width>0);
   const siteWidth=await page.evaluate(()=>[document.documentElement.scrollWidth,innerWidth]);
   if(siteWidth[0]>siteWidth[1]+2)throw new Error(vp.name+': marketing site horizontal overflow '+siteWidth.join('/'));
+  const ticker=await page.locator('.rh-ticker-track').evaluate(e=>getComputedStyle(e).animationName);
+  if(ticker==='none')throw new Error(vp.name+': motion layer not loaded');
   await page.locator('[data-stage="prove"]').click();
   if(!await page.locator('#stageContent').textContent().then(t=>t.includes('A good match')&&t.includes('substantiate')))throw new Error(vp.name+': proof stage interaction broken');
-  if(!await page.locator('a[href="./workspace.html"]').count())throw new Error(vp.name+': site missing demo link');
-  await page.goto(base+'/site/workspace.html?view=explore',{waitUntil:'domcontentloaded'});
+  if(!await page.locator('a[href="./workspace.html"]').count())throw new Error(vp.name+': missing workspace link');
+
+  // One cohesive master-detail workbench with end-to-end human-reviewed actions.
+  await page.goto(base+'/site/workspace.html',{waitUntil:'domcontentloaded'});
+  await page.locator('[data-role="atlas"]').waitFor();
   const demoWidth=await page.evaluate(()=>[document.documentElement.scrollWidth,innerWidth]);
-  if(demoWidth[0]>demoWidth[1]+2)throw new Error(vp.name+': workspace horizontal overflow '+demoWidth.join('/'));
-  await page.waitForFunction(()=>document.querySelector('#crumb')?.textContent==='EXPLORE');
-  await page.locator('[data-role="product"]').first().click();
-  if(!await page.locator('#roleDialog').evaluate(el=>el.open))throw new Error(vp.name+': role detail did not open');
-  await page.locator('[data-pack]').click();
+  if(demoWidth[0]>demoWidth[1]+2)throw new Error(vp.name+': workbench horizontal overflow '+demoWidth.join('/'));
+  await page.locator('[data-role="atlas"]').click();
+  await page.locator('#roleTitle').waitFor();
+  if(!await page.locator('#roleTitle').textContent().then(t=>t.includes('Senior Product Manager')))throw new Error(vp.name+': role inspector not connected to selection');
+  if(!await page.locator('.evidence-item').count())throw new Error(vp.name+': no evidence provenance');
   await page.locator('#approveClaim').check();
-  if(!await page.locator('#recruiterNote').textContent().then(t=>t.includes('documented case study')))throw new Error(vp.name+': approved proof not in preview');
-  await page.locator('[data-close]').first().click();
-  await page.locator('[data-view="setup"]:visible').first().click();
+  await page.locator('[data-action="prepare"]').click();
+  if(!await page.locator('.draft').textContent().then(t=>t.includes('documented project work')))throw new Error(vp.name+': review to draft interaction broken');
+  await page.locator('[data-action="save"]').click();
+  if(await page.locator('#savedCount').textContent()!=='1')throw new Error(vp.name+': save decision did not update queue');
+  if(vp.width<=760)await page.locator('#backToList').click();
+  await page.locator('[data-filter="all"]').click();
+  await page.locator('[data-role="orbit"]').click();
+  if(!await page.locator('.eligibility-band.is-blocked').count())throw new Error(vp.name+': hard constraint not enforced');
+  await page.locator('[data-modal="settings"]').click();
   await page.locator('#remoteOnly').uncheck();
-  await page.locator('[data-view="explore"]').click();
-  await page.locator('[data-role="hybrid"]').first().click();
-  if(await page.locator('#roleDialog .callout').count())throw new Error(vp.name+': remote preference toggle did not update eligibility');
-  await page.locator('[data-close]').first().click();
-  if(errors.length)throw new Error(vp.name+': site/demo '+errors.join(' | '));
+  await page.locator('#preferencesDialog [data-close-dialog]').click();
+  if(await page.locator('.eligibility-band.is-blocked').count())throw new Error(vp.name+': remote preference did not update the blocker');
+  await page.locator('[data-modal="results"]').click();
+  if(!await page.locator('#resultsDialog').evaluate(d=>d.open))throw new Error(vp.name+': results drawer does not open');
+  await page.locator('#resultsDialog [data-close-dialog]').click();
+  if(errors.length)throw new Error(vp.name+': public experience '+errors.join(' | '));
   // The actual Telegram mini-app entry point must retain onboarding-aware navigation.
   await page.goto(base+'/telegram_miniapp/',{waitUntil:'domcontentloaded'});
   await page.waitForFunction(()=>document.querySelector('#home')&&!document.querySelector('#home').classList.contains('hidden')&&document.querySelector('[data-cf-tab="today"]'));
