@@ -1,0 +1,18 @@
+/* Raster canvas fog replaces all CSS-drawn document geometry. */
+.start-section{background:#12101b!important;color:#f4f0fa;position:relative;overflow:hidden}
+.start-section:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 72% 60%,#42325080,transparent 55%),linear-gradient(115deg,#171320,#0b0a11);pointer-events:none}
+.start-grid{position:relative;z-index:1;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}
+.start-copy h2,.start-copy h2 em{color:#f3eefb}.start-copy h2 em{color:#bfa2ff}
+.start-copy>p,.start-points,.start-copy small{color:#b4aabf}
+.start-copy .kicker-line{color:#c9b5f2}
+.start-actions .start-link{color:#f7f2ff}
+.start-section .start-visual{height:min(620px,67vw);min-height:460px;border-radius:22px;background:radial-gradient(ellipse at 50% 50%,#312642,#090811 65%);overflow:hidden;isolation:isolate;touch-action:pan-y;position:relative;cursor:crosshair;perspective:none}
+.start-section .start-visual::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 85px 24px #080710;pointer-events:none}
+#abyssCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.abyss-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:57%;max-width:330px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;pointer-events:none;border-radius:50%;background:radial-gradient(circle at 41% 34%,#3f3554dd,#0e0b1ce8 65%,#080711 78%);box-shadow:0 0 38px #9981c333,inset 0 0 55px #a180e61f;border:1px solid #b6a1df39;opacity:.9;gap:16px}
+.abyss-core strong{color:#e8dcfa;font-size:clamp(17px,2vw,30px);line-height:1.1;letter-spacing:-.06em;font-weight:850;text-shadow:0 0 25px #9776c879}
+.abyss-core .core-small,.abyss-core .core-sub{font-size:9px;letter-spacing:.15em;color:#aa93cb;font-weight:750}
+.abyss-hint{position:absolute;bottom:23px;left:50%;transform:translateX(-50%);z-index:2;white-space:nowrap;color:#d9caed;font-size:9px;letter-spacing:.18em}
+@media(max-width:800px){.start-grid{grid-template-columns:1fr}.start-section .start-visual{height:420px;min-height:0;order:-1}.abyss-core{width:45%}.start-copy h2{font-size:clamp(42px,8vw,70px)}}
+@media(max-width:480px){.start-section{padding:42px 0 70px}.start-section .start-visual{height:350px;border-radius:13px}.abyss-core{width:53%;gap:9px}.abyss-core strong{font-size:17px}.abyss-core .core-small,.abyss-core .core-sub{font-size:7px}.abyss-hint{font-size:8px}.start-copy h2{font-size:43px}}
+@media(prefers-reduced-motion:reduce){.abyss-core{transition:none}}
