@@ -78,7 +78,7 @@ for(const vp of viewports){
   const orange=await page.locator('#how').evaluate(el=>getComputedStyle(el).backgroundColor);
   if(orange!=='rgb(245, 107, 70)')throw new Error(vp.name+': immersive orange background missing: '+orange);
   await page.locator('#how').scrollIntoViewIfNeeded();
-  await page.locator('#storyCurrentNumber').waitFor();
+  await page.locator('#storyCurrentNumber').waitFor({state:'attached'});
   if(!await page.locator('#storyScene .screen-check').count())throw new Error(vp.name+': eligibility preview did not render');
   await page.waitForFunction(()=>document.querySelector('#storyCurrentNumber')?.textContent==='02',null,{timeout:9000}).catch(()=>{});
   if(await page.locator('#storyCurrentNumber').textContent()!=='02')throw new Error(vp.name+': product story failed to auto-advance, tap required');
