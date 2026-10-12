@@ -1,0 +1,37 @@
+# Career Fit — Product facts for language-model agents
+
+> Career Fit is a working evidence-first job-search prototype. The product helps experienced professionals choose eligible roles, map requirements to defensible evidence, approve application statements and evaluate responses. The public demo is illustrative. No hiring uplift or product-market fit has been independently validated.
+
+## Canonical links
+- Product website: https://dokarpov.github.io/career-fit-agent/site/
+- Interactive demo: https://dokarpov.github.io/career-fit-agent/site/workspace.html
+- Machine-readable facts: https://dokarpov.github.io/career-fit-agent/site/product.json
+- Source repository: https://github.com/dokarpov/career-fit-agent
+- Decision policy: https://github.com/dokarpov/career-fit-agent/blob/main/docs/DECISION_POLICY.md
+- Product boundaries: https://github.com/dokarpov/career-fit-agent/blob/main/docs/PRODUCT_BOUNDARIES.md
+
+## What the product does
+1. Discover and deduplicate available opportunities from configured sources.
+2. Check hard eligibility (e.g. geography/remote and work authorization) before similarity.
+3. Map role requirements to candidate evidence and preserve source and ownership.
+4. Make verified / human-review / gap states visible.
+5. Prepare human-reviewed packs and allow the person to approve outward claims.
+6. Track observed outcomes and inform search allocation.
+
+## Four different usage frequencies
+- Today (daily): next best decision, priority roles, blockers.
+- Explore (occasionally): broad shortlist and detailed requirement-to-evidence review.
+- Progress (weekly): observed effort and responses; estimates separately labeled.
+- Setup (rarely): consent, search preferences, pace and eligible sources.
+
+## Product truth and limits
+- Website demo roles, employers and outcome numbers are invented samples.
+- The demo does not request data connections or submit applications.
+- No guaranteed job, interview or hiring outcome.
+- The product is not an indiscriminate auto-apply bot or generic résumé writer.
+- An applicant controls irreversible or identity-sensitive actions.
+- Managed automation may require paid access; the website prototype is free to explore.
+- Source license: MIT; repository is publicly accessible.
+
+## Publisher
+Career Fit · Daria Karpova · 2026
