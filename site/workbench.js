@@ -143,14 +143,22 @@ function showEligibility(){
 function showFit(){
  const req=state.requirements;
  $('skillOptions').innerHTML=req.length?req.map((line,i)=>
- '<label class="skill-check"><input type="checkbox" data-skill="'+i+'" '+(state.selected.has(i)?'checked':'')+'><span>'+escape(line)+'</span></label>').join(''):
+ '<label class="skill-check"><input type="checkbox" data-skill="'+i+'" '+(state.selected.has(i)?'checked':'')+'><span class="requirement-label">'+escape(line)+'<small class="word-overlap" data-cue="'+i+'"></small></span></label>').join(''):
  '<p>No clear requirements were detected. Add responsibilities or qualifications to the job description, then retry.</p>';
  $('experienceNotes').value=state.notes;
  updateFit();
 }
 function updateFit(){
- const selected=state.selected.size;
- $('fitFeedback').textContent=selected?selected+' of '+state.requirements.length+' requirement'+(state.requirements.length===1?'':'s')+' marked as matching your experience. This is your self-assessment, not verified by RoleHint.':'Nothing selected yet. Choose the requirements you can substantiate; unselected areas remain unknown.';
+ const selected=state.selected.size,notes=$('experienceNotes').value;
+ const terms=new Set(words(notes));let hints=0;
+ for(const cue of document.querySelectorAll('[data-cue]')){
+  const line=state.requirements[Number(cue.dataset.cue)]||'';
+  const shared=[...new Set(words(line))].filter(x=>terms.has(x));
+  cue.textContent=shared.length>=2?'Similar wording in your notes: '+shared.slice(0,3).join(', ')+' (not verified)':'';
+  if(shared.length>=2)hints++;
+ }
+ const chosen=selected?selected+' of '+state.requirements.length+' requirement'+(state.requirements.length===1?'':'s')+' self-marked as relevant.':'No requirements marked as relevant yet.';
+ $('fitFeedback').textContent=chosen+(notes.trim()?' Keyword overlap found in '+hints+' requirement'+(hints===1?'':'s')+'; this does not establish qualifications.':' Add your work notes to reveal shared terms, then confirm each claim yourself.');
 }
 function makeDecision(){
  state.notes=$('experienceNotes').value.trim().slice(0,1800);
