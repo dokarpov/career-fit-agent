@@ -45,3 +45,23 @@
   --rh-focus-outline: 3px solid var(--rh-color-focus);
   --rh-touch-target: 44px;
 }
+
+
+/* The workbench intentionally has a denser, neutral-product surface.
+ * These values are part of the same governed token sheet, not a second ad-hoc palette.
+ */
+:root {
+  --rh-workbench-page: #f8f9fb;
+  --rh-workbench-ink: #20242c;
+  --rh-workbench-muted: #68717d;
+  --rh-workbench-quiet: #8a929b;
+  --rh-workbench-line: #e5e8ed;
+  --rh-workbench-line-strong: #d6dbe2;
+  --rh-workbench-hover: #f8f9fc;
+  --rh-workbench-selected: #f3f5f9;
+  --rh-workbench-action: #273a55;
+  --rh-workbench-action-hover: #354f72;
+  --rh-workbench-pending: #94652f;
+  --rh-workbench-pending-bg: #fcf8f0;
+  --rh-workbench-radius: 10px;
+}
