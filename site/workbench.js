@@ -65,7 +65,9 @@ function renderDetail(){const r=current(),isBlocked=blocked(r),needsVerify=requi
 function render(){renderList();renderDetail();}
 function notify(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(notify.timer);notify.timer=setTimeout(()=>e.classList.remove('show'),2800)}
 function selectRole(id){if(!roles.some(r=>r.id===id))return;const apply=()=>{state.selected=id;state.draft=null;render();document.body.classList.add('detail-open');if(matchMedia('(max-width:760px)').matches)scrollTo({top:0,behavior:'instant'})};
- if(document.startViewTransition&&!matchMedia('(prefers-reduced-motion:reduce)').matches&&!matchMedia('(max-width:760px)').matches){document.startViewTransition(apply)}else apply();
+ // Selection state must change synchronously: CSS animates the inspector afterwards.
+ // A deferred View Transition callback can race with subsequent user interactions.
+ apply();
 }
 function nextRole(){selectRole(roles[(idx(state.selected)+1)%roles.length].id)}
 function closeDialogs(){document.querySelectorAll('dialog[open]').forEach(d=>d.close())}
