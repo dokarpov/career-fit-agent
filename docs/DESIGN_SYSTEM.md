@@ -22,12 +22,12 @@ Do not introduce a second display face, novelty font, italic headline, or decora
 The shared token source of truth is `site/tokens.css`. It defines:
 
 - neutral page, canvas, text and borders;
-- forest-green interaction and semantic states;
+- restrained landing identity with forest-green action, plus a neutral workbench action scheme registered in the same token file;
 - red-orange focus ring (functional accessibility, not a decorative accent);
 - status colors for positive / pending / blocked;
 - radii, spacing and motion easing.
 
-`landing.css` and `workbench.css` map their legacy local variables to these canonical tokens while retaining page-specific layout rules and existing colors elsewhere. This is **token consolidation**, not a full component-library migration.
+`landing.css` and `workbench.css` map their local variables to canonical tokens while retaining page-specific layout rules. The workbench deliberately uses a denser neutral interface, not the green marketing accent. Both palettes are governed by the same token source, but the component styles have not yet been fully deduplicated. This is **token consolidation**, not a full component-library migration.
 
 ### Design rules
 
