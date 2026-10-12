@@ -13,7 +13,7 @@ Styles load in this order:
 3. `site/lilac-polish.css`: historically agreed graphite/lilac material language.
 4. `site/motion-stability.css`: restrained motion and stable layout.
 5. `site/early-access.css` and `site/product-preview.css`: section layouts.
-6. **`site/design-lock.css` (last): authoritative typography and silver surfaces.**
+6. `site/design-lock.css`: authoritative typography.\n7. **`site/silver-restore.css` (last): restored original 2026 white/lilac-silver film-grain recipe, sourced from commit `e623c9b6`; CTA layout alignment.**
 
 Do not silently shrink font sizes, add another font family, or replace the brand palette in individual section CSS files.
 
@@ -27,7 +27,7 @@ Do not silently shrink font sizes, add another font family, or replace the brand
 - Font: Manrope 400–800.
 
 ## Materials
-Use silver surface tokens `--rh-silver` and `--rh-silver-light` for light-catching metallic panels, balanced against graphite. The current implementation uses CSS multi-stop highlights, **not a photographic raster metallic material**. A genuine raster silver texture remains a separate asset task. Do not imply the CSS gradient meets the raster-art requirement.
+Use the original October white/lilac-silver recipe (`#ac9cda → #d6d5e4 → #a1a9bb`) with `site/film-grain.svg` only on accent panels/buttons, not random silver full-section gradients. Restored from commit `e623c9b6`. This is the original CSS + grain material rather than a newly generated metallic texture.
 
 ## Wordmark
 The on-page logo is now the enlarged typography `rolehint.` without the legacy green star icon. The old favicon asset remains and should not be presented as an approved new brandmark; replace it only after an approved icon asset exists.
