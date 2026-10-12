@@ -20,3 +20,6 @@
   .inbox,.inspector{max-height:calc(100dvh - 99px);overflow-y:auto;overscroll-behavior:contain}
   .inspector-top{position:sticky;top:0;background:#fff;z-index:5}
 }
+
+/* Shared existing starburst mark. */
+.wordmark{display:inline-flex;align-items:center;gap:8px}.wordmark img{display:block;border-radius:7px;flex:none}
