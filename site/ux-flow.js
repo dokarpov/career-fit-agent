@@ -6,9 +6,9 @@ document.getElementById('rhGuideDismiss').addEventListener('click',hide);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!guide.hidden)hide()});
 const clear=document.getElementById('rhClearPersonal');
 clear?.addEventListener('click',()=>{
- if(!window.confirm('Delete the CV text and search preferences saved in this browser? This cannot be undone.'))return;
- try{localStorage.removeItem('rolehint_onboarding_v1');sessionStorage.removeItem('rolehint_sample_exploration')}catch(e){window.alert('Browser storage could not be cleared. Check site storage settings.');return}
- document.getElementById('personalBanner').hidden=true;
+ if(!window.confirm('Clear the CV, search preferences and all sample decisions stored on this device? This cannot be undone.'))return;
+ try{localStorage.removeItem('rolehint_onboarding_v1');localStorage.removeItem('rolehint_sample_decisions_v1');sessionStorage.removeItem('rolehint_sample_exploration')}catch(e){window.alert('Browser storage could not be cleared. Check site storage settings.');return}
+ document.getElementById('personalBanner').hidden=true;window.dispatchEvent(new Event('rolehint:reset-sample'));
  document.getElementById('preferencesDialog')?.close();
  window.dispatchEvent(new Event('rolehint:open-onboarding'));
 });
