@@ -189,3 +189,10 @@ body{background:#fff;color:var(--ink)}
  .story-orbit,.hero-art{animation:none!important}
  .primary,.button{transition:none!important}
 }
+
+
+/* Preserve the approved starburst geometry; display it in neutral monochrome within the new palette. */
+.brand-icon,.brand img,.story-monitor-mark,.wordmark img{filter:grayscale(1);}
+/* Remaining decorative/selected surfaces are white. Focus is carried by contrast and a grain-textured gradient. */
+.attention-row.featured,.attention-row.featured:hover,.stage-card-top,.stage-bottom{background:#fff!important;border-color:var(--line)!important;color:#33343e!important}
+.proof-state,.check-symbol,.screen-check .check-orb{box-shadow:none!important}
