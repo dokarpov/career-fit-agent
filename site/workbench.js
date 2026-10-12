@@ -1,231 +1,274 @@
-/* RoleHint browser preflight. Transparent deterministic checks, not a server AI.
-   Everything remains in memory; no API calls, cookies, telemetry, or automatic applications. */
+/* RoleHint simulated opportunity agent.
+ * Browser-only demo. All employers, opportunities and outcomes are fictional.
+ * No real vacancies retrieved; no profile information leaves this browser.
+ */
 (()=>{
 'use strict';
 const $=id=>document.getElementById(id);
-const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const samples={
- product:{role:'Product Manager',company:'Northstar Studio',description:'Senior Product Manager — Northstar Studio (fictional employer)\nRemote role based in Europe. Full-time. Salary €90,000–€110,000 per year.\nRequirements:\n• Lead product discovery and customer interviews to identify unmet needs.\n• Define and communicate a product strategy and roadmap.\n• Collaborate with engineering and design teams to ship improvements.\n• Own commercial metrics and revenue targets.\n• Experience in B2B SaaS environments is preferred.'},
- design:{role:'Product Designer',company:'Mosaic Labs',description:'Senior Product Designer — Mosaic Labs (fictional employer)\nRemote from anywhere. Full-time. Salary €80,000–€100,000 annually.\nRequirements:\n• Lead user research, customer interviews and usability studies.\n• Build interactive prototypes and validate product concepts.\n• Improve and maintain a shared design system.\n• Demonstrate the measurable outcomes of design changes.\n• Partner with product managers and engineering.'},
- engineering:{role:'Software Engineer',company:'Relay Systems',description:'Software Engineer — Relay Systems (fictional employer)\nHybrid in Berlin; office attendance required three days per week. Salary €95,000–€105,000 per year.\nRequirements:\n• Build and maintain production applications.\n• Collaborate through code review and technical planning.\n• Participate in system architecture decisions.\n• Improve automated testing, monitoring and reliability.'},
- marketing:{role:'Marketing Lead',company:'Orbit Works',description:'Marketing Lead — Orbit Works (fictional employer)\nRemote position; hiring countries not specified. Compensation not disclosed.\nRequirements:\n• Plan and deliver multichannel marketing campaigns.\n• Analyze channel performance and campaign results.\n• Manage external partners and internal stakeholders.\n• Take responsibility for marketing budgets and reporting.'}
+const safe=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+const euro=n=>n==null?'Not disclosed':'€'+Math.round(n).toLocaleString('en-US');
+const roleSets={
+ product:{
+  name:'Product',target:'Senior Product Manager',
+  skills:[
+   ['Customer discovery','I have led customer interviews and shaped product decisions from findings.'],
+   ['Product strategy','I have prioritized a roadmap around a clear product goal.'],
+   ['Cross-functional delivery','I have led product work with design and engineering through release.'],
+   ['Commercial ownership','I can demonstrate direct revenue or P&L ownership.'],
+   ['B2B SaaS','I have built or led a B2B software product.'],
+   ['Product metrics','I have used adoption or conversion data to guide product decisions.']
+  ],
+  chosen:[0,1,2,5],
+  titles:['Senior Product Manager','Principal Product Manager','Product Lead','Product Manager','Director of Product','Head of Product','Group Product Manager']
+ },
+ design:{
+  name:'Design',target:'Senior Product Designer',
+  skills:[
+   ['User research','I have planned interviews or usability studies with users.'],
+   ['Interaction design','I have designed and tested interactive product flows.'],
+   ['Design systems','I have created or maintained shared interface components.'],
+   ['Measured outcomes','I can describe measurable results of design improvements.'],
+   ['Team leadership','I have coached designers or led design decisions across teams.'],
+   ['Product collaboration','I have worked directly with product and engineering to ship.']
+  ],
+  chosen:[0,1,2,5],
+  titles:['Senior Product Designer','Principal Product Designer','Design Lead','Product Designer','Head of Product Design','Design Director','Staff Product Designer']
+ },
+ engineering:{
+  name:'Engineering',target:'Software Engineer',
+  skills:[
+   ['Production delivery','I have shipped and maintained working software.'],
+   ['Technical design','I have made architecture or technology decisions.'],
+   ['Collaboration','I have collaborated through code review and technical planning.'],
+   ['Cloud infrastructure','I can demonstrate deployment and operational ownership.'],
+   ['Leadership','I have led technical delivery or mentored engineers.'],
+   ['Reliability','I have improved tests, observability or reliability.']
+  ],
+  chosen:[0,1,2,5],
+  titles:['Senior Software Engineer','Staff Engineer','Engineering Lead','Software Engineer','Engineering Manager','Principal Engineer','Backend Engineer']
+ },
+ marketing:{
+  name:'Marketing',target:'Growth Marketing Lead',
+  skills:[
+   ['Campaign strategy','I have planned and delivered multichannel marketing campaigns.'],
+   ['Performance analysis','I have measured and improved campaign performance.'],
+   ['Cross-team execution','I have delivered initiatives with commercial and creative teams.'],
+   ['Budget ownership','I can demonstrate responsibility for marketing budgets.'],
+   ['Lifecycle marketing','I have managed retention or lifecycle programs.'],
+   ['Experimentation','I have tested and iterated creative or channel strategies.']
+  ],
+  chosen:[0,1,2,5],
+  titles:['Growth Marketing Lead','Head of Growth','Marketing Lead','Growth Marketer','VP of Marketing','Marketing Director','Lifecycle Marketing Lead']
+ }
 };
-const state={sample:false,role:'',description:'',sourceUrl:'',region:'eu',workMode:'remote',minSalary:0,checks:[],requirements:[],selected:new Set(),notes:'',decision:null};
-const screens=['stepRole','stepEligibility','stepFit','stepDecision'];
-const common=new Set(('the and with from this that have been will able should must into their your for work years experience role team you are our who has using in of to on at by or an as is a lead build developing developed products tools projects software data design product').split(' '));
-const words=t=>(String(t).toLowerCase().match(/[a-z][a-z0-9+#.-]{2,}/g)||[]).filter(x=>!common.has(x));
-function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2600)}
-let lastStage=null;
-function showStep(n){
- const apply=()=>{
-  screens.forEach((id,i)=>$(id).hidden=(i!==n));
-  document.querySelectorAll('[data-progress]').forEach((el,i)=>{el.classList.toggle('is-current',i===n);el.classList.toggle('is-done',i<n);i===n?el.setAttribute('aria-current','step'):el.removeAttribute('aria-current')});
- };
- const focus=()=>{
-   window.scrollTo({top:0,behavior:'instant'});
-   let h=$(screens[n]).querySelector('h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}
- };
- const animate=lastStage!==null&&n!==lastStage&&typeof document.startViewTransition==='function'&&
-   !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
- lastStage=n;
- if(animate){
-  const transition=document.startViewTransition(apply);
-  transition.finished.then(focus).catch(focus);
- }else{apply();focus()}
+const mockTemplates=[
+ {id:'01',company:'Northstar Studio',mode:'remote',region:'eu',from:90000,to:115000,source:'employer',keys:[0,1,2,3],effort:35,context:'Discovery, roadmap and cross-functional product delivery.'},
+ {id:'02',company:'Mosaic Labs',mode:'remote',region:'unknown',from:122000,to:145000,source:'employer',keys:[0,1,3],effort:70,context:'International remit, but hiring countries are not listed.'},
+ {id:'03',company:'Forge Works',mode:'hybrid',region:'eu',from:130000,to:155000,source:'employer',keys:[0,1,2],effort:40,context:'Three days per week at the Berlin office.'},
+ {id:'04',company:'Luma Studio',mode:'remote',region:'eu',from:49000,to:60000,source:'employer',keys:[0,1],effort:25,context:'Remote role at a lower published compensation band.'},
+ {id:'05',company:'Aster Group',mode:'remote',region:'eu',from:98000,to:122000,source:'employer',keys:[3,4,5],effort:90,context:'Broad functional and commercial responsibilities.'},
+ {id:'06',company:'Thrive Ventures',mode:'remote',region:'us',from:145000,to:180000,source:'employer',keys:[1,2,5],effort:50,context:'Fully remote but hiring limited to the United States.'},
+ {id:'07',company:'Nova Collective',mode:'remote',region:'eu',from:108000,to:132000,source:'repost',keys:[0,1,5],effort:30,context:'The sample has a repost but no original employer posting attached.'},
+ {id:'01-repost',duplicateOf:'01',company:'Northstar Studio',mode:'remote',region:'eu',from:90000,to:115000,source:'repost',keys:[0,1,2,3],effort:35,context:'Duplicate sample repost.'}
+];
+const state={role:'product',chosen:new Set(roleSets.product.chosen),remote:'remote',region:'eu',floor:75000,budget:45,items:[],filter:'all',selected:null,saved:new Set(),passed:new Set(),revealed:new Set(),progressTimers:[],runToken:0,phase:'setup'};
+const getRole=()=>roleSets[state.role];
+const selectedSkills=()=>getRole().skills.filter((x,i)=>state.chosen.has(i)).map(x=>x[0]);
+function toast(msg){let e=$('toast');e.textContent=msg;e.classList.add('visible');clearTimeout(toast.timer);toast.timer=setTimeout(()=>e.classList.remove('visible'),2600)}
+function setPhase(p){state.phase=p;for(let [name,id] of [['setup','setupScreen'],['running','runScreen'],['results','resultsScreen']])$(id).hidden=name!==p;window.scrollTo({top:0,behavior:'instant'})}
+function changeRole(role){
+ if(!roleSets[role])return;
+ state.role=role;state.chosen=new Set(roleSets[role].chosen);
+ document.querySelectorAll('[data-role]').forEach(el=>{let selected=el.dataset.role===role;el.classList.toggle('selected',selected);el.setAttribute('aria-pressed',String(selected))});
+ renderProfile();
 }
-function checkInput(){
- const title=$('targetRole').value.trim(),description=$('jobDescription').value.trim();
- $('goEligibility').disabled=title.length<2||description.length<80;
- $('jobInputHelp').textContent=description.length>0&&description.length<80?
- 'Add more of the original description (at least 80 characters), or load a sample.':
- 'No upload or live scraping. The browser checks only the text you provide.';
+function renderProfile(){
+ $('profileEditor').innerHTML=getRole().skills.map(([label],i)=>'<label class="profile-chip"><input type="checkbox" data-skill="'+i+'" '+(state.chosen.has(i)?'checked':'')+'><span class="chip-symbol" aria-hidden="true"></span><span>'+safe(label)+'</span></label>').join('');
 }
-function selectRole(name){
- document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.example===name)));
- const s=samples[name];if(s){$('targetRole').value=s.role;if(state.sample)loadSample(name,false)}
- checkInput();
+function readSettings(){
+ state.remote=$('remoteRule').value;
+ state.region=$('regionRule').value;
+ state.floor=Math.max(0,Math.min(500000,Number($('salaryRule').value)||0));
+ state.budget=Number($('timeRule').value)||45;
 }
-function loadSample(name,announce=true){
- const s=samples[name]||samples.product;
- $('jobDescription').value=s.description;
- $('jobUrl').value='';
- state.sample=true;
- if(!$('targetRole').value.trim()){$('targetRole').value=s.role}
- document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.example===name)));
- checkInput();if(announce)toast('Fictional example loaded — edit any field');
+function makeJobs(){
+ // 8 illustrative raw postings; one deliberate duplicate removed.
+ let base=mockTemplates.filter(t=>!t.duplicateOf);
+ return base.map((job,i)=>({...job,title:getRole().titles[i],key:state.role+'-'+job.id}));
 }
-function capture(){
- state.role=$('targetRole').value.trim();
- state.description=$('jobDescription').value.trim();
- state.sample=Object.values(samples).some(item=>item.description.trim()===state.description);
- state.sourceUrl=$('jobUrl').value.trim();
- state.region=$('targetRegion').value;
- state.workMode=document.querySelector('input[name="workMode"]:checked')?.value||'remote';
- state.minSalary=Math.max(0,Math.min(500000,Number($('minSalary').value)||0));
- state.selected.clear();state.notes='';
+function decide(job){
+ let blockers=[],unknowns=[],notes=[],fits=[],unshown=[];
+ if(state.remote==='remote'&&job.mode==='hybrid')blockers.push('Office attendance conflicts with remote only');
+ if(state.region==='eu'&&job.region==='us')blockers.push('Hiring is limited to the United States');
+ if(state.floor&&job.to!=null&&job.to<state.floor)blockers.push('Maximum listed salary is below your minimum');
+ if(job.region==='unknown')unknowns.push('Ask which countries the employer can hire from');
+ else if(job.region==='eu')notes.push('Europe listed; exact country and work authorization still need confirmation');
+ if(job.source==='repost')unknowns.push('Find and verify the original employer posting');
+ if(job.from==null)unknowns.push('Confirm annual base compensation');
+ else if(state.floor&&job.from<state.floor&&job.to>=state.floor)unknowns.push('Only part of the salary range meets your minimum');
+ if(job.effort>state.budget)notes.push('Application effort exceeds your preferred time budget');
+ for(const k of job.keys){if(state.chosen.has(k))fits.push(k);else unshown.push(k)}
+ // Hard blockers override all other scores. Unknown is never represented as confirmed.
+ let status,reason;
+ if(blockers.length){status='skip';reason=blockers[0];}
+ else if(unknowns.length){status='verify';reason=unknowns[0];}
+ else if(fits.length<Math.min(2,job.keys.length)){status='verify';reason='Not enough matching experience selected yet';}
+ else if(job.effort>state.budget){status='verify';reason='Review whether the application is worth the time';}
+ else{status='pursue';reason='Meets your stated filters; relevant experience selected';}
+ return {...job,status,reason,blockers,unknowns,notes,fits,unshown};
 }
-/* Detect explicit terms. We do not infer work authorization, company legitimacy, or
-   the absence of an obligation from a missing keyword. */
-function excerpt(text,re){let m=re.exec(text);if(!m)return null;let idx=m.index;let left=Math.max(text.lastIndexOf('\n',idx)+1,text.lastIndexOf('.',idx-1)+1);let right=Math.min(text.length,idx+195);let end=text.indexOf('\n',idx);if(end>=0)right=Math.min(right,end);return text.slice(left,right).trim().replace(/^[-•*]\s*/,'').slice(0,185)}
-function checkSetup(text){
- const onSite=excerpt(text,/\b(hybrid|on[- ]site|onsite|office attendance|in[- ]office|days (?:a|per) week (?:in|at) (?:the )?office)\b/i);
- const remote=excerpt(text,/\b(remote|work from anywhere|fully distributed)\b/i);
- if(state.workMode==='remote'&&onSite){
-  const compulsory=/\b(required|mandatory|must attend|days? per week|days? a week|in-office required|office attendance required)\b/i.test(onSite);
-  return {label:'Work setup',kind:compulsory?'block':'ask',detail:'Office or hybrid work is mentioned: “'+onSite+'”. '+(compulsory?'This appears incompatible with remote only.':'Confirm whether fully remote work is permitted.')};
+function runDemo(){
+ readSettings();state.items=makeJobs().map(decide).sort((a,b)=>({pursue:0,verify:1,skip:2}[a.status]-({pursue:0,verify:1,skip:2}[b.status]) || b.fits.length-a.fits.length));
+ state.selected=state.items[0]?.key||null;state.filter='all';state.saved.clear();state.passed.clear();state.revealed.clear();
+ showRun();
+}
+function stopTimers(){state.runToken++;state.progressTimers.forEach(clearTimeout);state.progressTimers=[]}
+function showRun(){
+ stopTimers();setPhase('running');
+ const token=state.runToken;
+ const milestones=['Read 8 fictional listings from two example source types','Remove 1 duplicate posting','Check remote, geography and pay rules','Compare requirements with your selected experience','Build a prioritized decision queue'];
+ $('runMilestones').innerHTML=milestones.map((m,i)=>'<div class="milestone" data-milestone="'+i+'"><span class="milestone-icon">○</span><span>'+safe(m)+'</span></div>').join('');
+ $('runProgress').style.width='0%';$('runDetail').textContent='Starting simulated search…';
+ milestones.forEach((msg,i)=>{const id=setTimeout(()=>{
+   if(token!==state.runToken)return;
+   const el=document.querySelector('[data-milestone="'+i+'"]');
+   if(el){el.classList.add('done');el.querySelector('.milestone-icon').textContent='✓'}
+   $('runProgress').style.width=((i+1)/milestones.length*100)+'%';
+   $('runDetail').textContent=msg;
+ },i*440+150);state.progressTimers.push(id)});
+ state.progressTimers.push(setTimeout(()=>{if(token===state.runToken)showResults()},milestones.length*440+650));
+}
+function showResults(){
+ stopTimers();setPhase('results');refreshResults();if(state.items.length)selectJob(state.items[0].key,false);
+}
+function stats(){
+ const counts={pursue:0,verify:0,skip:0};state.items.forEach(j=>counts[j.status]++);
+ return counts;
+}
+function refreshResults(){
+ const counts=stats();
+ $('resultsMetrics').innerHTML='<div><strong>8</strong><span>Sample listings</span></div><div><strong>1</strong><span>Repeat removed</span></div><div><strong>'+counts.pursue+'</strong><span>Prioritized</span></div>';
+ $('decisionSummary').textContent='Target: '+getRole().target+'  ·  '+(state.remote==='remote'?'Remote only':'Remote or hybrid')+'  ·  '+(state.floor?euro(state.floor)+'+':'Any salary')+'  ·  '+selectedSkills().length+' experience areas';
+ $('allCount').textContent=String(state.items.length);
+ for(const type of ['pursue','verify','skip'])$(type+'Count').textContent=String(counts[type]);
+ renderFilters();
+ renderList();
+}
+function filteredItems(){return state.items.filter(j=>state.filter==='all'||j.status===state.filter)}
+function renderFilters(){
+ document.querySelectorAll('[data-filter]').forEach(el=>{
+  const active=el.dataset.filter===state.filter;el.classList.toggle('active',active);el.setAttribute('aria-pressed',String(active));
+ });
+}
+const badgeName=s=>({pursue:'Worth reviewing',verify:'Verify first',skip:'Skip'})[s]||s;
+const modeText=j=>j.mode==='remote'?'Remote': 'Hybrid · Berlin';
+const regionText=j=>j.region==='eu'?'Europe':j.region==='us'?'US only':'Unspecified countries';
+function renderList(){
+ const jobs=filteredItems();
+ if(!jobs.some(j=>j.key===state.selected)){state.selected=jobs[0]?.key||null}
+ $('jobList').innerHTML=jobs.length?jobs.map(j=>{
+  const active=state.selected===j.key,passed=state.passed.has(j.key),saved=state.saved.has(j.key);
+  return '<button type="button" class="job-card'+(active?' active':'')+(passed?' dimmed':'')+'" data-job="'+safe(j.key)+'" aria-current="'+(active?'true':'false')+'">'+
+   '<div class="job-card-top"><span class="company-mark" aria-hidden="true">'+safe(j.company[0])+'</span><span class="status-badge '+j.status+'">'+badgeName(j.status)+'</span></div>'+
+   '<strong class="job-name">'+safe(j.title)+'</strong><span class="company-name">'+safe(j.company)+'</span>'+
+   '<span class="job-meta">'+safe(modeText(j))+' · '+safe(j.from==null?'Pay undisclosed':euro(j.from)+'–'+euro(j.to))+'</span>'+
+   '<span class="job-card-foot">'+safe(j.reason)+(saved?' · Saved':'')+(passed?' · Passed':'')+' <span aria-hidden="true">↗</span></span></button>'
+ }).join(''):'<div class="empty-state">No opportunities in this group. Change the filter to inspect another decision.</div>';
+}
+function selectJob(key,scroll=true){
+ if(!state.items.some(j=>j.key===key))return;
+ state.selected=key;renderList();renderDetail();
+ if(scroll&&matchMedia('(max-width:800px)').matches){document.body.classList.add('mobile-detail');$('detailPane').scrollIntoView({behavior:'smooth',block:'start'});}
+}
+function findJob(){return state.items.find(j=>j.key===state.selected)}
+function detailChecks(j){
+ const items=[
+  {title:'Work arrangement',kind:state.remote==='remote'&&j.mode==='hybrid'?'block':'known',text:modeText(j)+(j.mode==='hybrid'?' — office attendance required':' — named in this sample')},
+  {title:'Hiring region',kind:state.region==='eu'&&j.region==='us'?'block':j.region==='unknown'?'unknown':'known',text:regionText(j)+' · country-specific eligibility is not verified'},
+  {title:'Compensation',kind:state.floor&&j.to<state.floor?'block':state.floor&&j.from<state.floor?'unknown':'known',text:euro(j.from)+'–'+euro(j.to)+' annual base · fictional'}
+ ];
+ return items.map(c=>'<div class="check-line"><span class="check-bullet '+c.kind+'" aria-hidden="true">'+(c.kind==='block'?'×':c.kind==='unknown'?'?':'✓')+'</span><div><strong>'+safe(c.title)+'</strong><p>'+safe(c.text)+'</p></div></div>').join('');
+}
+function fitRows(j){
+ return j.keys.map(k=>{const matched=j.fits.includes(k),skill=getRole().skills[k];return '<div class="fit-row"><span class="fit-state '+(matched?'matched':'unshown')+'">'+(matched?'Selected':'Not shown')+'</span><div><strong>'+safe(skill[0])+'</strong><p>'+safe(matched?skill[1]:'Not selected in the example background; this does not mean you lack the skill.')+'</p></div></div>'}).join('');
+}
+function suggestedQuestions(j){
+ const questions=[];
+ if(j.region==='unknown'||j.region==='eu')questions.push('Which hiring countries are eligible, and can you employ someone in my country?');
+ if(j.source==='repost')questions.push('Where is the original employer-posted vacancy?');
+ if(state.floor&&j.from<state.floor&&j.to>=state.floor)questions.push('Is the base salary negotiable above '+euro(state.floor)+'?');
+ if(j.effort>state.budget)questions.push('Is a detailed assignment necessary before an initial conversation?');
+ if(j.unshown.length)questions.push('Which listed requirement is truly essential versus preferred?');
+ return questions.length?questions:['What are the key success measures for the first six months?'];
+}
+function writePitch(j){
+ const claims=j.fits.slice(0,3).map(k=>getRole().skills[k][1].replace(/^I (have |can )?/,''));
+ return 'Sample application introduction — review and rewrite before use.\n\n'+
+  'Hello, I am interested in the '+j.title+' role. '+
+  (claims.length?'Based on the experience selected in this demo, relevant areas may include '+j.fits.slice(0,3).map(k=>getRole().skills[k][0].toLowerCase()).join(', ')+'. ':'')+
+  'I would welcome the chance to discuss how my background matches your requirements.\n\n'+
+  'Before sending, confirm every claim with your own examples. No message was sent by RoleHint.';
+}
+function renderAction(j){
+ if(j.status==='skip')return '<p class="action-copy">A stated constraint conflicts with your rules. Unless that changes, prioritize a different role.</p><button class="action-button" type="button" data-action="next">Review another job <span>→</span></button>';
+ if(j.status==='verify'){
+  return '<p class="action-copy">Resolve the unknowns before writing an application. These are questions, not confirmed employer facts.</p>'+
+   '<button class="action-button" type="button" data-action="questions">Show questions to ask <span>→</span></button>';
  }
- if(onSite)return {label:'Work setup',kind:'pass',detail:'Office attendance is mentioned: “'+onSite+'”'};
- if(remote)return {label:'Work setup',kind:'pass',detail:'Remote work is mentioned: “'+remote+'”'};
- return {label:'Work setup',kind:'ask',detail:'Work arrangement not found. Confirm remote/hybrid/on-site expectations.'};
+ return '<p class="action-copy">This role passes the sample preflight. Prepare a starting point grounded in the experience you selected.</p>'+
+  '<button class="action-button" type="button" data-action="preview">Preview application <span>→</span></button>';
 }
-function checkRegion(text){
- const regionLine=excerpt(text,/\b(Europe(?:an)?|EU|EMEA|worldwide|anywhere|global|United States|USA|U\.S\.|US[- ]only|UK[- ]only|based in (?:the )?(?:UK|US|United Kingdom))\b/i);
- const usOnly=/\b(US[- ]only|United States only|U\.S\. only|only (?:in|from) (?:the )?(?:USA|United States))\b/i.test(text);
- const ukOnly=/\b(UK[- ]only|United Kingdom only)\b/i.test(text);
- if(state.region==='eu'&&(usOnly||ukOnly))return {label:'Hiring geography',kind:'block',detail:'Potential restriction for Europe: “'+(regionLine||'Country-restricted hiring')+'”'};
- if(regionLine)return {label:'Hiring geography',kind:'ask',detail:'Location is mentioned: “'+regionLine+'”. Verify your country and work authorization.'};
- return {label:'Hiring geography',kind:'ask',detail:'Eligible hiring countries not found. Ask the employer before applying.'};
+function renderReveal(j){
+ if(!state.revealed.has(j.key))return '';
+ if(j.status==='verify')return '<div class="reveal"><h4>Questions worth asking</h4><ol>'+suggestedQuestions(j).map(q=>'<li>'+safe(q)+'</li>').join('')+'</ol><button type="button" class="text-button" data-action="copy-questions">Copy questions ↗</button></div>';
+ return '<div class="reveal"><h4>Editable sample introduction</h4><p class="hint">The profile is fictional until you replace it with your own facts. Nothing has been submitted.</p><textarea id="draftText" class="draft-text" rows="7">'+safe(writePitch(j))+'</textarea><label class="approval"><input type="checkbox" id="approveDraft"> I have checked and edited the claims before copying.</label><button type="button" class="text-button" data-action="copy-pitch" disabled>Copy reviewed draft ↗</button></div>';
 }
-function salaryInfo(text){
- const line=excerpt(text,/(?:salary|compensation|pay range|pay|annual|annually|per year|€|\bEUR\b|\bUSD\b|\$)/i);
- if(!line)return null;
- let currency=/€|\bEUR\b/i.test(line)?'EUR':/\$|\bUSD\b/i.test(line)?'USD':null;
- if(!currency)return {line,currency:null};
- const r=currency==='EUR'?/(?:€\s*|\bEUR\s*)(\d[\d,]*(?:\.\d+)?)(\s*[kK])?/g:/(?:\$\s*|\bUSD\s*)(\d[\d,]*(?:\.\d+)?)(\s*[kK])?/g;
- let vals=[...line.matchAll(r)].map(m=>{let v=Number(m[1].replace(/,/g,''));return m[2]?v*1000:v}).filter(v=>v>=1000&&v<2000000);
- // Also support €90,000–110,000 and €90k–110k where currency occurs once.
- const range=line.match(/(?:€|\bEUR\b|\$|\bUSD\b)\s*(\d[\d,.]*\s*k?)\s*(?:-|–|to)\s*(\d[\d,.]*\s*k?)/i);
- if(range){
- const parse=x=>{const k=/k/i.test(x);const n=Number(x.replace(/[,\sk]/gi,''));return k?n*1000:n};
- vals=[parse(range[1]),parse(range[2])].filter(v=>v>=1000&&v<2000000);
- }
- return {line,currency,low:Math.min(...vals),high:Math.max(...vals),valid:vals.length>0};
+function renderDetail(){
+ const j=findJob();if(!j){$('jobDetail').innerHTML='<div class="detail-empty">Select an opportunity to see the decision.</div>';return}
+ const fitCount=j.fits.length;
+ $('jobDetail').innerHTML='<div class="detail-mobile-head"><button type="button" data-action="back">← All opportunities</button></div>'+
+ '<div class="detail-top"><div><span class="eyebrow">DECISION / '+safe(j.id)+'</span><h2>'+safe(j.title)+'</h2><p>'+safe(j.company)+' · '+safe(modeText(j))+' · '+safe(regionText(j))+'</p></div><span class="status-badge '+j.status+'">'+badgeName(j.status)+'</span></div>'+
+ '<div class="detail-verdict"><strong>'+safe(j.reason)+'</strong><p>Based on your selected example profile and the fictional posting below, not real-time verification.</p></div>'+
+ '<div class="detail-columns"><div class="detail-main">'+
+ '<section class="detail-section"><div class="section-head"><h3>01 / Eligibility</h3><span>Hard rules first</span></div><div class="checks">'+detailChecks(j)+'</div></section>'+
+ '<section class="detail-section"><div class="section-head"><h3>02 / Your fit</h3><span>'+fitCount+' of '+j.keys.length+' selected</span></div><div class="fit-list">'+fitRows(j)+'</div><p class="disclosure">The matches come from your selected example statements, not external verification.</p></section>'+
+ '<section class="detail-section"><div class="section-head"><h3>03 / Source & effort</h3></div><div class="source-row"><span>Origin</span><strong>'+(j.source==='employer'?'Employer listing · simulated':'Board repost · simulated')+'</strong></div><div class="source-row"><span>Application effort</span><strong>About '+j.effort+' min · illustrative</strong></div><div class="source-row"><span>Context</span><strong>'+safe(j.context)+'</strong></div></section></div>'+
+ '<aside class="action-panel"><span class="eyebrow">YOUR NEXT MOVE</span><h3>'+badgeName(j.status)+'</h3>'+renderAction(j)+
+ '<div class="action-tools"><button type="button" class="utility-button" data-action="save">'+(state.saved.has(j.key)?'Saved ✓':'Save for later')+'</button><button type="button" class="utility-button" data-action="pass">'+(state.passed.has(j.key)?'Undo pass':'Pass')+'</button></div>'+
+ renderReveal(j)+'</aside></div>';
 }
-function checkSalary(text){
- const inf=salaryInfo(text),min=state.minSalary;
- if(!inf||!inf.currency||!inf.valid||!Number.isFinite(inf.high))return {label:'Compensation',kind:'ask',detail:'Comparable annual salary not identified'+(min?'; check it against your €'+min.toLocaleString('en-US')+' minimum.':'. Ask the employer for the actual range.')};
- const note='Stated amount: “'+inf.line+'”';
- if(inf.currency!=='EUR')return {label:'Compensation',kind:'ask',detail:note+'. Different currency; no conversion or salary comparison is made.'};
- if(/\b(month|hour|hourly|daily|per day)\b/i.test(inf.line))return {label:'Compensation',kind:'ask',detail:note+'. Pay frequency needs clarification before comparing.'};
- if(!/\b(annual|annually|per year|\/year|\/yr|a year|yearly)\b/i.test(inf.line))return {label:'Compensation',kind:'ask',detail:note+'. The pay period is not explicit. Confirm annual compensation before comparing.'};
- if(min&&inf.high<min)return {label:'Compensation',kind:'block',detail:note+'. Listed maximum is below your €'+min.toLocaleString('en-US')+' annual minimum.'};
- if(min&&inf.low<min)return {label:'Compensation',kind:'ask',detail:note+'. Only part of the range meets your €'+min.toLocaleString('en-US')+' minimum.'};
- return {label:'Compensation',kind:'pass',detail:note+(min?'. Looks above your minimum, subject to employer confirmation.':'. Not verified with the employer.')};
+function selectFilter(filter){
+ state.filter=filter;document.body.classList.remove('mobile-detail');renderFilters();renderList();renderDetail();
 }
-function extractRequirements(text){
- const lines=text.split(/\n|(?<=\.)\s+(?=[A-Z])/).map(v=>v.trim().replace(/^[-*•\s]+/,'').replace(/^(requirements?|responsibilities|qualifications?|what you(?:'|’)ll do|we(?:'|’)re looking for):?\s*/i,'')).filter(x=>x.length>=26&&x.length<=350);
- const candidate=lines.filter(x=>
- !/(?:€|\$|\bEUR\b|\bUSD\b|salary|compensation|pay range|remote|hybrid|on-site|onsite|worldwide|based in|hiring countr|annual|per year)/i.test(x) &&
- /\b(experience|skills?|manage|lead|collaborate|deliver|build|design|knowledge|proficiency|responsibilities|develop|strategy|research|implement|testing|customer|project|support|architecture|analyze|analyse|metric|ownership|growth|marketing|communication|degree|required|years?|retention|maintain|roadmap|prototypes|onboarding)\b/i.test(x) &&
- x.toLowerCase()!==state.role.toLowerCase()
-);
- const result=[];for(const x of candidate){let clean=x.replace(/\s+/g,' ').slice(0,180);if(!result.some(y=>y.toLowerCase()===clean.toLowerCase()))result.push(clean);if(result.length>=6)break}
- if(!result.length){
- for(const x of lines){if(!/salary|compensation|remote|location|hiring|employer|company|per year|annual|€|\$/i.test(x)&&x.toLowerCase()!==state.role.toLowerCase()){result.push(x.slice(0,180));if(result.length>=4)break}}
- }
- return result;
+function nextJob(){
+ const options=filteredItems();if(!options.length)return;
+ const i=options.findIndex(j=>j.key===state.selected),next=options[(i+1)%options.length];
+ selectJob(next.key,true);
 }
-function analyze(){
- state.checks=[checkSetup(state.description),checkRegion(state.description),checkSalary(state.description)];
- state.requirements=extractRequirements(state.description);
+async function copyText(text){
+ try{await navigator.clipboard.writeText(text);toast('Copied to clipboard')}catch(e){toast('Copy unavailable in this browser')}
 }
-function showEligibility(){
- const original=state.description.split('\n').map(x=>x.trim()).find(Boolean)||state.role;
- $('sourceType').textContent=state.sample?'FICTIONAL SAMPLE · EDITABLE':'FROM YOUR PASTED JOB DESCRIPTION';
- $('sampleTitle').textContent=state.role;
- $('sampleCompany').textContent=(state.sample?'Example only':original.slice(0,140))+' · Source not verified';
- $('eligibilityChecks').innerHTML=state.checks.map(c=>'<div class="check-row"><span class="check-symbol '+c.kind+'" aria-hidden="true">'+(c.kind==='block'?'×':c.kind==='ask'?'?':'✓')+'</span><div><strong>'+escape(c.label)+'</strong><p>'+escape(c.detail)+'</p></div></div>').join('');
- const blocked=state.checks.some(c=>c.kind==='block'),ask=state.checks.some(c=>c.kind==='ask');
- const title=blocked?'Potential mismatch':ask?'Details worth checking':'No obvious blockers found';
- $('eligibilityVerdict').className='verdict '+(blocked?'block':ask?'ask':'pass');
- $('eligibilityVerdict').innerHTML='<strong>'+title+'</strong><p>Based on this text only. We have not verified the employer, vacancy, or your legal eligibility.</p>';
+function runAction(action){
+ const j=findJob();if(!j)return;
+ if(action==='back'){document.body.classList.remove('mobile-detail');$('listPane').scrollIntoView({behavior:'smooth'});return}
+ if(action==='next'){nextJob();return}
+ if(action==='save'){state.saved.has(j.key)?state.saved.delete(j.key):state.saved.add(j.key);refreshResults();renderDetail();toast(state.saved.has(j.key)?'Saved in this demo':'Removed from saved');return}
+ if(action==='pass'){state.passed.has(j.key)?state.passed.delete(j.key):state.passed.add(j.key);refreshResults();renderDetail();toast(state.passed.has(j.key)?'Passed in this demo':'Pass undone');return}
+ if(action==='questions'||action==='preview'){state.revealed.add(j.key);renderDetail();let reveal=$('jobDetail').querySelector('.reveal');if(reveal)reveal.scrollIntoView({behavior:'smooth',block:'nearest'});return}
+ if(action==='copy-questions'){copyText(suggestedQuestions(j).join('\n'));return}
+ if(action==='copy-pitch'){const a=$('approveDraft'),t=$('draftText');if(a?.checked&&t?.value.trim())copyText(t.value);else toast('Review the claims first')}
 }
-function showFit(){
- const req=state.requirements;
- $('skillOptions').innerHTML=req.length?req.map((line,i)=>
- '<label class="skill-check"><input type="checkbox" data-skill="'+i+'" '+(state.selected.has(i)?'checked':'')+'><span class="requirement-label">'+escape(line)+'<small class="word-overlap" data-cue="'+i+'"></small></span></label>').join(''):
- '<p>No clear requirements were detected. Add responsibilities or qualifications to the job description, then retry.</p>';
- $('experienceNotes').value=state.notes;
- updateFit();
-}
-function updateFit(){
- const selected=state.selected.size,notes=$('experienceNotes').value;
- const terms=new Set(words(notes));let hints=0;
- for(const cue of document.querySelectorAll('[data-cue]')){
-  const line=state.requirements[Number(cue.dataset.cue)]||'';
-  const shared=[...new Set(words(line))].filter(x=>terms.has(x));
-  cue.textContent=shared.length>=2?'Similar wording in your notes: '+shared.slice(0,3).join(', ')+' (not verified)':'';
-  if(shared.length>=2)hints++;
- }
- const chosen=selected?selected+' of '+state.requirements.length+' requirement'+(state.requirements.length===1?'':'s')+' self-marked as relevant.':'No requirements marked as relevant yet.';
- $('fitFeedback').textContent=chosen+(notes.trim()?' Keyword overlap found in '+hints+' requirement'+(hints===1?'':'s')+'; this does not establish qualifications.':' Add your work notes to reveal shared terms, then confirm each claim yourself.');
-}
-function makeDecision(){
- state.notes=$('experienceNotes').value.trim().slice(0,1800);
- const blocks=state.checks.filter(c=>c.kind==='block'),asks=state.checks.filter(c=>c.kind==='ask');
- let kind='review',title='Potentially worth pursuing',detail='No obvious hard blockers found in the pasted text. Check the official posting and prepare concrete examples.';
- if(blocks.length){kind='block';title='Likely worth skipping';detail='At least one stated condition conflicts with your preferences. Review it before spending more effort.'}
- else if(asks.length){kind='ask';title='Verify before applying';detail='The posting leaves important details unclear. Resolve them before investing time in an application.'}
- else if(!state.selected.size){kind='ask';title='Check your fit first';detail='You have not marked any requirements you can demonstrate. Add real examples before applying.'}
- state.decision={kind,title,detail};
- $('decisionResult').className='decision-result '+kind;
- $('decisionResult').innerHTML='<span class="decision-tag">'+(kind==='block'?'SKIP':kind==='ask'?'VERIFY':'REVIEW')+'</span><h3>'+escape(title)+'</h3><p>'+escape(detail)+'</p>';
- const points=[];
- for(const c of blocks)points.push('Mismatch — '+c.label+': '+c.detail);
- for(const c of asks){
-  const question=c.label==='Hiring geography'?'Which countries are eligible for employment, and can you hire someone based in my country?':
-    c.label==='Compensation'?'What is the annual base salary, its currency, and the expected range?':
-    'Is the role fully remote, hybrid, or on-site, and is office attendance mandatory?';
-  points.push('Ask the employer — '+question);
-}
- const chosen=[...state.selected].sort().map(i=>state.requirements[i]);
- if(chosen.length)points.push('You marked '+chosen.length+' specific requirement'+(chosen.length!==1?'s':'')+' as relevant: '+chosen.slice(0,2).join(' / '));
- else points.push('Your experience has not been substantiated against the requirements.');
- if(state.notes)points.push('Your note: '+state.notes);
- points.push('Confirm the vacancy on the employer’s own website before taking action.');
- $('decisionPoints').innerHTML=points.map(x=>'<p class="decision-point"><span aria-hidden="true">•</span><span>'+escape(x)+'</span></p>').join('');
-}
-document.querySelectorAll('[data-example]').forEach(button=>button.addEventListener('click',()=>selectRole(button.dataset.example)));
-$('loadSample').addEventListener('click',()=>{
- let key=document.querySelector('[data-example][aria-pressed="true"]')?.dataset.example||'product';
- loadSample(key);
-});
-$('targetRole').addEventListener('input',()=>{
- document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed','false'));
- state.sample=false;checkInput();
-});
-$('jobDescription').addEventListener('input',()=>{state.sample=false;checkInput()});
-$('goEligibility').addEventListener('click',()=>{
- checkInput();if($('goEligibility').disabled)return;
- capture();analyze();showEligibility();showStep(1)
-});
-$('goFit').addEventListener('click',()=>{showFit();showStep(2)});
-$('skillOptions').addEventListener('change',e=>{
- if(!e.target.matches('input[type="checkbox"][data-skill]'))return;
- const i=Number(e.target.dataset.skill);if(!Number.isInteger(i))return;
- e.target.checked?state.selected.add(i):state.selected.delete(i);updateFit()
-});
-$('experienceNotes').addEventListener('input',()=>{state.notes=$('experienceNotes').value;updateFit()});
-$('goDecision').addEventListener('click',()=>{makeDecision();showStep(3)});
-document.querySelectorAll('[data-back]').forEach(button=>button.addEventListener('click',()=>showStep(Number(button.dataset.back))));
-function reset(){
- state.sample=false;state.role='';state.description='';state.sourceUrl='';state.minSalary=0;state.region='eu';state.workMode='remote';state.checks=[];state.requirements=[];state.selected.clear();state.notes='';state.decision=null;
- for(const id of ['targetRole','jobDescription','jobUrl','minSalary','experienceNotes'])$(id).value='';
- $('targetRegion').value='eu';document.querySelector('input[name="workMode"][value="remote"]').checked=true;
- document.querySelectorAll('[data-example]').forEach(b=>b.setAttribute('aria-pressed','false'));
- checkInput();showStep(0)
-}
-$('resetDemo').addEventListener('click',reset);
-$('restartFlow').addEventListener('click',reset);
-$('copySummary').addEventListener('click',async()=>{
- if(!state.decision)return;
- const lines=['RoleHint browser checklist — not verified or sent','Job: '+state.role,'Source URL: '+(state.sourceUrl||'Not provided'),
- 'Decision: '+state.decision.title,state.decision.detail,...state.checks.map(c=>c.label+' ['+c.kind+']: '+c.detail),
- 'Requirements you marked:',...([...state.selected].sort().map(i=>'- '+state.requirements[i])),
- 'Your examples: '+(state.notes||'Not added'),'Check the official vacancy and confirm all unknowns before applying.'];
- try{await navigator.clipboard.writeText(lines.join('\n'));toast('Decision notes copied')}catch(e){toast('Clipboard unavailable; use browser copy')}
-});
-const requested=new URLSearchParams(location.search).get('role');
-if(requested&&samples[requested]){selectRole(requested);loadSample(requested,false)}
-checkInput();showStep(0);
+function reset(){stopTimers();state.saved.clear();state.passed.clear();state.revealed.clear();setPhase('setup')}
+document.querySelectorAll('[data-role]').forEach(button=>button.addEventListener('click',()=>changeRole(button.dataset.role)));
+$('profileEditor').addEventListener('change',e=>{const t=e.target;if(!t.matches('input[data-skill]'))return;const n=Number(t.dataset.skill);t.checked?state.chosen.add(n):state.chosen.delete(n)});
+$('runAgent').addEventListener('click',runDemo);
+$('skipAnimation').addEventListener('click',showResults);
+$('editSearch').addEventListener('click',()=>{stopTimers();setPhase('setup')});
+$('startOver').addEventListener('click',reset);
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>selectFilter(b.dataset.filter)));
+$('jobList').addEventListener('click',e=>{const card=e.target.closest('[data-job]');if(card)selectJob(card.dataset.job,true)});
+$('jobDetail').addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(b)runAction(b.dataset.action)});
+$('jobDetail').addEventListener('change',e=>{if(e.target.id==='approveDraft'){const btn=$('jobDetail').querySelector('[data-action="copy-pitch"]');if(btn)btn.disabled=!e.target.checked}});
+changeRole('product');setPhase('setup');
+const params=new URLSearchParams(location.search),selected=params.get('role');if(selected&&roleSets[selected])changeRole(selected);
 })();
