@@ -7,7 +7,7 @@
   "codeRepository": "https://github.com/dokarpov/rolehint",
   "version": "1.9.0",
   "productStatus": "working prototype; hiring-outcome uplift and product-market fit not independently validated",
-  "description": "Evidence-first job-search orchestration for experienced professionals: eligibility preflight, requirement-to-evidence mapping, human-reviewed application packs and outcome tracking.",
+  "description": "Career decision prototype: screen jobs for explicit eligibility constraints, compare requirements against real experience, and identify what to verify before applying.",
   "audience": [
     "experienced professionals",
     "career changers",
@@ -21,28 +21,22 @@
   ],
   "frequencyBasedWorkflows": [
     {
-      "name": "Review queue",
-      "frequency": "daily",
-      "purpose": "review the most important role and any hard eligibility checks",
-      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html?view=today"
+      "name": "Review a job",
+      "frequency": "on demand",
+      "purpose": "paste real job text or load an explicitly fictional sample; check work setup, geography and salary from stated text",
+      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html"
     },
     {
-      "name": "All roles",
-      "frequency": "as needed",
-      "purpose": "filter broader shortlist and inspect requirement-to-evidence reasons",
-      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html?view=explore"
+      "name": "Clarify personal fit",
+      "frequency": "per opportunity",
+      "purpose": "select relevant job requirements and add your own achievements without invented evidence",
+      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html"
     },
     {
-      "name": "Results",
-      "frequency": "weekly",
-      "purpose": "review observed applications, responses and estimates separately",
-      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html?view=progress"
-    },
-    {
-      "name": "Preferences",
-      "frequency": "occasional",
-      "purpose": "review sources, hard constraints and search pace",
-      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html?view=setup"
+      "name": "Decide next action",
+      "frequency": "per opportunity",
+      "purpose": "copy a Review / Verify / Skip summary including unresolved questions for the employer",
+      "entry": "https://dokarpov.github.io/rolehint/site/workspace.html"
     }
   ],
   "capabilities": [
@@ -60,12 +54,13 @@
     "guaranteed interviews or placements",
     "proven uplift or validated product-market fit"
   ],
-  "privacyAndControl": "Connections are consent based in the application. Sample website demos do not connect accounts, submit applications or persist choices.",
-  "demoData": "fictional role listings, fictional employers and illustrative activity only",
+  "privacyAndControl": "The public demo runs without a server, cookie persistence or external requests, beyond static assets; pasted job text and notes stay in the current browser session. The connected backend is a separate environment.",
+  "demoData": "Fictional sample postings are clearly labeled. Visitors may also paste actual job descriptions, processed entirely in browser memory.",
   "productBoundaries": "https://github.com/dokarpov/rolehint/blob/main/docs/PRODUCT_BOUNDARIES.md",
   "decisionPolicy": "https://github.com/dokarpov/rolehint/blob/main/docs/DECISION_POLICY.md",
   "repository": "https://github.com/dokarpov/rolehint",
   "website": "https://dokarpov.github.io/rolehint/site/",
   "demo": "https://dokarpov.github.io/rolehint/site/workspace.html",
-  "contact": "https://github.com/dokarpov"
+  "contact": "https://github.com/dokarpov",
+  "demoDescription": "Static browser demo: paste a job description, set remote/geography/salary preferences, inspect extracted requirements, self-select experience, and copy a decision checklist. Local text heuristics only: no network fetch, AI inference, login, or real vacancy verification."
 }
