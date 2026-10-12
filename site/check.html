@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Try RoleHint. Check an actual job description against your preferences and experience. Your text stays in your browser.">
+<title>RoleHint — Check a job</title>
+<link rel="canonical" href="https://dokarpov.github.io/rolehint/site/check.html">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./check.css?v=check-v1">
+<script src="./check.js?v=check-v1" defer></script>
+</head>
+<body>
+<a class="skip" href="#demoTitle">Skip to demo</a>
+<header class="demo-header">
+ <div class="demo-width header-inner">
+ <a class="brand" href="./" aria-label="RoleHint home"><img src="./favicon.svg" width="34" height="34" alt=""><span>rolehint<span class="brand-period">.</span></span></a>
+ <span class="demo-label">Private browser demo <span aria-hidden="true">·</span> no account</span>
+ <button class="reset-link" type="button" id="resetDemo">Start over ↺</button>
+ </div>
+</header>
+<main class="demo-width" id="main">
+<div class="demo-intro">
+ <span class="eyebrow"><span class="eyebrow-line"></span> YOUR JOB, YOUR RULES</span>
+ <h1 id="demoTitle">Find out if a job<br><em>is worth your time.</em></h1>
+ <p>Paste a job description. Check the real requirements, your fit, and the next sensible move.</p>
+</div>
+<nav class="stepper" aria-label="Demo progress">
+ <span class="step is-current" data-progress="0" aria-current="step"><span>01</span> Your role</span>
+ <span class="step" data-progress="1"><span>02</span> Eligibility</span>
+ <span class="step" data-progress="2"><span>03</span> Your fit</span>
+ <span class="step" data-progress="3"><span>04</span> Next step</span>
+</nav>
+<div class="demo-card">
+ <section class="stage" id="stepRole" aria-labelledby="roleHeading">
+  <div class="stage-head"><div class="section-count">01 / GET STARTED</div><h2 id="roleHeading">What job are you considering?</h2><p>Paste a job description or try a sample. Then set your non-negotiables.</p></div>
+  <div class="choice-grid" role="group" aria-label="Suggested target roles">
+   <button type="button" class="role-choice" data-example="product" aria-pressed="false"><strong>Product Manager</strong><span>Discovery · strategy</span></button>
+   <button type="button" class="role-choice" data-example="design" aria-pressed="false"><strong>Product Designer</strong><span>Research · UX</span></button>
+   <button type="button" class="role-choice" data-example="engineering" aria-pressed="false"><strong>Software Engineer</strong><span>Systems · delivery</span></button>
+   <button type="button" class="role-choice" data-example="marketing" aria-pressed="false"><strong>Marketing Lead</strong><span>Campaigns · growth</span></button>
+  </div>
+  <label class="field-label" for="targetRole">Target role</label>
+  <input class="text-input" id="targetRole" type="text" maxlength="68" placeholder="e.g. Head of Customer Success" autocomplete="off">
+  <div class="job-input">
+ <div class="job-input-head"><label class="field-label" for="jobDescription">Job description</label><button class="secondary example-link" type="button" id="loadSample">Load a sample job ↗</button></div>
+ <textarea class="text-input job-description" id="jobDescription" rows="7" minlength="80" placeholder="Paste a job posting here: requirements, responsibilities, location, and salary if listed." aria-describedby="jobInputHelp"></textarea>
+ <p id="jobInputHelp" class="input-help">Use the original vacancy text. Checks run locally in this browser; nothing is uploaded.</p>
+ <label class="field-label" for="jobUrl">Original job URL <span class="optional">(optional; saved only in this browser session)</span></label>
+ <input class="text-input" id="jobUrl" type="url" placeholder="https://company.com/careers/..." autocomplete="url">
+ </div>
+ <div class="preferences-inline">
+   <fieldset class="work-options"><legend>Work preference</legend><label><input name="workMode" type="radio" value="remote" checked> Remote only</label><label><input name="workMode" type="radio" value="any"> Remote or hybrid</label></fieldset>
+   <label class="mini-field" for="targetRegion">Where can you work?<select id="targetRegion"><option value="eu">Europe</option><option value="global">Worldwide</option></select></label>
+   <label class="mini-field" for="minSalary">Minimum annual salary, EUR <span>(optional)</span><input id="minSalary" type="number" min="0" max="500000" step="5000" placeholder="e.g. 75000"></label>
+  </div>
+  <div class="stage-footer"><p>Heuristic browser checks, not verified employer facts.</p><button class="primary" type="button" id="goEligibility" disabled>Continue <span aria-hidden="true">→</span></button></div>
+ </section>
+ <section class="stage" id="stepEligibility" aria-labelledby="eligibilityHeading" hidden>
+  <div class="section-count">02 / CHECK THE BASICS</div><h2 id="eligibilityHeading">Does this job meet your rules?</h2>
+  <div class="sample-role"><span id="sourceType">POSTED JOB DESCRIPTION</span><strong id="sampleTitle"></strong><small id="sampleCompany"></small></div>
+  <div class="checks" id="eligibilityChecks"></div>
+  <div class="verdict" id="eligibilityVerdict" role="status"></div>
+  <div class="stage-footer"><button type="button" class="secondary" data-back="0">← Back</button><button class="primary" type="button" id="goFit">Continue <span aria-hidden="true">→</span></button></div>
+ </section>
+ <section class="stage" id="stepFit" aria-labelledby="fitHeading" hidden>
+  <div class="section-count">03 / YOUR EXPERIENCE</div><h2 id="fitHeading">What have you actually done?</h2><p class="stage-description">Mark requirements you can genuinely meet. Nothing is inferred about your experience.</p>
+  <div class="skill-options" id="skillOptions"></div><label class="field-label" for="experienceNotes">What have you actually done? <span class="optional">(optional)</span></label><textarea class="text-input experience-notes" id="experienceNotes" rows="4" placeholder="Example: Led 12 user interviews and redesigned onboarding, reducing activation time by 18%."></textarea>
+  <div class="live-feedback" id="fitFeedback" aria-live="polite">Select requirements you meet. The summary will distinguish your answers from what the listing actually says.</div>
+  <div class="stage-footer"><button type="button" class="secondary" data-back="1">← Back</button><button class="primary" type="button" id="goDecision">Continue <span aria-hidden="true">→</span></button></div>
+ </section>
+ <section class="stage" id="stepDecision" aria-labelledby="decisionHeading" hidden>
+  <div class="section-count">04 / YOUR NEXT STEP</div><h2 id="decisionHeading">Here's your next move.</h2>
+  <div class="decision-result" id="decisionResult" role="status"></div>
+  <div class="decision-points" id="decisionPoints"></div>
+  <p class="safety-note">Browser-only checklist. Recheck the original listing; no employer or account is contacted.</p>
+  <div class="stage-footer"><button type="button" class="secondary" data-back="2">← Back</button><div class="decision-actions"><button class="secondary" type="button" id="copySummary">Copy decision notes</button><button class="primary" type="button" id="restartFlow">Try another role <span aria-hidden="true">→</span></button></div></div>
+ </section>
+</div>
+<div class="demo-bottom"><span>Try it. Change the inputs. See what changes.</span><a href="./">← Back to RoleHint</a></div>
+</main>
+<noscript><p class="noscript">JavaScript is required to run the interactive sample.</p></noscript>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
