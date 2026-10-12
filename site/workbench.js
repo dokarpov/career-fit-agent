@@ -15,11 +15,23 @@ const screens=['stepRole','stepEligibility','stepFit','stepDecision'];
 const common=new Set(('the and with from this that have been will able should must into their your for work years experience role team you are our who has using in of to on at by or an as is a lead build developing developed products tools projects software data design product').split(' '));
 const words=t=>(String(t).toLowerCase().match(/[a-z][a-z0-9+#.-]{2,}/g)||[]).filter(x=>!common.has(x));
 function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove('show'),2600)}
+let lastStage=null;
 function showStep(n){
- screens.forEach((id,i)=>$(id).hidden=(i!==n));
- document.querySelectorAll('[data-progress]').forEach((el,i)=>{el.classList.toggle('is-current',i===n);el.classList.toggle('is-done',i<n);i===n?el.setAttribute('aria-current','step'):el.removeAttribute('aria-current')});
- window.scrollTo({top:0,behavior:'instant'});
- let h=$(screens[n]).querySelector('h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}
+ const apply=()=>{
+  screens.forEach((id,i)=>$(id).hidden=(i!==n));
+  document.querySelectorAll('[data-progress]').forEach((el,i)=>{el.classList.toggle('is-current',i===n);el.classList.toggle('is-done',i<n);i===n?el.setAttribute('aria-current','step'):el.removeAttribute('aria-current')});
+ };
+ const focus=()=>{
+   window.scrollTo({top:0,behavior:'instant'});
+   let h=$(screens[n]).querySelector('h2');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}
+ };
+ const animate=lastStage!==null&&n!==lastStage&&typeof document.startViewTransition==='function'&&
+   !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+ lastStage=n;
+ if(animate){
+  const transition=document.startViewTransition(apply);
+  transition.finished.then(focus).catch(focus);
+ }else{apply();focus()}
 }
 function checkInput(){
  const title=$('targetRole').value.trim(),description=$('jobDescription').value.trim();
