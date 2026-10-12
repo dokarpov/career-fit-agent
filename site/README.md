@@ -24,3 +24,7 @@ A web manifest and service worker enable basic PWA use. Open the site in Safari 
 Purple icon: `favicon.svg`. Typography/material tokens: `design-lock.css` and `silver-restore.css`. Historical source and rules: `../docs/DESIGN_SYSTEM.md`.
 
 The public site is independent from the unfinished CV onboarding/demo; no user account, payments or live AI inference are available on GitHub Pages.
+
+## Privacy and legal readiness
+
+The expanded `privacy.html` now contains 12 sections including data flows, legal bases, processor and transfer caveats, retention, rights, local storage, security incidents and future AI processing. The public form includes a first-layer privacy summary. **Not launch-complete:** the operator's verified legal identification and direct dedicated mailbox, controller-side retention schedule and processor/transfer review are still outstanding. These must be supplied before claiming GDPR compliance. Updated service-worker cache version `rolehint-public-v3` helps prevent stale privacy content.
