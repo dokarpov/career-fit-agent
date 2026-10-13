@@ -19,4 +19,7 @@ cleanup(){
  if [ -n "$BOT_PID" ]; then kill "$BOT_PID" 2>/dev/null || true; fi
 }
 trap cleanup INT TERM EXIT
-exec uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-8000}"
+uvicorn app.main:app --host 0.0.0.0 --port "${PORT:-8000}" &
+API_PID=$!
+trap 'kill "$API_PID" 2>/dev/null || true; cleanup' INT TERM EXIT
+wait "$API_PID"
