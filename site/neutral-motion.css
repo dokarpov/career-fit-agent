@@ -1,0 +1,24 @@
+/* RoleHint surface correction: silver graphite, lavender highlights only. */
+:root{--ink:#24242b;--muted:#6c6d76;--line:#dddde5;--bg:#f7f7f8;--purple:#745d9e;--lavender:#d6d2e1}
+body{background:#f7f7f8;color:#24242b}
+header.site-header{background:#f7f7f8ec;border-bottom-color:#e2e1e5}
+.hero{--mx:64%;--my:38%;background:linear-gradient(160deg,#f7f7f8 12%,#f2f2f5 74%,#f8f8f9)}
+.hero:before{inset:-25% -20% -20% 0;background:radial-gradient(ellipse 32% 38% at var(--mx) var(--my),rgba(181,174,203,.43),transparent 95%),radial-gradient(ellipse 40% 60% at 88% 90%,rgba(192,199,211,.46),transparent 94%);filter:blur(46px);animation:none;transition:opacity .5s}
+.hero:after{opacity:.065;mix-blend-mode:multiply}
+.hero h1 em{background:linear-gradient(112deg,#665d82 0%,#aaabc0 39%,#55545d 75%,#77728d);background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero-inner{transform:translateZ(0)}
+.btn{background:#2a2931;border-color:#2a2931}
+.btn:hover{background:#484052}
+.preview{--px:50%;--py:35%;position:relative;background:radial-gradient(ellipse 60% 80% at var(--px) var(--py),#ffffff 0%,#f9f9fb 75%);box-shadow:0 26px 75px #30303c13;border-color:#dedde5;transition:box-shadow .35s}
+.preview:hover{box-shadow:0 35px 90px #30303c1c}
+.preview-side{background:#f2f2f5;border-right-color:#e0dfe6}
+.role:hover{background:#e9e7ee}.role[aria-pressed=true]{border-color:#d3cfdd;background:#fff;box-shadow:0 10px 25px #31313f0b}
+.avatar{background:linear-gradient(145deg,#e0dce9,#b9bacb);color:#514b67}
+.chip{background:#eeedf3;color:#625b73}.next-action{background:linear-gradient(125deg,#f0eff4,#e8e9ee)}
+.benefit{background:#f5f5f7;border-color:#e6e5ea}
+.end-section{background:#2d2d36}.end-section:before{background:radial-gradient(circle,#8c85ab70,transparent 68%)}
+.price-card.featured{background:linear-gradient(150deg,#f6f5f8,#edecf2);border-color:#d9d7e1}
+.motion-reveal{opacity:0;transform:translateY(26px);transition:opacity .75s ease,transform .85s cubic-bezier(.2,.8,.2,1)}
+.motion-reveal.is-visible{opacity:1;transform:translateY(0)}
+@media(hover:hover) and (pointer:fine){.hero-inner h1{transition:transform .16s ease-out;transform:translate3d(calc(var(--shift-x,0px)),calc(var(--shift-y,0px)),0)}.role{transition:background .2s,border-color .2s,transform .25s}.role:hover{transform:translateX(4px)}}
+@media(prefers-reduced-motion:reduce){.motion-reveal{opacity:1;transform:none;transition:none}.hero-inner h1{transform:none!important}.hero:before{transition:none}}
