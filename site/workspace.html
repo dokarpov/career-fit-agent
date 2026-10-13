@@ -6,7 +6,7 @@
 <meta name="description" content="RoleHint job review: sample opportunities, eligibility, evidence and a clear next action. Interactive fictional demo.">
 <title>RoleHint — Review a job</title>
 <link rel="canonical" href="https://dokarpov.github.io/rolehint/site/workspace.html">
-<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="manifest" href="./manifest.webmanifest"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="RoleHint">
 <link rel="stylesheet" href="./workbench.css?v=restored-workbench-1">
 <link rel="stylesheet" href="./typography.css">
 <script src="./workbench.js?v=restored-workbench-1" defer></script>
@@ -16,7 +16,7 @@
 <header class="global">
   <a class="wordmark" href="./" aria-label="RoleHint website"><img src="./favicon.svg" width="29" height="29" alt=""><span>rolehint</span></a>
   <span class="sample-label">Guided prototype <span aria-hidden="true">·</span> Fictional jobs</span>
-  <div class="global-actions"><button type="button" class="quiet-action" data-modal="settings">Preferences <span aria-hidden="true">⚙</span></button></div>
+  <div class="global-actions"><a class="quiet-action" href="./install.html" style="display:inline-flex;align-items:center;min-height:42px;text-decoration:none">Install app ↗</a><button type="button" class="quiet-action" data-modal="settings">Preferences <span aria-hidden="true">⚙</span></button></div>
 </header>
 <section id="rhOnboarding" class="rh-onboarding" hidden aria-label="Personalized onboarding"></section><div id="personalBanner" class="personalBanner" hidden aria-live="polite"></div><main class="desk" id="main">
 <section class="inbox" aria-labelledby="inboxTitle">
@@ -60,4 +60,4 @@
 <div role="status" id="toast" class="toast" aria-live="polite"></div>
 <script>
 (()=>{function updateBanner(){try{const data=JSON.parse(localStorage.getItem('rolehint_onboarding_v1')||'null'),el=document.getElementById('personalBanner');if(!data){el.hidden=true;return}el.replaceChildren();el.hidden=false;const strong=document.createElement('b');strong.textContent='Your search: '+data.role;el.append(strong,document.createTextNode(' · '+(data.remote==='remote'?'Remote only':data.remote==='flexible'?'Remote or hybrid':'Any work setup')+(data.location?' · '+data.location:'')+'. '));const note=document.createElement('span');note.textContent='The jobs below use fictional candidate evidence. They are not evaluated against your CV. ';el.append(note);const link=document.createElement('a');link.href='#onboarding';link.addEventListener('click',e=>{e.preventDefault();window.dispatchEvent(new Event('rolehint:open-onboarding'))});link.textContent='Edit my search';el.append(link)}catch(e){}}updateBanner();window.addEventListener('rolehint:profile-ready',updateBanner)})();
-</script></body></html>
+</script><script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));</script></body></html>
