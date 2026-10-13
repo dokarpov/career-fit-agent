@@ -21,3 +21,19 @@ services:
       - ./data:/app/data
     depends_on:
       - api
+
+  telegram_bot:
+    profiles: ["telegram"]
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: ["python", "telegram_bot/bot.py"]
+    env_file:
+      - .env
+    environment:
+      CAREER_FIT_API_URL: http://api:8000
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - api
+    restart: unless-stopped
