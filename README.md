@@ -60,3 +60,11 @@ The **separate experimental workspace** at [`site/workspace.html`](https://dokar
 The implementation contract and limitations are in [`docs/PROTOTYPE_UX_V1.md`](docs/PROTOTYPE_UX_V1.md). Automated browser scenarios are specified in `site/qa-workspace.mjs` and `.github/workflows/prototype-ux.yml`. **A test file does not prove those tests passed.** Real device/browser testing remains pending.
 
 CV extraction presently reads local text and identifies keywords. Sample vacancies, candidate evidence and recommendations are **not personalized using the uploaded CV**. No live matching, real application sending, account creation or paid trial is active. The public website remains separate and does not promote this unfinished demo as a production service.
+
+## Website → onboarding → installation (13 October 2026)
+
+Public entry: [website](https://dokarpov.github.io/rolehint/site/) → **Start using RoleHint** → [workspace](https://dokarpov.github.io/rolehint/site/workspace.html) → CV/Paste/Skip → evidence review → hiring preferences → guided fictional opportunity. [Install instructions](https://dokarpov.github.io/rolehint/site/install.html) are accessible from the website and workspace.
+
+The web app manifest now launches `workspace.html` in standalone mode on supported devices. The service worker caches the interface shell, but external CV parsers may need a network connection. SVG-only icons may not trigger automatic installation on every device. Not a native App Store/Play Store release.
+
+**Current capability boundaries:** no account, cloud sync, production job ingest, personalized CV-to-live-vacancy matching, email notification, or real application submission. The early-access form is separate and requires FormSubmit inbox verification. This connected flow is an installable demonstration, **not yet a universal production service**. Verify mobile installation, storage behavior and security/privacy before distributing broadly.
