@@ -76,3 +76,7 @@ The website now has one consistent primary action, **Start free**, leading into 
 A 14-day evaluation for a future connected paid product is a proposal, **not an operational subscription**. No Stripe account, payment authorization, cancellation portal or trial-end reminder is connected. Automatic recurring payments cannot safely be implemented without a processor, secure subscription-state backend, unambiguous paid price, reminders and cancellation infrastructure. Apple Pay alone does not provide these. The current role examples are illustrative and live matching is not connected.
 
 Older sections referring to the early-access form describe the preceding release and are obsolete; use this section as the current public offer statement.
+
+## Public-site design rebuild — 13 October 2026
+
+Public website, pricing, subscription and install pages have been rebuilt on the shared `site/design-v2.css` and `site/design-v2.js` system. One responsive navigation menu, one primary action (`Start free`), a consistent editorial hierarchy, a cohesive gradient/grain hero treatment, interactive example-job preview, buttons, cards and footer. The early-access form is intentionally absent: it contradicted the accessible free browser preview. The public offer remains `€0` with **no active billing or real 14-day trial**. QA cases have been updated in `site/qa-release.mjs`; passing live/mobile tests still needs confirmation. Legacy styles remain in the repository for historical compatibility, but aren't loaded by these redesigned pages.
