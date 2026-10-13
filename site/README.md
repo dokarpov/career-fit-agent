@@ -42,3 +42,9 @@ Before public promotion, verify the FormSubmit receiving inbox and a test submis
 `workspace.html` now offers a direct first-use path: choose/paste CV → review editable text → confirm hiring rules → guided sample job review, with a transparent no-CV bypass. It preserves the fictional-data distinction, shows locally saved search preferences, and offers a delete-local-CV control under Preferences. Saved/passed sample-role decisions persist in localStorage across visits.
 
 See [UX specification](../docs/PROTOTYPE_UX_V1.md) and [automated onboarding scenarios](qa-workspace.mjs); the Actions workflow is `../.github/workflows/prototype-ux.yml`. Browser and device acceptance remain unverified until the checks are run and reviewed. Real personalized job analysis is not present.
+
+## Connected user journey
+
+Start at [public site](https://dokarpov.github.io/rolehint/site/) and use **Start using RoleHint** to launch `workspace.html`. First-time visitors can upload/paste a CV or skip to fictional sample jobs. A guided first decision follows onboarding. The workspace has an **Install app** link, and `install.html` explains Safari, Android, desktop and browser-only access.
+
+Installed-app manifest `start_url` points to `workspace.html`, not the marketing site. Real installability, external parser loading and offline behaviors need device QA. The current service is a local browser prototype rather than production matching, employer sourcing or application submission.
