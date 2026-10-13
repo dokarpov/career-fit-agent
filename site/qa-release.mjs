@@ -10,6 +10,11 @@ try {
   const page=await browser.newPage({viewport:{width,height:820},deviceScaleFactor:1});
   await page.goto('http://127.0.0.1:8787/',{waitUntil:'domcontentloaded'});
   await page.waitForSelector('.rh-preview-role');
+  const entry=page.locator('.hero-actions a[href="./workspace.html"]');
+  if(await entry.count()!==1){console.error('FAIL workspace entry',width);fails++}
+  if(await page.locator('a[href="./install.html"]').count()<1){console.error('FAIL install instructions entry',width);fails++}
+  const manifest=await page.request.get('http://127.0.0.1:8787/manifest.webmanifest');
+  if(!manifest.ok()||(await manifest.json()).start_url!=='./workspace.html'){console.error('FAIL installed-app start URL',width);fails++}
   const overflow=await page.evaluate(()=>({scroll:document.documentElement.scrollWidth,viewport:window.innerWidth}));
   if(overflow.scroll>overflow.viewport+2){console.error('FAIL horizontal overflow',width,overflow);fails++}
   for(const i of [0,1,2]){
