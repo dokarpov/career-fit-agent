@@ -1,7 +1,8 @@
-/* RoleHint Release 1: network-first documents; versioned offline shell. */
-const CACHE='rolehint-editorial-v4';
-const ASSETS=['./','./index.html','./favicon.svg','./privacy.html','./thanks.html','./design-system.css','./landing.css','./lilac-polish.css','./motion-stability.css','./early-access.css','./product-preview.css','./design-lock.css','./silver-restore.css','./release-v1.css','./release-v1.js','./early-access.js','./install.html','./workspace.html','./workbench.js','./workbench.css','./onboarding-inline.js','./onboarding-3d.css','./ux-flow.js','./ux-flow.css','./typography.css','./tokens.css','./start-install.css','./manifest.webmanifest','./pricing.html','./subscription.html','./design-v2.css','./design-v2.js'];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
+/* RoleHint public PWA: avoid trapping users on obsolete releases. */
+const CACHE='rolehint-shell-20261013-v5';
+const SHELL=['./','./index.html','./workspace.html','./pricing.html','./subscription.html','./install.html','./privacy.html','./favicon.svg','./manifest.webmanifest','./design-v2.css','./design-v2.js'];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>Promise.allSettled(SHELL.map(url=>cache.add(url)))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET'||new URL(event.request.url).origin!==self.location.origin)return;
-event.respondWith(fetch(event.request).then(response=>{if(response.ok){const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy))}return response}).catch(()=>caches.match(event.request)))});
+self.addEventListener('fetch',event=>{const request=event.request;const url=new URL(request.url);if(request.method!=='GET'||url.origin!==self.location.origin)return;
+if(request.mode==='navigate'){event.respondWith(fetch(new Request(request,{cache:'no-store'})).then(response=>{if(response.ok){const clone=response.clone();caches.open(CACHE).then(cache=>cache.put(request,clone))}return response}).catch(()=>caches.match(request)));return}
+event.respondWith(fetch(request).then(response=>{if(response.ok){const clone=response.clone();caches.open(CACHE).then(cache=>cache.put(request,clone))}return response}).catch(()=>caches.match(request)))});
