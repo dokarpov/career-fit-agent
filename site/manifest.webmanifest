@@ -1,8 +1,8 @@
 {
   "name": "RoleHint — Better job decisions",
   "short_name": "RoleHint",
-  "description": "Know which jobs are worth your time.",
-  "start_url": "./",
+  "description": "RoleHint browser prototype: review example jobs, evidence and eligibility",
+  "start_url": "./workspace.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f6f5f2",
@@ -14,5 +14,6 @@
       "type": "image/svg+xml",
       "purpose": "any"
     }
-  ]
+  ],
+  "id": "./workspace.html"
 }
