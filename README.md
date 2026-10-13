@@ -68,3 +68,11 @@ Public entry: [website](https://dokarpov.github.io/rolehint/site/) → **Start u
 The web app manifest now launches `workspace.html` in standalone mode on supported devices. The service worker caches the interface shell, but external CV parsers may need a network connection. SVG-only icons may not trigger automatic installation on every device. Not a native App Store/Play Store release.
 
 **Current capability boundaries:** no account, cloud sync, production job ingest, personalized CV-to-live-vacancy matching, email notification, or real application submission. The early-access form is separate and requires FormSubmit inbox verification. This connected flow is an installable demonstration, **not yet a universal production service**. Verify mobile installation, storage behavior and security/privacy before distributing broadly.
+
+## Public offer and pricing editorial update (13 October 2026)
+
+The website now has one consistent primary action, **Start free**, leading into the browser workspace. The contradictory early-access form has been removed from the public homepage. [Pricing](https://dokarpov.github.io/rolehint/site/pricing.html) and [Subscription](https://dokarpov.github.io/rolehint/site/subscription.html) explain that the current preview costs €0, requires no payment details, and **does not auto-renew or charge after 14 days**.
+
+A 14-day evaluation for a future connected paid product is a proposal, **not an operational subscription**. No Stripe account, payment authorization, cancellation portal or trial-end reminder is connected. Automatic recurring payments cannot safely be implemented without a processor, secure subscription-state backend, unambiguous paid price, reminders and cancellation infrastructure. Apple Pay alone does not provide these. The current role examples are illustrative and live matching is not connected.
+
+Older sections referring to the early-access form describe the preceding release and are obsolete; use this section as the current public offer statement.
