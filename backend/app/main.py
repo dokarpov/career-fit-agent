@@ -31,6 +31,20 @@ from .services.funnel import weekly_plan, DEFAULT_POLICY, PACE_PRESETS, BREADTH_
 from .services.connectors.gmail import GmailConnector, parse_job_email
 
 app=FastAPI(title="Career Fit Agent API",version="1.8.0")
+
+@app.middleware("http")
+async def beta_access_guard(request: Request, call_next):
+    """Do not expose legacy unauthenticated endpoints while the public beta is being secured."""
+    if os.getenv("CFA_PUBLIC_BETA_LOCK", "0") == "1":
+        path=request.url.path
+        if path != "/health" and not path.startswith("/miniapp/"):
+            return Response(
+                content='{"detail":"RoleHint backend is being prepared for private beta"}',
+                media_type="application/json",
+                status_code=503,
+            )
+    return await call_next(request)
+
 DATA_DIR=Path(os.getenv("CFA_DATA_DIR", Path(__file__).resolve().parents[2]/"data"))
 DATA_DIR.mkdir(parents=True,exist_ok=True)
 store=EvidenceStore(DATA_DIR/"career_fit.db")
