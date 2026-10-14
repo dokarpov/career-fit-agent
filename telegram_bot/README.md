@@ -36,3 +36,7 @@ The Telegram bot runs as an optional Compose service so a missing token does not
 - An actual test notification succeeds before declaring alerts operational.
 
 **Not activated here:** This project still needs a real BotFather token, HTTPS backend deployment and live end-to-end QA. No working public bot username has been established.
+
+## Deployment audit — 14 October 2026
+
+Railway service `rolehint-api-worker` has persistent `/app/data` volume and working `/health` endpoint. Anonymous `/me/bootstrap` requests now receive HTTP 401; legacy `/evidence` remains blocked while `CFA_PUBLIC_BETA_LOCK=1`. The internal bot secret is configured, but the **current Railway environment does not contain `TELEGRAM_BOT_TOKEN`** (verified from variable names and runtime logs). GitHub Actions repository secrets do not propagate automatically. Add `TELEGRAM_BOT_TOKEN` to **Railway → RoleHint → rolehint-api-worker → Variables**. No Telegram `/start` or signed-initData journey can be marked passed until the secret is present and an end-to-end bot test succeeds.
