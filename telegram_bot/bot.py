@@ -2,7 +2,7 @@ from __future__ import annotations
 import asyncio, html, os, httpx
 
 TOKEN=os.environ["TELEGRAM_BOT_TOKEN"]
-APP_URL=os.environ["TELEGRAM_MINI_APP_URL"].rstrip("/")
+APP_URL=os.environ["TELEGRAM_MINI_APP_URL"].rstrip("/") + "/"
 CAREER_API=os.environ.get("CAREER_FIT_API_URL","http://localhost:8000").rstrip("/")
 BOT_SECRET=os.environ.get("CFA_INTERNAL_BOT_SECRET","")
 STARS=int(os.environ.get("CFA_MANAGED_CYCLE_STARS","2499"))
