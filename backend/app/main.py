@@ -37,7 +37,7 @@ async def beta_access_guard(request: Request, call_next):
     """Do not expose legacy unauthenticated endpoints while the public beta is being secured."""
     if os.getenv("CFA_PUBLIC_BETA_LOCK", "0") == "1":
         path=request.url.path
-        if not (path == "/health" or (path == "/miniapp" or path.startswith("/miniapp/")) or path.startswith("/me/") or path == "/telegram/auth" or path.startswith("/internal/telegram/")):
+        if not (path == "/health" or (path == "/miniapp" or path.startswith("/miniapp/")) or path.startswith("/me/") or path == "/telegram/auth" or path in ("/oauth/google/callback", "/oauth/github/callback") or path.startswith("/internal/telegram/")):
             return Response(
                 content='{"detail":"RoleHint backend is being prepared for private beta"}',
                 media_type="application/json",
