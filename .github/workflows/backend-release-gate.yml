@@ -20,3 +20,14 @@ jobs:
       - run: python -m pip install -r backend/requirements.txt pytest
       - run: python -m compileall -q backend/app telegram_bot
       - run: python -m pytest -q tests/test_public_beta.py tests/test_telegram_auth_release.py
+  deployed-smoke:
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Smoke-test published backend and site
+        run: python scripts/smoke_live_release.py
