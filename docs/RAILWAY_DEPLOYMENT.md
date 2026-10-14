@@ -36,3 +36,17 @@ The Dockerfile is `backend/Dockerfile`; Railway uses `railway.json` and `sh ./st
 - Telegram payments, real provider connections, job delivery and account sync must not be declared live based on source code alone.
 - The Telegram token belongs in **Railway Variables**, not a GitHub Actions secret unless an actual deployment workflow explicitly consumes that secret.
 - Do not use more than one instance of the SQLite service or mount separate isolated volumes for API/worker.
+
+## 14 October 2026 deployment / safety update
+
+A private RoleHint Railway project and a persistent volume mounted at `/app/data` now exist. FastAPI returned a successful response from `/health` on the Railway domain. **This is a staging/backend smoke test, not evidence of a working end-user product.** No Telegram credentials have been added; the Telegram bot and real source connectors are not verified live.
+
+The `CFA_PUBLIC_BETA_LOCK=1` deployment variable must remain enabled until all legacy unprotected endpoints have been audited. With it enabled, `/health` and static Mini App assets remain accessible; the other API routes return 503. Removing the lock enables the API and must happen only after identity, access-control, privacy and deletion acceptance testing. Do not onboard real CVs while locked.
+
+Smoke check:
+
+```sh
+ROLEHINT_BASE_URL=https://rolehint-api-worker-production.up.railway.app python scripts/smoke_deployment.py
+```
+
+The existing database mentioned in previous planning has not been located or migrated. The newly attached volume is not proof that it contains historical records.
