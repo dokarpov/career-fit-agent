@@ -49,7 +49,8 @@ def test_missing_identity_is_rejected(monkeypatch):
 
 
 def test_tampered_identity_is_rejected():
-    changed = signed_data(101).replace("%22101", "%22999")
+    changed = signed_data(101).replace("%3A101", "%3A999")
+    assert changed != signed_data(101)
     with pytest.raises(TelegramAuthError):
         validate_init_data(changed, BOT_TOKEN)
 
