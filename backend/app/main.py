@@ -215,7 +215,7 @@ def _bootstrap(user_id):
     return {
       "runtime":runtime_config().mode,
       "entitlement":ent,
-      "capabilities":capabilities(ent["active"]),
+      "capabilities":{**capabilities(ent["active"]), "oauth_google_ready":_google.configured(), "oauth_github_ready":_github.configured()},
       "metrics":metrics,
       "next_actions":actions,
       "jobs":jobs_data,
