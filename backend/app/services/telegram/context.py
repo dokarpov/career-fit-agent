@@ -6,7 +6,7 @@ from ..runtime import runtime_config
 
 def identity_from_init_data(init_data:str|None, product_store):
     cfg=runtime_config()
-    if cfg.selfhost and not init_data:
+    if cfg.selfhost and not init_data and os.getenv("CFA_ALLOW_ANONYMOUS_SELFHOST", "0") == "1":
         uid=product_store.ensure_user(local=True)
         return {"user_id":uid,"telegram_user":None,"mode":"selfhost"}
     if not init_data:
