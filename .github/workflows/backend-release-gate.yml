@@ -1,8 +1,22 @@
 name: Backend release gate
-on: [push, workflow_dispatch]
+on: [push, pull_request, workflow_dispatch]
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONPATH: .:backend
+      CFA_PUBLIC_BETA_LOCK: "1"
+      CFA_ALLOW_ANONYMOUS_SELFHOST: "0"
+      CFA_SEED_DEMO: "0"
+      CFA_RUNTIME_MODE: selfhost
+      CFA_DATA_DIR: /tmp/rolehint-ci-data
+      TELEGRAM_BOT_TOKEN: 123456:test-only-token
     steps:
       - uses: actions/checkout@v4
-      - run: echo Backend release gate initialized
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r backend/requirements.txt pytest
+      - run: python -m compileall -q backend/app telegram_bot
+      - run: python -m pytest -q tests/test_public_beta.py tests/test_telegram_auth_release.py
