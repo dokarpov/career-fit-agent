@@ -20,7 +20,7 @@ async def backend(method,path,json=None):
     async with httpx.AsyncClient(timeout=25) as c:
         r=await c.request(method,CAREER_API+path,json=json,headers={"X-CFA-Bot-Secret":BOT_SECRET});r.raise_for_status();return r.json()
 
-def web_button(text="Open Career Fit",open_id=None):
+def web_button(text="Open RoleHint",open_id=None):
     url=APP_URL+(('?open='+open_id) if open_id else '')
     return {"inline_keyboard":[[{"text":text,"web_app":{"url":url}}]]}
 
@@ -42,8 +42,8 @@ async def start(msg):
     if profiles:
         status="I’m already searching automatically: "+", ".join(x["query"] for x in profiles[:3])+"."
     else:
-        status="Connect Google or GitHub once in the Mini App. I’ll infer the search from your history and evidence — you won’t need to hunt vacancy links."
-    await send(cid,f"<b>Career Fit Agent</b>{', '+html.escape(u.get('first_name','')) if u.get('first_name') else ''}\n\n{html.escape(status)}\n\nI’ll send vacancies when they enter the weekly application funnel.",web_button("Open Career Fit"))
+        status="Set your search preferences in the Mini App. Your workspace is ready to explore; automated job discovery requires a connected source."
+    await send(cid,f"<b>RoleHint</b>{', '+html.escape(u.get('first_name','')) if u.get('first_name') else ''}\n\n{html.escape(status)}\n\nOpen your workspace to review opportunities and next steps. Automated alerts are not enabled until your search is configured.",web_button("Open RoleHint"))
 
 async def today(msg):
     cid=msg["chat"]["id"];u=msg.get("from") or {};data=await summary(u["id"]);plan=data.get("funnel") or {};batch=plan.get("today_batch") or []
@@ -114,7 +114,7 @@ async def configure():
       {"command":"selfhost","description":"Free self-hosted edition"},
       {"command":"paysupport","description":"Payment support"}
     ]})
-    await tg("setChatMenuButton",{"menu_button":{"type":"web_app","text":"Open Career Fit","web_app":{"url":APP_URL}}})
+    await tg("setChatMenuButton",{"menu_button":{"type":"web_app","text":"Open RoleHint","web_app":{"url":APP_URL}}})
 
 async def poll():
     global OFFSET
