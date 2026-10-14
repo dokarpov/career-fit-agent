@@ -27,3 +27,11 @@ def test_miniapp_root_redirect_is_not_blocked():
 def test_provider_connection_requires_identity_before_oauth():
     for provider in ("google","github"):
         assert client.post(f"/me/connectors/{provider}/start",json={}).status_code == 401
+
+def test_invalid_google_oauth_state_is_rejected():
+    response=client.get("/oauth/google/callback",params={"state":"invalid","code":"invalid"})
+    assert response.status_code == 400
+
+def test_invalid_github_oauth_state_is_rejected():
+    response=client.get("/oauth/github/callback",params={"state":"invalid","code":"invalid"})
+    assert response.status_code == 400
