@@ -27,6 +27,15 @@ try {
   }
   await page.close();
  }
+ {
+  const standalone=await browser.newPage({viewport:{width:390,height:844}});
+  await standalone.goto('http://127.0.0.1:8791/telegram_miniapp/',{waitUntil:'domcontentloaded'});
+  await standalone.getByText('Open RoleHint in Telegram').waitFor({timeout:5000});
+  const error=await standalone.locator('#loading').innerText();
+  if(!error.includes('secure Telegram session')){failures++;console.error('FAIL unauthenticated Mini App standalone fallback')}
+  else console.log('PASS standalone link explains Telegram authorization');
+  await standalone.close();
+ }
  for(const theme of ['light','dark']){
   const page=await browser.newPage({viewport:{width:390,height:844}});
   await page.addInitScript(mode=>{
