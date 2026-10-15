@@ -90,11 +90,21 @@ async def run_job_searches():
         user_id=profile["user_id"]
         if runtime.managed and not product.entitlement(user_id):
             product.mark_search_profile_run(user_id,profile["id"]);continue
+        # First ten discovered opportunities are free for each signed-in user.
+        # This is a server-side cap, not a frontend-only counter.
+        free_limit=10
+        entitled=bool(product.entitlement(user_id))
+        existing_count=len(product.jobs(user_id))
+        if not entitled and existing_count>=free_limit:
+            product.mark_search_profile_run(user_id,profile["id"])
+            continue
         try:
             found=await job_search.search(profile["query"],profile["countries"],profile["remote_only"],profile["sources"] or None)
             policy=normalize_policy(product.funnel_policy(user_id))
             scan_limit=min(260,max(120,int(policy["weekly_target"])*4))
             for job in found[:scan_limit]:
+                if not entitled and len(product.jobs(user_id))>=free_limit:
+                    break
                 if (job.get("source") in {"adzuna","jooble"} or len(str(job.get("description") or ""))<120) and job.get("source_url"):
                     result=await auto_match.ingest_url(user_id,job["source_url"])
                 else:
