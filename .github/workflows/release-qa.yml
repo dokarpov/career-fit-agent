@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - 'site/index.html'
+      - 'site/**'
+      - 'scripts/**'
       - 'site/release-v1.*'
       - 'site/privacy.html'
       - 'site/early-access.js'
