@@ -43,3 +43,33 @@ html,body{width:100%;max-width:100%;overflow-x:clip}
  .screen-mini-card b,.screen-mini-card small{overflow-wrap:anywhere}
 }
 @media(max-width:380px){.hero h1{font-size:clamp(32px,10vw,40px)}.story-tabs button{padding:9px 12px;font-size:12px}}
+
+/* RoleHint / graphite editorial system. Neutral surfaces, high-contrast ink, tactile print grain. */
+:root{--ink:#202322;--muted:#505550;--line:#d3d6d0;--bg:#f1f1ec;--purple:#465853;--lavender:#d7dcd5;--action-bg:#202826;--action-fg:#fff;--copy-muted:#545a55;--copy-subtle:#525a54}
+body{background:var(--bg);color:var(--ink)}
+header.site-header{background:#f1f1ecef;border-bottom-color:#d3d6d0}
+.nav-links a{color:#303b36}.brand span{color:#536962}
+.hero:before{background:radial-gradient(ellipse 37% 39% at 75% 40%,#cad3ce,transparent 95%),radial-gradient(ellipse 35% 48% at 20% 65%,#e1e3dc,transparent 95%);filter:blur(22px);animation:none}
+.hero:after{opacity:.19;mix-blend-mode:multiply}
+.hero h1 em{background:linear-gradient(115deg,#34423e,#78867e 48%,#2f3735);background-clip:text;-webkit-background-clip:text;color:transparent}
+.hero-copy p,.section-head p,.story-heading>p{color:#4d5550}
+.btn,.nav-links a.btn,.nav-links a.btn:visited{background:#202826;color:#fff;border-color:#202826}
+.btn:hover,.nav-links a.btn:hover{background:#374a43;border-color:#374a43;color:#fff}
+.story-stage{background:#dce2dc;border-color:#c7d0c7}
+.story-copy .eyebrow,.story-proof{color:#354840}.story-copy p{color:#34423d}.story-proof{border-color:#bbc7bd}
+.story-tabs button{border-color:#c1c9c1;color:#2b3530;background:#f7f7f3}
+.story-tabs button[aria-selected=true]{background:#26332d;color:white;border-color:#26332d}
+.story-screen{background:#f8f9f5;border-color:#bec9c0;color:#222d28}
+.screen-sidebar{background:#edf0e9;border-color:#ccd5cc}
+.screen-sidebar span.screen-side-active{background:#d8e2d9;color:#264134}
+.screen-chrome,.screen-caption{border-color:#ccd5cc}
+.screen-caption{background:#f4f6f1}
+.screen-mini-card,.screen-detail{border-color:#d3d9d2}
+.screen-eyebrow,.screen-mark span{color:#416353}
+.screen-flag{background:#e0e9df;color:#34503d}
+.screen-action{background:#26372d;color:#fff}
+.preview,.price-card{border-color:#cbd2ca}
+.end-section{background:#1c2824;color:white}
+.end-section .eyebrow{color:#bfd0c5}
+.end-section .btn{background:#f5f7f2;color:#1d2923;border-color:#f5f7f2}
+@media(prefers-reduced-motion:reduce){.hero:before{animation:none}}
