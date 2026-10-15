@@ -11,6 +11,8 @@ on:
       - '.github/workflows/release-qa.yml'
       - 'telegram_miniapp/**'
       - 'site/*.css'
+      - 'site/*.js'
+      - 'site/qa-release.mjs'
       - 'tests/contrast-qa.mjs'
 jobs:
   qa:
