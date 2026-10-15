@@ -234,6 +234,7 @@ def _bootstrap(user_id):
     return {
       "runtime":runtime_config().mode,
       "entitlement":ent,
+      "free_discovery":{"limit":10,"used":min(10,len(jobs_data)),"remaining":max(0,10-len(jobs_data)),"requires_card":False,"active":not ent["active"]},
       "capabilities":{**capabilities(ent["active"]), "oauth_google_ready":_google.configured(), "oauth_github_ready":_github.configured()},
       "metrics":metrics,
       "next_actions":actions,
