@@ -1,12 +1,12 @@
 {
   "name": "RoleHint — Better job decisions",
   "short_name": "RoleHint",
-  "description": "RoleHint browser prototype: review example jobs, evidence and eligibility",
-  "start_url": "./workspace.html",
+  "description": "RoleHint job discovery and evidence-based decision support",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#f6f5f2",
-  "theme_color": "#332747",
+  "background_color": "#f1f1ec",
+  "theme_color": "#202826",
   "icons": [
     {
       "src": "./favicon.svg",
@@ -15,5 +15,5 @@
       "purpose": "any"
     }
   ],
-  "id": "./workspace.html"
+  "id": "./"
 }
