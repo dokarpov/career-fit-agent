@@ -33,3 +33,11 @@ body.pipelineMode .cf-appbar,body.pipelineMode .cf-nav{display:none!important}
 @media(max-width:520px){body:not(.pipelineMode){padding-left:12px;padding-right:12px}.cf-nav{border-radius:0}.cf-appbar{padding-top:1px}.cf-focus{padding:24px 19px}.cf-focus h2{font-size:29px}.cf-status{font-size:9px;max-width:138px;overflow:hidden;text-overflow:ellipsis}.cf-head-actions{gap:5px}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 body:has(#loading:not(.hidden)) .cf-nav,body:has(#onboarding:not(.hidden)) .cf-nav,body:has(#pipeline:not(.hidden)) .cf-nav{display:none!important}
+/* System contrast contract: fixed light surfaces regardless of Telegram host theme.
+   Dark support must be introduced as a complete semantic theme, never by mixing
+   host-injected dark tokens with light component surfaces. */
+:root{color-scheme:light;--bg:#f6f5f2;--section:#fffefa;--text:#202026;--hint:#595661;--link:#4334bf;--button:#202026;--buttonText:#ffffff;--sep:#d5d1cf;--green:#236b48;--amber:#865018;--red:#8b3038}
+html,body{color-scheme:light}
+button,input,textarea,select{color-scheme:light}
+body:not(.pipelineMode) .primaryBtn,body:not(.pipelineMode) .cf-primary{background:var(--button);border-color:var(--button);color:var(--buttonText)}
+body:not(.pipelineMode) .primaryBtn:hover,body:not(.pipelineMode) .cf-primary:hover{background:#4334bf;border-color:#4334bf;color:#fff}
