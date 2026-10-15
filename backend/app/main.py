@@ -37,7 +37,7 @@ async def beta_access_guard(request: Request, call_next):
     """Do not expose legacy unauthenticated endpoints while the public beta is being secured."""
     if os.getenv("CFA_PUBLIC_BETA_LOCK", "0") == "1":
         path=request.url.path
-        if not (path == "/health" or (path == "/miniapp" or path.startswith("/miniapp/")) or path.startswith("/me/") or path == "/telegram/auth" or path in ("/oauth/google/callback", "/oauth/github/callback") or path.startswith("/internal/telegram/")):
+        if not (path in ("/health","/open-bot") or (path == "/miniapp" or path.startswith("/miniapp/")) or path.startswith("/me/") or path == "/telegram/auth" or path in ("/oauth/google/callback", "/oauth/github/callback") or path.startswith("/internal/telegram/")):
             return Response(
                 content='{"detail":"RoleHint backend is being prepared for private beta"}',
                 media_type="application/json",
@@ -75,6 +75,25 @@ jobs=JobSearchService(
     smartrecruiters_companies=env_list("SMARTRECRUITERS_COMPANIES"),
     career_site_urls=env_list("CAREER_SITE_URLS")+env_list("VC_PORTFOLIO_JOB_URLS")
 )
+
+@app.get("/open-bot")
+async def open_real_telegram_bot():
+    """Redirect to the bot identified by the deployed token, never a guessed handle."""
+    import httpx
+    token=os.getenv("TELEGRAM_BOT_TOKEN","")
+    if not token:
+        raise HTTPException(503,"Telegram bot is not configured")
+    try:
+        async with httpx.AsyncClient(timeout=7) as client:
+            response=await client.get("https://api.telegram.org/bot"+token+"/getMe")
+            response.raise_for_status()
+            info=response.json()
+        handle=str((info.get("result") or {}).get("username") or "")
+        if not info.get("ok") or not handle or not handle.replace("_","").isalnum():
+            raise ValueError("Invalid Telegram bot metadata")
+        return RedirectResponse("https://t.me/"+handle,status_code=302)
+    except (httpx.HTTPError, ValueError):
+        raise HTTPException(503,"Telegram bot link unavailable. Try again shortly.")
 
 @app.get("/health")
 def health():
