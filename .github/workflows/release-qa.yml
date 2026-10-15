@@ -9,6 +9,9 @@ on:
       - 'site/privacy.html'
       - 'site/early-access.js'
       - '.github/workflows/release-qa.yml'
+      - 'telegram_miniapp/**'
+      - 'site/*.css'
+      - 'tests/contrast-qa.mjs'
 jobs:
   qa:
     runs-on: ubuntu-latest
@@ -24,3 +27,5 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Run responsive regression checks against local site
         run: node site/qa-release.mjs
+      - name: Enforce contrast for marketing and Telegram onboarding
+        run: node tests/contrast-qa.mjs
