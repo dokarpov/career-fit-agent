@@ -51,3 +51,17 @@ def test_signed_accounts_keep_preferences_separate(monkeypatch):
     assert b_read.status_code == 200
     assert a_read.json().get("salary_floor_annual") == 90000
     assert b_read.json().get("salary_floor_annual") == 40000
+
+def test_new_user_can_start_real_discovery_without_oauth(monkeypatch):
+    from test_telegram_auth_release import BOT_TOKEN, signed_data
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", BOT_TOKEN)
+    headers={"X-Telegram-Init-Data":signed_data(9111733)}
+    response=client.post("/me/search-profiles",headers=headers,json={
+        "query":"Senior Product Manager","countries":["Spain","Europe"],
+        "remote_only":True,"enabled":True,"interval_minutes":360
+    })
+    assert response.status_code==200,response.text
+    state=client.get("/me/bootstrap",headers=headers)
+    assert state.status_code==200,state.text
+    profiles=state.json()["autopilot"]["search_profiles"]
+    assert any(p["query"]=="Senior Product Manager" for p in profiles)
