@@ -14,7 +14,9 @@ class AshbyBoardSource(JobSource):
                 data=(await c.get(url,params={"includeCompensation":"true"})).json()
                 for x in data.get("jobs",[]):
                     hay=(x.get("title","")+" "+x.get("descriptionPlain","")).lower()
-                    if query.lower() not in hay and query.lower() not in x.get("title","").lower():
+                    qwords=[w for w in query.lower().split() if len(w)>2]
+                    title=x.get("title","").lower()
+                    if not qwords or not all(w in title for w in qwords):
                         continue
                     out.append({
                       "source":"ashby","source_job_id":x.get("id"),"source_url":x.get("jobUrl") or x.get("applyUrl",""),
