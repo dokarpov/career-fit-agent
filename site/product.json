@@ -6,8 +6,8 @@
   "url": "https://dokarpov.github.io/rolehint/site/",
   "codeRepository": "https://github.com/dokarpov/rolehint",
   "version": "1.9.0",
-  "productStatus": "working prototype; hiring-outcome uplift and product-market fit not independently validated",
-  "description": "Career decision prototype: screen jobs for explicit eligibility constraints, compare requirements against real experience, and identify what to verify before applying.",
+  "productStatus": "Private development; public workspace illustrative; live 10-vacancy onboarding and billing unverified",
+  "description": "RoleHint is developing personalized vacancy discovery and evidence-based job decisions. The public site currently shows an illustrative demo, not live personalized jobs.",
   "audience": [
     "experienced professionals",
     "career changers",
@@ -34,21 +34,18 @@
     }
   ],
   "capabilities": [
-    "source-driven opportunity discovery",
-    "deduplication",
-    "hard eligibility checks before semantic fit",
-    "explicit verified, review and gap evidence states",
-    "evidence-backed application preparation",
-    "human approval of outward-facing claims",
-    "application outcomes and funnel learning"
+    "illustrative job-decision walkthrough on public site",
+    "Telegram-authenticated backend under development",
+    "experimental employer ATS source connectors"
   ],
   "notCapabilities": [
-    "automatic unreviewed application submission",
-    "manufactured employment qualifications",
-    "guaranteed interviews or placements",
-    "proven uplift or validated product-market fit"
+    "public email signup or persistent website user account",
+    "ten verified live personalized opportunities via the public website",
+    "live card-backed trial or subscription checkout",
+    "automatic unreviewed job applications",
+    "guaranteed hiring outcomes"
   ],
-  "privacyAndControl": "The public demo runs without a server, cookie persistence or external requests, beyond static assets; pasted job text and notes stay in the current browser session. The connected backend is a separate environment.",
+  "privacyAndControl": "The public CV onboarding stores entered résumé text and preferences in browser localStorage under rolehint_onboarding_v1; this is not a production account or secure server-side user record. Avoid uploading sensitive CV data until the secure production onboarding is released.",
   "demoData": "The agent demo uses fictional employer/job data. The independent text checker accepts pasted real descriptions but processes them locally without fetching or verifying external sources.",
   "productBoundaries": "https://github.com/dokarpov/rolehint/blob/main/docs/PRODUCT_BOUNDARIES.md",
   "decisionPolicy": "https://github.com/dokarpov/rolehint/blob/main/docs/DECISION_POLICY.md",
@@ -57,5 +54,7 @@
   "demo": "https://dokarpov.github.io/rolehint/site/workspace.html",
   "contact": "https://github.com/dokarpov",
   "demoDescription": "Two browser demos: an editable fictional opportunity-agent simulation (role/profile, constraints, shortlist, decision details) and a separate local text-only job-description checker (work mode, region, salary, requirement excerpts and copyable questions). Neither verifies real vacancies or submits applications.",
-  "jobCheck": "https://dokarpov.github.io/rolehint/site/check.html"
+  "jobCheck": "https://dokarpov.github.io/rolehint/site/check.html",
+  "verifiedAt": "2026-10-16",
+  "acquisitionStatus": "Not approved for public promotion"
 }
