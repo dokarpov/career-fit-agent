@@ -1,5 +1,13 @@
 # RoleHint
 
+> **Release status: not approved for public launch.** The public website contains illustrative product states; a verified browser signup → real vacancy discovery → tailored application → submit/track journey is not yet complete. Do not advertise fictional results or imply a working paid checkout.
+
+**Product implementation source of truth:** [CJM, functional requirements and release acceptance](docs/PRODUCT_EXPERIENCE_V1.md) · [ADR-001: value before payment](docs/adr/ADR-001-value-before-payment.md).
+
+**Canonical goal:** Free CV analysis or role-first entry → ten real eligible personalized opportunities without a card → evidence-aware job-specific application packages → supported application assistance → tracked outcome → optional explicitly authorized payment.
+
+**Important:** Existing "What visitors see" and "Receiving applications" sections below are historical notes and may not match the current deployment. Verify the code and deployed release before acting on them.
+
 **Less searching. Better deciding.**
 
 [Public website](https://dokarpov.github.io/rolehint/site/) · [Early-access application](https://dokarpov.github.io/rolehint/site/#apply) · [Privacy](https://dokarpov.github.io/rolehint/site/privacy.html)
