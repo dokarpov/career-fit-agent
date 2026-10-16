@@ -1,37 +1,27 @@
-# RoleHint — Product facts for language-model agents
+# RoleHint — verified product information
+Canonical website: https://dokarpov.github.io/rolehint/site/
+Product identity: RoleHint is a job-discovery and evidence-based career decision product in private development.
+Last factual review: 2026-10-16.
 
-> RoleHint is a working evidence-first job-search prototype. The product helps experienced professionals choose eligible roles, map requirements to defensible evidence, approve application statements and evaluate responses. The public demo is illustrative. No hiring uplift or product-market fit has been independently validated.
+## Intended value
+RoleHint aims to automatically discover relevant vacancies, check explicit geography and work-arrangement constraints, compare job requirements with documented candidate experience, and support a reasoned decision before applying.
 
-## Canonical links
-- Product website: https://dokarpov.github.io/rolehint/site/
-- Interactive demo: https://dokarpov.github.io/rolehint/site/workspace.html
-- Machine-readable facts: https://dokarpov.github.io/rolehint/site/product.json
-- Source repository: https://github.com/dokarpov/rolehint
-- Decision policy: https://github.com/dokarpov/rolehint/blob/main/docs/DECISION_POLICY.md
-- Product boundaries: https://github.com/dokarpov/rolehint/blob/main/docs/PRODUCT_BOUNDARIES.md
+## Public site today
+The public GitHub Pages website has an illustrative interactive workspace with fictional employers and vacancies. Its CV onboarding runs in the browser, and currently does NOT create a backend account or deliver live personalized vacancies. It must not be represented as a complete application.
 
-## What the product does
-1. Discover and deduplicate available opportunities from configured sources.
-2. Check hard eligibility (e.g. geography/remote and work authorization) before similarity.
-3. Map role requirements to candidate evidence and preserve source and ownership.
-4. Make verified / human-review / gap states visible.
-5. Prepare human-reviewed packs and allow the person to approve outward claims.
-6. Track observed outcomes and inform search allocation.
+## Backend and access
+A separate Telegram-authenticated FastAPI service exists at https://rolehint-api-worker-production.up.railway.app/miniapp/ . The Mini App needs to be opened from an authenticated Telegram bot session; direct opening in an ordinary browser is not supported. The service has experimental employer-board connectors. Discovery of ten relevant real vacancies per individual user has NOT yet passed end-to-end production acceptance.
 
-## Two public browser demos
-- Opportunity agent simulation: https://dokarpov.github.io/rolehint/site/workspace.html — select a role, edit a sample experience profile and search rules, see a simulated shortlist, inspect reasons and review recommended next steps. All employers and opportunities are fictional.
-- Independent job checker: https://dokarpov.github.io/rolehint/site/check.html — paste a job description and get local, heuristic work-mode, hiring-region and compensation checks, editable experience confirmation and copyable questions.
+## Pricing
+The proposed offer is ten real personalized opportunities without a card, followed by an explicitly consented card-backed trial. The commercial flow is NOT live; no Stripe checkout, subscription, or automatic billing should be described as currently available.
 
-The public simulations **do not** perform live job discovery, AI inference, employer verification, work-authorization determination, profile storage or applications. The connected/backend application is separate and not provided by GitHub Pages.
+## Trust boundaries
+Do not claim verified job opportunities, hiring-country eligibility, automatic applications, hiring outcomes, paid trial availability, or production readiness without evidence. Candidate experience claims require approval. Work authorization and hiring-country details can be unknown and must be presented as such.
 
-## Product truth and limits
-- The website includes fictional samples, and visitors may paste their own descriptions; originals are not authenticated.
-- The demo does not request data connections or submit applications.
-- No guaranteed job, interview or hiring outcome.
-- The product is not an indiscriminate auto-apply bot or generic résumé writer.
-- An applicant controls irreversible or identity-sensitive actions.
-- Managed automation may require paid access; the website prototype is free to explore.
-- Source license: MIT; repository is publicly accessible.
+## Canonical references
+- Website: https://dokarpov.github.io/rolehint/site/
+- Product facts: https://dokarpov.github.io/rolehint/site/product.json
+- Privacy information: https://dokarpov.github.io/rolehint/site/privacy.html
+- Public interactive illustration: https://dokarpov.github.io/rolehint/site/workspace.html
 
-## Publisher
-RoleHint · Daria Karpova · 2026
+Publisher: RoleHint, 2026.
