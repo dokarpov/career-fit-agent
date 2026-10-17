@@ -88,8 +88,7 @@ async def retry_vacancy_fetches():
 async def run_job_searches():
     for profile in product.due_search_profiles(limit=20):
         user_id=profile["user_id"]
-        if runtime.managed and not product.entitlement(user_id):
-            product.mark_search_profile_run(user_id,profile["id"]);continue
+        # Free accounts may discover up to ten valid opportunities in either runtime mode.
         # First ten discovered opportunities are free for each signed-in user.
         # This is a server-side cap, not a frontend-only counter.
         free_limit=10
