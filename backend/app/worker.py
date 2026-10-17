@@ -9,6 +9,7 @@ from .services.application_tracking import GmailSyncService
 from .services.notifications import TelegramNotifier
 from .services.job_search import JobSearchService
 from .services.auto_match import AutoMatchService
+from .services.auto_match.service import extract_constraints, evaluate_constraints
 from .services.autopilot import EvidenceAutopilot, ensure_search_profiles
 from .services.funnel import weekly_plan, normalize_policy
 
@@ -101,9 +102,13 @@ async def run_job_searches():
             found=await job_search.search(profile["query"],profile["countries"],profile["remote_only"],profile["sources"] or None)
             policy=normalize_policy(product.funnel_policy(user_id))
             scan_limit=min(260,max(120,int(policy["weekly_target"])*4))
+            user_prefs=product.preferences(user_id)
             for job in found[:scan_limit]:
                 if not entitled and len(product.jobs(user_id))>=free_limit:
                     break
+                # Do not spend a free result on a vacancy with an explicit hard blocker.
+                if evaluate_constraints(extract_constraints(job),user_prefs).get("hard"):
+                    continue
                 if (job.get("source") in {"adzuna","jooble"} or len(str(job.get("description") or ""))<120) and job.get("source_url"):
                     result=await auto_match.ingest_url(user_id,job["source_url"])
                 else:
