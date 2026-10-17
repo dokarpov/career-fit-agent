@@ -1,90 +1,36 @@
 # RoleHint
 
-> **Release status: not approved for public launch.** The public website contains illustrative product states; a verified browser signup → real vacancy discovery → tailored application → submit/track journey is not yet complete. Do not advertise fictional results or imply a working paid checkout.
+**Career decisions with evidence — product under active validation.**
 
-**Product implementation source of truth:** [CJM, functional requirements and release acceptance](docs/PRODUCT_EXPERIENCE_V1.md) · [ADR-001: value before payment](docs/adr/ADR-001-value-before-payment.md).
+RoleHint explores a workflow from job discovery and hiring eligibility to verifiable experience, role-specific application materials and application tracking. Its purpose is to reduce wasted effort, not produce more unfiltered vacancies.
 
-**Canonical goal:** Free CV analysis or role-first entry → ten real eligible personalized opportunities without a card → evidence-aware job-specific application packages → supported application assistance → tracked outcome → optional explicitly authorized payment.
+> **Release boundary (17 October 2026):** the complete browser journey — real eligible opportunities → verified evidence mapping → editable application package → submission/hand-off → durable tracking — has **not** been accepted as a public end-to-end release. Sample jobs are not live employer recommendations; no checkout or paid subscription is operational.
 
-**Important:** Existing "What visitors see" and "Receiving applications" sections below are historical notes and may not match the current deployment. Verify the code and deployed release before acting on them.
+## Choose the correct entry
 
-**Less searching. Better deciding.**
+| Entry | What exists | What it does not prove |
+| --- | --- | --- |
+| [Public overview](https://dokarpov.github.io/rolehint/site/) | Editorial landing page with illustrative Discover / Verify / Decide states | Not an end-to-end authenticated web application |
+| [Telegram bot entry](https://rolehint-api-worker-production.up.railway.app/open-bot) | Current entry to the authenticated bot experience | Does not establish universal ATS submission or the complete browser CJM |
+| [Browser sample workspace](https://dokarpov.github.io/rolehint/site/workspace.html) | Local demonstration using fictional jobs and locally saved preferences | No CV-to-live-vacancy matching, account sync or real application submission |
+| [Experimental search desk](https://dokarpov.github.io/rolehint/) | Separate web shell for search settings and decisions | Not a separately accepted public product release |
 
-[Public website](https://dokarpov.github.io/rolehint/site/) · [Early-access application](https://dokarpov.github.io/rolehint/site/#apply) · [Privacy](https://dokarpov.github.io/rolehint/site/privacy.html)
+The public website must not advertise fictional employers as live vacancies. The sample workspace should not invite real CV data without a complete privacy and security review.
 
-## What visitors see
+## What is implemented and tested
 
-A responsive editorial landing page with restored large typography, purple brand icon, graphite/lilac/silver accents, and a responsive, native guided preview derived from the existing RoleHint workspace. The three selectable opportunities are fictional demonstration data; it is **not** real CV matching or employer discovery. The public CTA opens an early-access application form.
+The repository includes backend ATS discovery, vacancy checks, decision logic, search settings, application-package experiments and Telegram integrations. The [backend release gate](https://github.com/dokarpov/rolehint/actions) has passed automated checks, including a public ATS vacancy-source check on 17 October 2026. **That verifies a narrow technical slice, not the complete applicant journey.**
 
-## Receiving applications
+The static website and the backend are different release surfaces. A green build for one does not establish that the other is connected or ready.
 
-The form submits via **FormSubmit** to `dokarpov@gmail.com` and includes name, email, and an optional job-search goal. It does **not** use `mailto:` or require a visitor to send an email draft. A CAPTCHA/honeypot is enabled.
+## Product decision and acceptance
 
-**Required one-time activation:** FormSubmit sends an activation/verification message to the receiving address. Confirm that message before sharing the site widely. Until verification and an end-to-end test succeed, **receipt of submissions is unverified**. Test with a different email address and verify delivery to Inbox/Spam. The form depends on FormSubmit's availability and privacy practices, and this static site has no first-party submission database, autoresponder, or admin console.
+[Product experience / CJM and release acceptance](docs/PRODUCT_EXPERIENCE_V1.md) is the source of truth. The planned first value is **up to ten distinct, live, eligibility-checked opportunities without a card**, with transparent evidence gaps and job-specific materials. If fewer real opportunities exist, the product must show the actual count rather than fabricate a quota.
 
-## Install RoleHint
+A public release requires verified account/session behavior; real and reachable jobs; safe CV parsing and editable facts; approved export; authorized submission or honest handoff; durable tracking; privacy/recovery paths; and real browser E2E on a deployed version.
 
-The public website includes a web manifest and service worker for installation and basic offline caching.
+[Decision policy](docs/DECISION_POLICY.md) · [Technical overview](docs/TECHNICAL_OVERVIEW.md) · [ADR: value before payment](docs/adr/ADR-001-value-before-payment.md)
 
-- **iPhone (Safari):** open the site, Share → Add to Home Screen.
-- **Android (Chrome):** open the site, menu → Install app or Add to Home Screen.
-- **Desktop (Chromium):** use the browser's Install option when offered.
+**Pricing:** the current sample is free; the pricing and subscription pages describe a *possible future offer*, not an active trial, automatic renewal, working checkout or an available subscription.
 
-A standalone app-store package is not provided. The current manifest references an SVG icon; some browsers require PNG icon sizes for install prompts, so installability is device/browser dependent. Offline caching is for public pages, **not** submitting applications offline.
-
-## Repository contents
-
-- `site/` — public marketing site, early-access form, PWA assets, privacy and thank-you pages.
-- `site/workspace.html` — experimental fictional job-decision workspace and CV-first onboarding; not ready for public product launch.
-- Other backend and checker experiments are **not connected** to the GitHub Pages site.
-- `docs/DESIGN_SYSTEM.md` — typography and visual rules.
-
-Planned split into `rolehint-site` (public), `rolehint-app` (public), and `rolehint-core` (private) is **not completed**. This GitHub repo remains public, including its history and experimental backend.
-
-## Development
-
-```bash
-cp .env.example .env
-docker compose up --build
-```
-
-[Technical overview](docs/TECHNICAL_OVERVIEW.md) · [Decision policy](docs/DECISION_POLICY.md) · [Design system](docs/DESIGN_SYSTEM.md)
-
-*Exploratory prototype. No verified hiring uplift or product–market fit.*
-
-## Release 1 — one-site shareability pass
-
-- Replaced iframe with one responsive, fully clickable HTML/CSS/JS product preview for three illustrative roles (no inner scroll or separate mini-browser).
-- Bumped service-worker cache so updated styles, privacy policy and preview scripts refresh.
-- Added `site/qa-release.mjs` and `.github/workflows/release-qa.yml` for Chromium regression checks at 320, 375, 390, 768, 1024 and 1440px; checks preview selection, CTA wiring and privacy overflow. A test definition is **not proof of a passed run**. Check GitHub Actions for the actual result.
-- Kept live demo unpromoted while product onboarding remains experimental.
-
-**Release acceptance still pending:** receiving mailbox verification, a real end-to-end test lead, legal controller identification and direct privacy contact, real Safari/Android device QA, and verification of deployment/build status. Do not claim complete GDPR compliance or validated mobile QA without those checks. The FormSubmit recipient is still the existing personal address pending creation of an approved dedicated mailbox.
-
-## UX prototype — first-session implementation (12 October 2026)
-
-The **separate experimental workspace** at [`site/workspace.html`](https://dokarpov.github.io/rolehint/site/workspace.html) now supports CV upload or paste, editable extracted text, optional no-CV sandbox exploration, target-role and hiring-country confirmation, and a guided first sample-job decision. The old decorative upload sculpture is hidden and a straightforward mobile-first upload control replaces it. The browser-local CV/search profile can be deleted from Preferences. Saved/skipped sample decisions and the last inspected sample role also persist locally between visits.
-
-The implementation contract and limitations are in [`docs/PROTOTYPE_UX_V1.md`](docs/PROTOTYPE_UX_V1.md). Automated browser scenarios are specified in `site/qa-workspace.mjs` and `.github/workflows/prototype-ux.yml`. **A test file does not prove those tests passed.** Real device/browser testing remains pending.
-
-CV extraction presently reads local text and identifies keywords. Sample vacancies, candidate evidence and recommendations are **not personalized using the uploaded CV**. No live matching, real application sending, account creation or paid trial is active. The public website remains separate and does not promote this unfinished demo as a production service.
-
-## Website → onboarding → installation (13 October 2026)
-
-Public entry: [website](https://dokarpov.github.io/rolehint/site/) → **Start using RoleHint** → [workspace](https://dokarpov.github.io/rolehint/site/workspace.html) → CV/Paste/Skip → evidence review → hiring preferences → guided fictional opportunity. [Install instructions](https://dokarpov.github.io/rolehint/site/install.html) are accessible from the website and workspace.
-
-The web app manifest now launches `workspace.html` in standalone mode on supported devices. The service worker caches the interface shell, but external CV parsers may need a network connection. SVG-only icons may not trigger automatic installation on every device. Not a native App Store/Play Store release.
-
-**Current capability boundaries:** no account, cloud sync, production job ingest, personalized CV-to-live-vacancy matching, email notification, or real application submission. The early-access form is separate and requires FormSubmit inbox verification. This connected flow is an installable demonstration, **not yet a universal production service**. Verify mobile installation, storage behavior and security/privacy before distributing broadly.
-
-## Public offer and pricing editorial update (13 October 2026)
-
-The website now has one consistent primary action, **Start free**, leading into the browser workspace. The contradictory early-access form has been removed from the public homepage. [Pricing](https://dokarpov.github.io/rolehint/site/pricing.html) and [Subscription](https://dokarpov.github.io/rolehint/site/subscription.html) explain that the current preview costs €0, requires no payment details, and **does not auto-renew or charge after 14 days**.
-
-A 14-day evaluation for a future connected paid product is a proposal, **not an operational subscription**. No Stripe account, payment authorization, cancellation portal or trial-end reminder is connected. Automatic recurring payments cannot safely be implemented without a processor, secure subscription-state backend, unambiguous paid price, reminders and cancellation infrastructure. Apple Pay alone does not provide these. The current role examples are illustrative and live matching is not connected.
-
-Older sections referring to the early-access form describe the preceding release and are obsolete; use this section as the current public offer statement.
-
-## Public-site design rebuild — 13 October 2026
-
-Public website, pricing, subscription and install pages have been rebuilt on the shared `site/design-v2.css` and `site/design-v2.js` system. One responsive navigation menu, one primary action (`Start free`), a consistent editorial hierarchy, a cohesive gradient/grain hero treatment, interactive example-job preview, buttons, cards and footer. The early-access form is intentionally absent: it contradicted the accessible free browser preview. The public offer remains `€0` with **no active billing or real 14-day trial**. QA cases have been updated in `site/qa-release.mjs`; passing live/mobile tests still needs confirmation. Legacy styles remain in the repository for historical compatibility, but aren't loaded by these redesigned pages.
+**Status:** exploratory product / technical validation. No hiring uplift, revenue or product–market fit is claimed.
