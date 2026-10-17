@@ -1,9 +1,11 @@
 """First-party web identity. Email links are delivered only with configured SMTP; no debug tokens."""
 from __future__ import annotations
-import hashlib, hmac, os, re, secrets, smtplib, sqlite3, ssl, time, uuid
+import hashlib, hmac, os, re, secrets, smtplib, sqlite3, ssl, time, uuid, tempfile, json
 from email.message import EmailMessage
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Request, UploadFile, File
 from fastapi.responses import RedirectResponse
+from pathlib import Path
+from .services.evidence_ingest import read_text, atomize_text
 
 router=APIRouter(prefix="/web-api")
 COOKIE="rh_session"
@@ -18,6 +20,10 @@ def init(conn):
       token_hash TEXT PRIMARY KEY, email TEXT NOT NULL,
       expires_at REAL NOT NULL, consumed_at REAL, created_at REAL NOT NULL);
     CREATE INDEX IF NOT EXISTS web_login_email_created ON web_login_links(email,created_at);
+    CREATE TABLE IF NOT EXISTS web_candidate_profiles(
+      user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+      source_name TEXT NOT NULL, text_content TEXT NOT NULL,
+      evidence_json TEXT NOT NULL, updated_at REAL NOT NULL);
     CREATE TABLE IF NOT EXISTS web_sessions(
       token_hash TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id),
       expires_at REAL NOT NULL, created_at REAL NOT NULL);
@@ -136,6 +142,63 @@ def init_routes(product):
         jobs=product.jobs(uid)
         return {"authenticated":True,"preferences":prefs,"search_profiles":profiles,
                 "jobs":jobs[:10],"free_limit":10,"free_used":min(10,len(jobs))}
+
+    @router.get("/cv")
+    def read_cv(request:Request):
+        uid=require_user(request)
+        row=conn.execute("SELECT source_name,text_content,evidence_json,updated_at FROM web_candidate_profiles WHERE user_id=?",(uid,)).fetchone()
+        if not row:return {"uploaded":False}
+        return {"uploaded":True,"file_name":row["source_name"],"text":row["text_content"],
+                "evidence":json.loads(row["evidence_json"]),"updated_at":row["updated_at"]}
+
+    @router.post("/cv")
+    async def upload_cv(request:Request,file:UploadFile=File(...)):
+        check_origin(request);uid=require_user(request)
+        name=Path(file.filename or "").name[:120]
+        ext=Path(name).suffix.lower()
+        if ext not in {".pdf",".docx",".txt"}:raise HTTPException(415,"Supported files: PDF, DOCX, TXT")
+        raw=await file.read(8*1024*1024+1)
+        await file.close()
+        if len(raw)>8*1024*1024:raise HTTPException(413,"Maximum file size is 8 MB")
+        if not raw:raise HTTPException(422,"Empty file")
+        if ext==".pdf" and not raw.startswith(b"%PDF-"):raise HTTPException(422,"Invalid PDF file")
+        if ext==".docx" and not raw.startswith(b"PK"):raise HTTPException(422,"Invalid DOCX file")
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/("cv"+ext)
+            path.write_bytes(raw)
+            try:content=read_text(path).strip()
+            except Exception:raise HTTPException(422,"Could not read this CV. Try a text-based PDF, DOCX or TXT.")
+        if len(content)<50:raise HTTPException(422,"Too little selectable text. Scanned CVs need OCR or pasted text.")
+        if len(content)>100000:raise HTTPException(413,"CV text too long")
+        evidence=atomize_text(content,"candidate-cv","cv")
+        # Imported text is strictly self-reported, not externally verified.
+        now=time.time()
+        conn.execute("""INSERT INTO web_candidate_profiles VALUES(?,?,?,?,?)
+          ON CONFLICT(user_id) DO UPDATE SET source_name=excluded.source_name,
+          text_content=excluded.text_content,evidence_json=excluded.evidence_json,updated_at=excluded.updated_at""",
+          (uid,name,content,json.dumps(evidence),now))
+        conn.commit()
+        return {"uploaded":True,"file_name":name,"text":content,"evidence":evidence,"updated_at":now}
+
+    @router.put("/cv")
+    async def correct_cv(request:Request):
+        check_origin(request);uid=require_user(request)
+        body=await request.json()
+        content=str(body.get("text") or "").strip()
+        if not 50<=len(content)<=100000:raise HTTPException(422,"CV text must be 50–100,000 characters")
+        existing=conn.execute("SELECT source_name FROM web_candidate_profiles WHERE user_id=?",(uid,)).fetchone()
+        if not existing:raise HTTPException(404,"Upload a CV first")
+        evidence=atomize_text(content,"candidate-cv","cv")
+        now=time.time()
+        conn.execute("UPDATE web_candidate_profiles SET text_content=?,evidence_json=?,updated_at=? WHERE user_id=?",
+                     (content,json.dumps(evidence),now,uid));conn.commit()
+        return {"uploaded":True,"file_name":existing["source_name"],"text":content,"evidence":evidence,"updated_at":now}
+
+    @router.delete("/cv")
+    def delete_cv(request:Request):
+        check_origin(request);uid=require_user(request)
+        conn.execute("DELETE FROM web_candidate_profiles WHERE user_id=?",(uid,));conn.commit()
+        return {"deleted":True}
 
     @router.put("/preferences")
     async def save_preferences(request:Request):
