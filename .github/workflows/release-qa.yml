@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'site/**'
+      - 'webapp/**'
       - 'scripts/**'
       - 'site/release-v1.*'
       - 'site/privacy.html'
@@ -30,5 +31,7 @@ jobs:
           npx playwright install --with-deps chromium
       - name: Run responsive regression checks against local site
         run: node site/qa-release.mjs
+      - name: Test web-app onboarding and authenticated workspace in five viewports
+        run: node site/qa-webapp.mjs
       - name: Enforce contrast for marketing and Telegram onboarding
         run: node tests/contrast-qa.mjs
