@@ -7,7 +7,7 @@ from fastapi.responses import RedirectResponse
 
 router=APIRouter(prefix="/web-api")
 COOKIE="rh_session"
-EMAIL_RE=re.compile(r"^[^\\s@]{1,64}@[^\\s@]{1,250}\\.[A-Za-z]{2,}$")
+EMAIL_RE=re.compile(r"^[^\s@]{1,64}@[^\s@]{1,250}\.[A-Za-z]{2,}$")
 
 def init(conn):
     conn.executescript("""
