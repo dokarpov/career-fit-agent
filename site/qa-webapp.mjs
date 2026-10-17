@@ -38,7 +38,7 @@ try{
   });
   await page.goto('http://127.0.0.1:8789/webapp/',{waitUntil:'networkidle'});
   if(!(await page.getByRole('heading',{name:'Your opportunities'}).isVisible()))throw Error('member workspace absent');
-  if(!(await page.getByText('1 of 10 free opportunities delivered.').isVisible()))throw Error('quota absent');
+  if(!(await page.getByText('1 of 10 free opportunities delivered').isVisible()))throw Error('quota absent');
   const link=page.getByRole('link',{name:'Product Manager'});
   if(!(await link.isVisible()))throw Error('real vacancy absent');
   if((await link.getAttribute('href'))!=='https://jobs.example.org/123')throw Error('incorrect employer URL');
