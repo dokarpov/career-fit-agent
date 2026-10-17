@@ -1,12 +1,18 @@
 # RoleHint
 
-**Career decisions with evidence — product under active validation.**
+**What if a job search remembered what had already happened?**
 
-RoleHint explores a workflow from job discovery and hiring eligibility to verifiable experience, role-specific application materials and application tracking. Its purpose is to reduce wasted effort, not produce more unfiltered vacancies.
+I started RoleHint after encountering the same broken handoffs repeatedly: uploading a CV and re-entering it, seeing jobs with impossible hiring constraints, being offered persuasive but unsupported AI-written achievements, and finding the same employer again after a rejection.
 
-> **Release boundary (17 October 2026):** the complete browser journey — real eligible opportunities → verified evidence mapping → editable application package → submission/hand-off → durable tracking — has **not** been accepted as a public end-to-end release. Sample jobs are not live employer recommendations; no checkout or paid subscription is operational.
+The product decision is **not** another CV generator or an opaque fit percentage. It's a continuous decision process: which opportunities are eligible, which requirements my real experience supports, which claims need review, and what happened after the last application.
 
-## Choose the correct entry
+**Start here if you came from LinkedIn:** [The product decisions, implementation and evidence (3-minute case)](docs/CASE_ROLEHINT_PRODUCT_DECISIONS.md) · [Original 17 October post](https://www.linkedin.com/posts/dokarpov_job-hunting-has-a-fascinating-feature-collective-activity-7517137903018295296-sVIi).
+
+**Inspect specific decisions:** [Eligibility and evidence policy](docs/DECISION_POLICY.md) · [Real ATS source test](tests/test_real_job_sources.py) · [Account preference persistence](tests/test_settings_persistence.py) · [Full CJM and release gates](docs/PRODUCT_EXPERIENCE_V1.md).
+
+> **Release reality:** backend components and focused tests exist, but a complete authenticated web journey from real vacancy to approved application and saved result is **not yet a verified public release**. The website uses illustrative jobs; Telegram is the currently connected access channel. There is no active paid checkout or proven hiring uplift.
+
+## Product surfaces (not equivalent release states)
 
 | Entry | What exists | What it does not prove |
 | --- | --- | --- |
