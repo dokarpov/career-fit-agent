@@ -27,11 +27,14 @@ This rules out a single opaque “94% match” rating. An explainable **next act
 | --- | --- | --- |
 | Live-source vacancy discovery has an executable path | [Job search service](../backend/app/services/job_search.py) and [public ATS test](../tests/test_real_job_sources.py) | A full personalised real-job browser journey |
 | Hard constraints and free-discovery rules are modelled | [Decision policy](DECISION_POLICY.md) and [worker regression](../tests/test_free_discovery_worker.py) | Correct eligibility for every employer or country |
+| Requirements are compared with candidate evidence rather than a universal fit percentage | [Matching service](../backend/app/services/auto_match/service.py) and [proposal engine](../backend/app/services/pack_proposal/engine.py) | Independent verification of every source claim, or accuracy on all vacancies |
+| Application packs can be rendered from explicitly approved proof cards | [Pack rendering and export rules](../backend/app/services/application_packs/render.py) | A completed browser editing/approval/export journey |
+| Application responses can be classified and ingested from authorized mail connections | [Status reducer](../backend/app/services/application_tracking/state.py) and [Gmail sync service](../backend/app/services/application_tracking/gmail_sync.py) | Live end-to-end mailbox sync for every user, or verified submission coverage |
 | Preferences can persist for distinct authenticated users | [Persistence regression](../tests/test_settings_persistence.py) | Finished standalone web onboarding or cloud sync across all clients |
 | Web identity boundaries are tested | [Web identity tests](../tests/test_web_identity.py), with mocked outbound email | A working production email sign-in; mail transport requires deployment configuration |
 | Full journey is specified, not yet accepted | [Product CJM and release acceptance](PRODUCT_EXPERIENCE_V1.md) | A released application submission and tracking experience |
 
-A passing unit/contract check is evidence for its specific behavior, not evidence of an end-to-end launch. The public [overview](https://dokarpov.github.io/rolehint/site/) contains illustrative employer data. The [Telegram entry](https://rolehint-api-worker-production.up.railway.app/open-bot) is the current connected channel; neither is presented here as a finished browser product.
+An internal `verified` evidence flag represents the project's evidence policy, **not independent third-party verification of a career claim**. A passing unit/contract check is evidence for its specific behavior, not evidence of an end-to-end launch. The public [overview](https://dokarpov.github.io/rolehint/site/) contains illustrative employer data. The [Telegram entry](https://rolehint-api-worker-production.up.railway.app/open-bot) is the current connected channel; neither is presented here as a finished browser product.
 
 ## How I'll know it actually helps
 
