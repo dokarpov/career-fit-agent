@@ -106,6 +106,14 @@ async def run_job_searches():
             for job in found[:scan_limit]:
                 if not entitled and len(product.jobs(user_id))>=free_limit:
                     break
+                # Free credits are only spent on traceable, externally actionable records.
+                # Exclude incomplete or invalid ATS records before analysis/persistence.
+                from urllib.parse import urlsplit
+                source_url=str(job.get("source_url") or "").strip()
+                parsed=urlsplit(source_url)
+                if (parsed.scheme!="https" or not parsed.netloc or not job.get("company")
+                        or not job.get("title") or not (job.get("source_job_id") or job.get("canonical_key"))):
+                    continue
                 # Do not spend a free result on a vacancy with an explicit hard blocker.
                 if evaluate_constraints(extract_constraints(job),user_prefs).get("hard"):
                     continue
