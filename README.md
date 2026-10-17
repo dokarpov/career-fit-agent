@@ -6,7 +6,7 @@ I started RoleHint after encountering the same broken handoffs repeatedly: uploa
 
 The product decision is **not** another CV generator or an opaque fit percentage. It's a continuous decision process: which opportunities are eligible, which requirements my real experience supports, which claims need review, and what happened after the last application.
 
-**Start here if you came from LinkedIn:** [The product decisions, implementation and evidence (3-minute case)](docs/CASE_ROLEHINT_PRODUCT_DECISIONS.md) · [Original 17 October post](https://www.linkedin.com/posts/dokarpov_job-hunting-has-a-fascinating-feature-collective-activity-7517137903018295296-sVIi).
+**Start here if you came from LinkedIn:** [Product decisions, source code and tests](docs/CASE_ROLEHINT_PRODUCT_DECISIONS.md) · [Original 17 October post](https://www.linkedin.com/posts/dokarpov_job-hunting-has-a-fascinating-feature-collective-activity-7517137903018295296-sVIi).
 
 **Inspect specific decisions:** [Eligibility and evidence policy](docs/DECISION_POLICY.md) · [Real ATS source test](tests/test_real_job_sources.py) · [Account preference persistence](tests/test_settings_persistence.py) · [Full CJM and release gates](docs/PRODUCT_EXPERIENCE_V1.md).
 
