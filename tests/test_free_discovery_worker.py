@@ -35,11 +35,11 @@ class ATS:
     async def search(self,*args,**kwargs):
         # Eleven allowed remote jobs + one explicit hybrid hard blocker.
         allowed=[{"source":"ashby","source_url":f"https://jobs.example.org/{i}",
-                 "company":"Example","title":f"Product Manager {i}","location":"Remote",
+                 "company":"Example","source_job_id":f"open-{i}","title":f"Product Manager {i}","location":"Remote",
                  "remote":True,"description":"Product discovery and research. "+("Work remotely. "*24)}
                  for i in range(11)]
         excluded={"source":"ashby","source_url":"https://jobs.example.org/hybrid",
-                  "company":"Example","title":"Product Manager hybrid","location":"Office",
+                  "company":"Example","source_job_id":"hybrid","title":"Product Manager hybrid","location":"Office",
                   "description":"Hybrid, three days per week in the office. "*10}
         return [excluded]+allowed
 
