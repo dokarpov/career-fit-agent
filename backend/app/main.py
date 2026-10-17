@@ -29,6 +29,7 @@ from .services.auto_match import AutoMatchService
 from .services.autopilot import EvidenceAutopilot, ensure_search_profiles
 from .services.funnel import weekly_plan, DEFAULT_POLICY, PACE_PRESETS, BREADTH_PRESETS, normalize_policy, submission_candidate
 from .services.connectors.gmail import GmailConnector, parse_job_email
+from .web_identity import init_routes as web_identity_routes
 
 app=FastAPI(title="Career Fit Agent API",version="1.8.0")
 
@@ -37,7 +38,7 @@ async def beta_access_guard(request: Request, call_next):
     """Do not expose legacy unauthenticated endpoints while the public beta is being secured."""
     if os.getenv("CFA_PUBLIC_BETA_LOCK", "0") == "1":
         path=request.url.path
-        if not (path in ("/health","/open-bot") or (path == "/miniapp" or path.startswith("/miniapp/")) or path.startswith("/me/") or path == "/telegram/auth" or path in ("/oauth/google/callback", "/oauth/github/callback") or path.startswith("/internal/telegram/")):
+        if not (path in ("/health","/open-bot") or (path == "/miniapp" or path.startswith("/miniapp/")) or path.startswith("/me/") or path.startswith("/web-api/") or path == "/webapp" or path.startswith("/webapp/") or path == "/telegram/auth" or path in ("/oauth/google/callback", "/oauth/github/callback") or path.startswith("/internal/telegram/")):
             return Response(
                 content='{"detail":"RoleHint backend is being prepared for private beta"}',
                 media_type="application/json",
@@ -55,6 +56,7 @@ vector=LocalLSIRetriever()
 hybrid=HybridRetriever(store,vector)
 product=ProductStore(DATA_DIR/"product_state.db")
 auto_match=AutoMatchService(product)
+app.include_router(web_identity_routes(product))
 local_secrets=LocalSecretStore(DATA_DIR/"local_secrets.json")
 _runtime=runtime_config()
 _token_cipher=cipher_for(DATA_DIR,_runtime.managed)
@@ -675,3 +677,6 @@ if _SETUP_DIR.exists():
     app.mount("/setup",StaticFiles(directory=str(_SETUP_DIR),html=True),name="setup")
 if _MINI_DIR.exists():
     app.mount("/miniapp",StaticFiles(directory=str(_MINI_DIR),html=True),name="miniapp")
+_WEBAPP_DIR=_WEB_ROOT/"webapp"
+if _WEBAPP_DIR.exists():
+    app.mount("/webapp",StaticFiles(directory=str(_WEBAPP_DIR),html=True),name="webapp")
