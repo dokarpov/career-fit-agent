@@ -70,6 +70,14 @@ def init_routes(product):
         if not base or not origin or not hmac.compare_digest(origin,base):
             raise HTTPException(403,"Invalid request origin")
 
+    @router.get("/auth-status")
+    def auth_status():
+        try:
+            configuration()
+            return {"email_login_available":True}
+        except HTTPException:
+            return {"email_login_available":False}
+
     @router.post("/login")
     async def request_link(request:Request):
         check_origin(request)
