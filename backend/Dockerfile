@@ -5,6 +5,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/app ./app
 COPY selfhost_setup ./selfhost_setup
 COPY telegram_miniapp ./telegram_miniapp
+COPY webapp ./webapp
 COPY telegram_bot ./telegram_bot
 COPY backend/start_railway.sh ./start_railway.sh
 ENV CFA_DATA_DIR=/app/data
